@@ -2,3 +2,4 @@ node_modules
 .nuxt
 logs/*
 /deploy.sh
+/package-lock.json
