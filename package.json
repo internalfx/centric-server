@@ -1,10 +1,18 @@
 {
-  "name": "centric-server",
+  "name": "centric",
+  "description": "A programmable automation server",
   "version": "0.0.1",
   "main": "app.js",
   "author": {
     "name": "Bryan Morris",
     "email": "bryan@internalfx.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/internalfx/centric-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/internalfx/centric-server/issues"
   },
   "license": "Apache-2.0",
   "preferGlobal": true,
