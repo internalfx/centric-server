@@ -1,5 +1,6 @@
 const substruct = require('@internalfx/substruct')
 const Promise = require('bluebird')
+const _ = require('lodash')
 
 module.exports = async function (config) {
   const { arango } = substruct.services.arango
@@ -17,11 +18,20 @@ module.exports = async function (config) {
 
   const indexList = [
     {
-      type: 'persistent',
       collection: 'entries',
-      fields: ['operationKey'],
-      name: 'operationKey',
-      deduplicate: false
+      deduplicate: false,
+      fields: ['operationKey', 'type'],
+      name: 'operationKey-type',
+      type: 'persistent',
+      unique: false
+    },
+    {
+      collection: 'operations',
+      deduplicate: false,
+      fields: ['number'],
+      name: 'number',
+      type: 'persistent',
+      unique: true
     }
   ]
 
@@ -58,11 +68,20 @@ module.exports = async function (config) {
 
   await Promise.map(indexList, async function (spec) {
     const collection = arango.collection(spec.collection)
-    const existing = await collection.indexes()
+    const indexList = await collection.indexes()
 
-    const result = existing.find(i => i.name === spec.name)
+    const existing = indexList.find(i => i.name === spec.name)
 
-    if (result == null) {
+    if (existing != null) {
+      const existingComp = _.pick(existing, 'deduplicate', 'fields', 'name', 'type', 'unique')
+      const specComp = _.pick(spec, 'deduplicate', 'fields', 'name', 'type', 'unique')
+
+      if (!_.isEqual(existingComp, specComp)) {
+        console.log(`Recreating Index ${spec.collection}:${spec.name}...`)
+        await collection.dropIndex(existing.id)
+        await collection.createIndex(spec)
+      }
+    } else {
       console.log(`Creating Index ${spec.collection}:${spec.name}...`)
       await collection.createIndex(spec)
     }

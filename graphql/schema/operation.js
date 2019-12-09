@@ -111,8 +111,6 @@ const resolvers = {
       const search = args.search
       const taskKeys = args.taskKeys || []
 
-      console.log({ search, offset, taskKeys })
-
       let sort = 'SORT entry.createdAt DESC'
 
       if (search.length > 0) {
@@ -202,9 +200,6 @@ const resolvers = {
     },
     entries: async function (obj, args, ctx, info) {
       const offset = args.pageSize * (args.page - 1)
-
-      // console.log(args)
-      // console.log(obj)
 
       if (obj.entries) {
         return obj.entries
