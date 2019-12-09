@@ -41,6 +41,7 @@
     "nodemailer-direct-transport": "^3.3.2",
     "numeral": "^2.0.6",
     "nuxt": "^2.9.2",
+    "object-hash": "^2.0.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.5",
     "validate.js": "^0.13.1",
