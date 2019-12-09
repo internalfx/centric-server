@@ -23,7 +23,7 @@
     "@babel/register": "^7.7.4",
     "@fortawesome/fontawesome-free": "^5.10.2",
     "@internalfx/arangofs": "^0.1.5",
-    "@internalfx/substruct": "^3.2.0",
+    "@internalfx/substruct": "^4.0.1",
     "@nuxtjs/apollo": "^4.0.0-rc17",
     "@nuxtjs/auth": "^4.8.4",
     "@nuxtjs/vuetify": "^1.9.0",

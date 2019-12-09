@@ -838,20 +838,16 @@
     bluebird "^3.5.3"
     del "^3.0.0"
 
-"@internalfx/substruct@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@internalfx/substruct/-/substruct-3.2.0.tgz#e725bd384f1c5a1495a388cd6ba52f05b8ab7d4e"
-  integrity sha512-OIJha3lHIwuVc7XwOwD40JWzocRUspzj5GBHWhwhE1/18P2W/QJkhFqdNPTP8ZU4EUh2UzOs3TzaKsu6UqHZgw==
+"@internalfx/substruct@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@internalfx/substruct/-/substruct-4.0.1.tgz#730afa895238a08e595b21c9658efe1c6958f49f"
+  integrity sha512-FVlOllit9LGIVzUfKCOxoDGyS33GcumIFgN1bogSW3VYGeaubYDQSeM7fTNy4dAkfZiv77hH2/aexDm2LFixvw==
   dependencies:
-    app-root-path "^2.2.1"
     bluebird "^3.5.5"
-    consolidate "^0.15.1"
-    cookie "^0.4.0"
     koa "^2.7.0"
     koa-body "^4.1.0"
     lodash "^4.17.11"
     minimist "^1.2.0"
-    object-hash "^1.3.1"
     path-to-regexp "^3.0.0"
     require-all "^3.0.0"
 
@@ -2498,11 +2494,6 @@ apollo@^2.20.0:
     tty "1.0.1"
     vscode-uri "1.0.6"
 
-app-root-path@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/app-root-path/-/app-root-path-2.2.1.tgz#d0df4a682ee408273583d43f6f79e9892624bc9a"
-  integrity sha512-91IFKeKk7FjfmezPKkwtaRvSpnUc4gDwPAjA1YZ9Gn0q0PPeW+vbeUsZuyDwjI7+QTHhcLen2v25fi/AmhvbJA==
-
 aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -3286,7 +3277,7 @@ check-types@^8.0.3:
   resolved "https://registry.yarnpkg.com/check-types/-/check-types-8.0.3.tgz#3356cca19c889544f2d7a95ed49ce508a0ecf552"
   integrity sha512-YpeKZngUmG65rLudJ4taU7VLkOCTMhNl/u4ctNC56LQS/zJTyNH0Lrtwm1tfTsbLlwvlfsA2d1c8vCf/Kh2KwQ==
 
-"chokidar@>=2.0.0 <4.0.0", chokidar@^3.2.2:
+"chokidar@>=2.0.0 <4.0.0", chokidar@^3.2.2, chokidar@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.3.0.tgz#12c0714668c55800f659e262d4962a97faf554a6"
   integrity sha512-dGmKLDdT3Gdl7fBUe8XK+gAtGmzy5Fn0XkkWQuYxGIgWVPPse2CxFA5mtrlD0TOHaHjEUqkWNyP1XdHoJES/4A==
@@ -7689,11 +7680,6 @@ object-copy@^0.1.0:
     copy-descriptor "^0.1.0"
     define-property "^0.2.5"
     kind-of "^3.0.3"
-
-object-hash@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-1.3.1.tgz#fde452098a951cb145f039bb7d455449ddc126df"
-  integrity sha512-OSuu/pU4ENM9kmREg0BdNrUDIl1heYa4mBZacJc+vVWz4GtAwu7jO8s4AIt2aGRUTqxykpWzI3Oqnsm13tTMDA==
 
 object-inspect@^1.7.0:
   version "1.7.0"
