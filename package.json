@@ -1,7 +1,7 @@
 {
   "name": "centric",
   "description": "A programmable automation server",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "app.js",
   "author": {
     "name": "Bryan Morris",
