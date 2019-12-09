@@ -24,13 +24,13 @@ module.exports = async function (config) {
 
     const saveOpData = async function (data) {
       return arango.qNext(aql`
-        UPDATE ${operation._key} WITH { data: ${data} } IN operations RETURN NEW.data
+        UPDATE ${operation._key} WITH { data: ${data} } IN operations OPTIONS { mergeObjects: false } RETURN NEW.data
       `)
     }
 
     const saveTaskData = async function (data) {
       return arango.qNext(aql`
-        UPDATE ${operation.taskKey} WITH { data: ${data} } IN tasks RETURN NEW.data
+        UPDATE ${operation.taskKey} WITH { data: ${data} } IN tasks OPTIONS { mergeObjects: false } RETURN NEW.data
       `)
     }
 
