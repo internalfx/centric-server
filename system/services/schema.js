@@ -50,10 +50,15 @@ module.exports = async function (config) {
               analyzers: ['identity']
             }
           },
-          includeAllFields: false
+          includeAllFields: true
         }
       },
-      primarySort: []
+      primarySort: [
+        {
+          field: 'createdAt',
+          direction: 'desc'
+        }
+      ]
     }
   ]
 
