@@ -62,7 +62,6 @@ export default {
       :temporary="$vuetify.breakpoint.smAndDown"
       clipped
       :mobile-break-point="'sm'"
-
     >
 
       <v-list dense class="small-margin">
@@ -82,7 +81,7 @@ export default {
           <v-list-item-content><v-list-item-title>History</v-list-item-title></v-list-item-content>
         </v-list-item>
 
-        <v-list-item :color="navColor" to="/users" exact nuxt>
+        <v-list-item v-if="user.role === 'ADM'" :color="navColor" to="/users" exact nuxt>
           <v-list-item-action><v-icon>fas fa-user fa-fw</v-icon></v-list-item-action>
           <v-list-item-content><v-list-item-title>Users</v-list-item-title></v-list-item-content>
         </v-list-item>
