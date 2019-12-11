@@ -132,8 +132,8 @@ const resolvers = {
                 let entries = (
                   FOR entry IN entries
                     FILTER entry.operationKey == operation._key
-                      LIMIT 1
-                      RETURN MERGE(
+                    SORT entry.number DESC
+                    RETURN MERGE(
                       UNSET(entry, 'index'),
                       {
                         message: LEFT(entry.message, 150),
@@ -145,7 +145,7 @@ const resolvers = {
                   operation,
                   {
                     entries: {
-                      items: entries,
+                      items: SLICE(entries, 0, 1),
                       count: COUNT(entries)
                     }
                   }
