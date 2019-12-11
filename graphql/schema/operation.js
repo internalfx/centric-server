@@ -176,14 +176,22 @@ const resolvers = {
                 FILTER LENGTH(@taskKeys) == 0 OR DOCUMENT('operations', entry.operationKey).taskKey IN @taskKeys
                 COLLECT operationKey = entry.operationKey
                 INTO entries = entry
+                let maxEntry = MERGE(
+                  UNSET(entries[0], 'index'),
+                  {
+                    message: LEFT(entries[0].message, 150),
+                    data: LEFT(JSON_STRINGIFY(entries[0].data), 150)
+                  }
+                )
+                let entryCount = COUNT(entries)
                 let operation = DOCUMENT('operations', operationKey)
                 SORT operation.number DESC
                 RETURN MERGE(
                   operation,
                   {
                     entries: {
-                      items: SLICE(entries, 0, 1),
-                      count: COUNT(entries)
+                      items: [maxEntry],
+                      count: entryCount
                     }
                   }
                 )
