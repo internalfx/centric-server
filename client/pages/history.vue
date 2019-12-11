@@ -206,7 +206,7 @@ export default {
       <template v-slot:item.entries.items="{ item }">
         <div v-for="entry of item.entries.items" :key="entry._key">
           <code style="margin-left: 5px; padding: 2px; white-space: inherit;">
-            {{dataDisplay(entry.data, 20)}}
+            {{truncate(entry.data, 20)}}
           </code>
         </div>
       </template>
