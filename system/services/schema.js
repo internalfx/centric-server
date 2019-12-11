@@ -41,15 +41,7 @@ module.exports = async function (config) {
       type: 'arangosearch',
       links: {
         entries: {
-          analyzers: [],
-          fields: {
-            index: {
-              analyzers: ['identity']
-            },
-            message: {
-              analyzers: ['identity']
-            }
-          },
+          analyzers: ['identity'],
           includeAllFields: true
         }
       },
