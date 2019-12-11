@@ -111,47 +111,102 @@ const resolvers = {
       const search = args.search
       const taskKeys = args.taskKeys || []
 
-      let sort = 'SORT entry.createdAt DESC'
+      let items = []
+      let count = 0
 
-      if (search.length > 0) {
-        sort = 'SORT BM25(entry) DESC, entry.createdAt DESC'
-      }
+      console.log(_.isEmpty(search))
 
-      const { items, count } = await ctx.arango.qNext({
-        query: `
-          let items = (
-            FOR entry IN entriesIndex
-              SEARCH Analyzer(STARTS_WITH(entry.index, @search), "identity")
-              ${sort}
-              FILTER LENGTH(@taskKeys) == 0 OR DOCUMENT('operations', entry.operationKey).taskKey IN @taskKeys
-              COLLECT operationKey = entry.operationKey
-              AGGREGATE maxDate = MAX(entry.createdAt)
-              INTO entries = entry
-              let operation = DOCUMENT('operations', operationKey)
-              SORT maxDate DESC
-              RETURN MERGE(
-                operation,
-                {
-                  entries: {
-                    items: SLICE(entries, 0, 1),
-                    count: COUNT(entries)
+      if (_.isEmpty(search)) {
+        const res = await ctx.arango.qNext({
+          query: `
+            let itemCount = (
+              FOR operation IN operations
+                SORT operation.number DESC
+                FILTER LENGTH(@taskKeys) == 0 OR operation.taskKey IN @taskKeys
+                return true
+            )
+
+            let items = (
+              FOR operation IN operations
+                SORT operation.number DESC
+                FILTER LENGTH(@taskKeys) == 0 OR operation.taskKey IN @taskKeys
+                LIMIT @offset, @pageSize
+                let entries = (
+                  FOR entry IN entries
+                    FILTER entry.operationKey == operation._key
+                      LIMIT 1
+                      RETURN MERGE(
+                      UNSET(entry, 'index'),
+                      {
+                        message: LEFT(entry.message, 150),
+                        data: LEFT(JSON_STRINGIFY(entry.data), 150)
+                      }
+                    )
+                )
+                RETURN MERGE(
+                  operation,
+                  {
+                    entries: {
+                      items: entries,
+                      count: COUNT(entries)
+                    }
                   }
-                }
-              )
-          )
+                )
+            )
 
-          RETURN {
-            items: SLICE(items, @offset, @pageSize),
-            count: COUNT(items)
+            RETURN {
+              items: items,
+              count: COUNT(itemCount)
+            }
+          `,
+          bindVars: {
+            taskKeys,
+            offset,
+            pageSize: args.pageSize
           }
-        `,
-        bindVars: {
-          search,
-          taskKeys,
-          offset,
-          pageSize: args.pageSize
-        }
-      })
+        })
+
+        items = res.items
+        count = res.count
+      } else {
+        const res = await ctx.arango.qNext({
+          query: `
+            let items = (
+              FOR entry IN entriesIndex
+                SEARCH Analyzer(STARTS_WITH(entry.index, @search), "identity")
+                SORT entry.createdAt DESC
+                FILTER LENGTH(@taskKeys) == 0 OR DOCUMENT('operations', entry.operationKey).taskKey IN @taskKeys
+                COLLECT operationKey = entry.operationKey
+                INTO entries = entry
+                let operation = DOCUMENT('operations', operationKey)
+                SORT operation.number DESC
+                RETURN MERGE(
+                  operation,
+                  {
+                    entries: {
+                      items: SLICE(entries, 0, 1),
+                      count: COUNT(entries)
+                    }
+                  }
+                )
+            )
+
+            RETURN {
+              items: SLICE(items, @offset, @pageSize),
+              count: COUNT(items)
+            }
+          `,
+          bindVars: {
+            search,
+            taskKeys,
+            offset,
+            pageSize: args.pageSize
+          }
+        })
+
+        items = res.items
+        count = res.count
+      }
 
       return {
         count,
