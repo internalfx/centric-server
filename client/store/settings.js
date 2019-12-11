@@ -6,7 +6,7 @@ export const state = function () {
   return {
     history: {
       page: 1,
-      pageSize: 25,
+      pageSize: 10,
       taskKey: null,
       search: ''
     },
