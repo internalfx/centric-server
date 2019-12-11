@@ -44,6 +44,7 @@ export default {
     <v-text-field label="First name" :value="value.firstName" @input="set({ firstName: $event })" />
     <v-text-field label="Last name" :value="value.lastName" @input="set({ lastName: $event })" />
     <v-text-field label="Email" :value="value.email" @input="set({ email: $event })" type="email" />
+        <v-select label="Role" :value="value.role" @input="set({ role: $event })" :items="userRoles" />
     <v-switch label="Active" v-model="active" hint="Should user be allowed to login?" persistent-hint/>
   </div>
 </template>
