@@ -1,5 +1,5 @@
 
-// let _ = require('lodash')
+const _ = require('lodash')
 // let Promise = require('bluebird')
 // let moment = require('moment')
 const { gql } = require('apollo-server-koa')
@@ -113,8 +113,6 @@ const resolvers = {
 
       let items = []
       let count = 0
-
-      console.log(_.isEmpty(search))
 
       if (_.isEmpty(search)) {
         const res = await ctx.arango.qNext({
