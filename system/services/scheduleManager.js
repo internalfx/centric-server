@@ -96,7 +96,7 @@ module.exports = async function (config) {
         taskKey: task._key,
         status: 'waiting',
         locks: locks,
-        data: schedule.data,
+        data: schedule.data || {},
         runCount: 0,
         nextRunDate: new Date(),
         createdAt: new Date()
