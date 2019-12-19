@@ -71,7 +71,7 @@ const resolvers = {
         `)
       } else {
         schedule = await ctx.arango.qNext(ctx.aql`
-          UPDATE ${schedule._key} WITH ${schedule} IN schedules RETURN NEW
+          UPDATE ${schedule._key} WITH ${schedule} IN schedules OPTIONS { mergeObjects: false } RETURN NEW
         `)
       }
 
