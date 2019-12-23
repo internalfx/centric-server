@@ -97,7 +97,7 @@ isCancelled  : Method to check whether the task is active for running or has bee
 ```
 
 The screen-shot below shows the list of tasks under the task folder in centric-scaffold.
-![Tasks](https://raw.githubusercontent.com/internalfx/centric-server/master/resources/screenshot_tasks.png)
+![Tasks](https://raw.githubusercontent.com/internalfx/centric-server/readme-documentation/resources/screenshot_tasks.png)
 
 ### Schedule a task
 
@@ -105,7 +105,7 @@ Go to the tasks list page and click over the task item for which need to schedul
 
 1. Enable the task
 2. Click over the Create Schedule button
-![Tasks-Schedule](https://raw.githubusercontent.com/internalfx/centric-server/master/resources/screenshot_taskSchedule1.png)
+![Tasks-Schedule](https://raw.githubusercontent.com/internalfx/centric-server/readme-documentation/resources/screenshot_taskSchedule1.png)
 1. Create Schdule form page will be rendered.
    Add new schedule detail:- 
     Name: Name of the schedule,
@@ -113,7 +113,7 @@ Go to the tasks list page and click over the task item for which need to schedul
     data: Operation data for the task's individual operation.
    And Enable the schedule to make it active.
 2. Click over the Save button.
-![Tasks-Schedule](https://raw.githubusercontent.com/internalfx/centric-server/master/resources/screenshot_taskSchedule2.png)
+![Tasks-Schedule](https://raw.githubusercontent.com/internalfx/centric-server/readme-documentation/resources/screenshot_taskSchedule2.png)
 
 
 ## Creating a new user
