@@ -4,21 +4,10 @@
 
 ## Installation
 
-### Install centric-server
-
-Clone the centric-server using command.
+### Install centric
 
 ```
-$ git clone git@github.com:internalfx/centric-server.git
-```
-
-### Install centric-scaffold
-
-#### Option 1
-Clone the centric-scaffold using command.
-
-```
-$ git clone git@github.com:internalfx/centric-scaffold.git
+npm install -g centric
 ```
 
 #### Option 2
