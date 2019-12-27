@@ -7,9 +7,37 @@
 ### Install centric
 
 ```
-npm install -g centric
+$ npm install -g centric
 ```
 
+### Install centric-scaffold
+
+#### Option 1
+
+- Run the below command in the folder you want to create centric-scaffold project.
+```
+$ centric-scaffold
+```
+
+- You will be prompted a question asking for the name of the directory for the project.
+ 
+`i.e`
+```
+? What should be the name of the directory containing centric scaffold files?
+```
+Add a name for directory `project-directory` and press enter.
+
+- Further change directory to the newly created folder:
+
+```
+$ cd project-directory
+```
+
+- Run using command:
+```
+$ centric
+```
+    
 #### Option 2
 
 Folder Structure for centric-scaffold.
