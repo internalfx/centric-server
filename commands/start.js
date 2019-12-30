@@ -4,7 +4,7 @@ require('@babel/register')({
   cwd: __dirname,
   plugins: ['@babel/plugin-transform-modules-commonjs'],
   only: [
-    './lib/*',
+    '../lib/*',
     path.join(process.cwd(), 'services'),
     path.join(process.cwd(), 'tasks'),
     path.join(process.cwd(), 'config.js')
@@ -16,8 +16,8 @@ const substruct = require('@internalfx/substruct')
 
 // const _ = require('lodash')
 const { ApolloServer, AuthenticationError, ForbiddenError } = require('apollo-server-koa')
-const { typeDefs, resolvers } = require('./graphql/index.js')
-require('./lib/cycle.js')
+const { typeDefs, resolvers } = require('../graphql/index.js')
+require('../lib/cycle.js')
 
 const taskFilePath = path.join(process.cwd(), 'tasks')
 const buildContextPath = path.join(process.cwd(), 'context.js')
@@ -26,13 +26,13 @@ const port = Number.isFinite(argv.port) ? argv.port : 8000
 
 const config = substruct.configure({
   runDir: process.cwd(),
-  appDir: __dirname,
+  appDir: path.join(__dirname, '..'),
   taskFilePath,
   buildContextPath,
   port
 })
 
-const main = async function () {
+module.exports = async function () {
   const apollo = new ApolloServer({
     typeDefs,
     resolvers,
@@ -76,14 +76,8 @@ const main = async function () {
     }
   })
 
-  substruct.start().then(async function ({ koa, config }) {
+  return substruct.start().then(async function ({ koa, config }) {
     apollo.applyMiddleware({ app: substruct.koa, path: '/api/graphql' })
     console.log('Server Started...')
-  }).catch(function (err) {
-    console.error(err.stack)
   })
 }
-
-main().catch(function (err) {
-  console.log(err)
-})

@@ -46,6 +46,7 @@
     "object-hash": "^2.0.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.5",
+    "sao": "^1.7.0",
     "shelljs": "^0.8.3",
     "validate.js": "^0.13.1",
     "velocity-animate": "^1.5.2",

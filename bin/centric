@@ -1,2 +1,41 @@
 #!/usr/bin/env node
-require('../app.js')
+const pjson = require('../package.json')
+global.VERSION = pjson.version
+const _ = require('lodash')
+const requireAll = require('require-all')
+var argv = require('minimist')(process.argv.slice(2))
+
+/* global VERSION */
+
+const commands = requireAll({
+  dirname: `${__dirname}/../commands`
+})
+
+const HELPTEXT = `
+
+  Centric Server ${VERSION}
+  ==============================
+
+  A programmable automation server.
+
+  Commands:
+    centric start            Start Centric Server.
+    centric scaffold         Bootstrap a new Centric project.
+
+`
+
+const main = async function () {
+  const command = _.first(argv._)
+  argv._ = argv._.slice(1)
+
+  if (commands[command]) {
+    await commands[command](argv)
+  } else {
+    console.log(HELPTEXT)
+  }
+}
+
+main().catch(function (err) {
+  console.log('ERROR')
+  console.log(err)
+})
