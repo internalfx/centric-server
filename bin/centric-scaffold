@@ -10,7 +10,7 @@ inquirer.prompt([{
   message: "What should be the name of the directory containing centric scaffold files?"
 }]).then(({projectDirectoryName}) => {
   // Clone the centric-scaffold in the present working directory with the name projectDirectoryName provided by the user through command line argument.
-  shell.exec(`git clone git@github.com:internalfx/centric-scaffold.git ${projectDirectoryName}`)
+  shell.exec(`git clone https://github.com/internalfx/centric-scaffold.git ${projectDirectoryName}`)
   // $cd projectDirectoryName and install packages (npm install)
   shell.cd(projectDirectoryName)
   shell.exec('npm install')
