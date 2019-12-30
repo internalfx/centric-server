@@ -2,7 +2,6 @@
   "name": "centric",
   "description": "A programmable automation server",
   "version": "0.1.5",
-  "main": "app.js",
   "author": {
     "name": "Bryan Morris",
     "email": "bryan@internalfx.com"
@@ -17,8 +16,7 @@
   "license": "Apache-2.0",
   "preferGlobal": true,
   "bin": {
-    "centric": "./bin/centric",
-    "centric-scaffold": "./bin/centric-scaffold"
+    "centric": "./bin/centric"
   },
   "dependencies": {
     "@babel/register": "^7.7.4",
