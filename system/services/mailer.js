@@ -27,8 +27,10 @@ module.exports = function (config) {
   } else {
     const directTransport = require('nodemailer-direct-transport')
     mailer = Promise.promisifyAll(require('nodemailer').createTransport(directTransport()))
+
     send = function (mail) {
-      mail.from = mailConf.fromEmail || 'noreply@test.com'
+      console.log('Attempting to send mail directly')
+      mail.from = mailConf.fromEmail || mail.to
       return mailer.sendMailAsync(mail)
     }
   }
