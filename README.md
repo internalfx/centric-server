@@ -64,7 +64,7 @@ Create a new file in the tasks folder that matches the following signature.
 
 ```
 module.exports = {
-  description: <Description for the task>(String),
+  description: 'task description', // Viewable in the web UI
   locks: null,
   defaultData: function () {
     // Return the default data for the task.
