@@ -10,58 +10,39 @@
 $ npm install -g centric
 ```
 
-### Install centric-scaffold
+#### Option 1 - Use centic scaffold
 
-#### Option 1
+centric scaffold will create a basic centric project with examples that you can modify to suit your needs.
 
-- Run the below command in the folder you want to create centric-scaffold project.
+- Run the below command in the folder you want to create the project.
 ```
-$ centric-scaffold
-```
-
-- You will be prompted a question asking for the name of the directory for the project.
- 
-`i.e`
-```
-? What should be the name of the directory containing centric scaffold files?
-```
-Add a name for directory `project-directory` and press enter.
-
-- Further change directory to the newly created folder:
-
-```
-$ cd project-directory
+$ centric scaffold
 ```
 
-- Run using command:
-```
-$ centric
-```
-    
-#### Option 2
+- After that, start the server using the command:
 
-Folder Structure for centric-scaffold.
+```
+$ centric start
+```
+
+And your done!
+
+#### Option 2 - Create the files yourself
+
+Folder Structure for a centric project.
 
 ```
     .
-    ├── services                   # Services folder having service files
-    ├── tasks                      # Tasks folder having task files to be listed in the centric task page.
-    ├── config.js                  # Configuration file containing the config json having properties like baseURL, services (array of service file name).
+    ├── services               # Service Files
+    ├── tasks                  # Task Files
+    ├── config.js              # Configuration file
 
-```
-
-## Setup
-
-To run this project, follow the command:
-
-```
 ```
 
 ## Services
 
-The services folder in the centric-scaffold contains the service file which accepts the config property and contains the required logic.
+The services folder contains all your projects service files. A service file has the following signature.
 
-`i.e`
 ```
 module.exports = async function ({ config }) {
   // Service Logic goes here...
@@ -69,19 +50,17 @@ module.exports = async function ({ config }) {
     console.log('this is a test')
   }
 
-  return {
-    testLogging
-  }
+  return { testLogging }
 }
 ```
-The service could be used to establish connection instance with the database, query the database, provide some common service logic.
 
+Services are useful for any logic you with to share between tasks (like a database connection).
 
 ## Creating a new task
 
-Create new task file in centric-scaffold under tasks folder which looks like : 
+Create new file in the tasks folder that matches the following signature.
 
-`The name of the task is equivalent to the name of the task file name.`
+> The name of the task in the centric web interface is equivalent to the name of the task file name.
 
 ```
 module.exports = {
@@ -89,31 +68,32 @@ module.exports = {
   locks: null,
   defaultData: function () {
     // Return the default data for the task.
-    // It will be taken by default as the "taskData" in the run method.
+    // This will be the default "taskData" in the run method.
     return {}
   },
   run: async function ({ config, services, opData, saveOpData, taskData, saveTaskData, logInfo, logWarning, logError, isCancelled }) {
-    // Run method is called when the task runs according to the scheduled time.
+    // Run method is called when the task is executed.
     // Logic for the task goes here.
   }
 }
 ```
 
 The run method provides following listed parameters:
-```
-config       : config json exported from config.js.
-services     : list of all the services.
-opData       : Current running task's operation-data.
-saveOpData   : Method to be called to save the curremt operation data.
-taskData     : Task data of the current running task.
-saveTaskData : Method to be called to save the current running task data. 
-logInfo      : logInfo is method to log the info entry showing information log of the operation.
-logWarning   : logWarning is method to log the warnings entry showing warnings of the operation.
-logError     : logError is method to log the errors entry showing errors of the operation.
-isCancelled  : Method to check whether the task is active for running or has been cancelled.
-```
 
-The screen-shot below shows the list of tasks under the task folder in centric-scaffold.
+| Argument | Description |
+| --- | --- |
+| config | configuration exported from config.js |
+| services | object containing all exported values from all service files |
+| opData | Current running task's operation-data. |
+| saveOpData | Method to be called to save the curremt operation data. |
+| taskData | Task data of the current running task. |
+| saveTaskData | Method to be called to save the current running task data. |
+| logInfo | logInfo is method to log the info entry showing information log of the operation. |
+| logWarning | logWarning is method to log the warnings entry showing warnings of the operation. |
+| logError | logError is method to log the errors entry showing errors of the operation. |
+| isCancelled | Method to check whether the task is active for running or has been cancelled. |
+
+The screen-shot below shows the list of tasks under the tasks folder.
 ![Tasks](https://raw.githubusercontent.com/internalfx/centric-server/readme-documentation/resources/screenshot_tasks.png)
 
 ### Schedule a task
@@ -123,13 +103,13 @@ Go to the tasks list page and click over the task item for which need to schedul
 1. Enable the task
 2. Click over the Create Schedule button
 ![Tasks-Schedule](https://raw.githubusercontent.com/internalfx/centric-server/readme-documentation/resources/screenshot_taskSchedule1.png)
-1. Create Schdule form page will be rendered.
-   Add new schedule detail:- 
+3. Create Schdule form page will be rendered.
+   Add new schedule detail:-
     Name: Name of the schedule,
     cronTime: Time interval to determine how often to run the task,
     data: Operation data for the task's individual operation.
    And Enable the schedule to make it active.
-2. Click over the Save button.
+4. Click over the Save button.
 ![Tasks-Schedule](https://raw.githubusercontent.com/internalfx/centric-server/readme-documentation/resources/screenshot_taskSchedule2.png)
 
 
