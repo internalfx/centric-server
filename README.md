@@ -58,7 +58,7 @@ Services are useful for any logic you wish to share between tasks (like a databa
 
 ## Creating a new task
 
-Create new file in the tasks folder that matches the following signature.
+Create a new file in the tasks folder that matches the following signature.
 
 > The name of the task in the centric web interface is equivalent to the name of the task file name.
 
