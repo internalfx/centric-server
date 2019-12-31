@@ -101,15 +101,23 @@ The screen-shot below shows the list of tasks under the tasks folder.
 Go to the tasks list page and click over the task item for which need to schedule a task and follow the following steps:
 
 1. Enable the task
-2. Click over the Create Schedule button
+
+2. Click the Create Schedule button
+
 ![Tasks-Schedule](https://raw.githubusercontent.com/internalfx/centric-server/master/resources/screenshot_taskSchedule1.png)
-3. Create Schdule form page will be rendered.
-   Add new schedule detail:-
-    Name: Name of the schedule,
-    cronTime: Time interval to determine how often to run the task,
-    data: Operation data for the task's individual operation.
-   And Enable the schedule to make it active.
-4. Click over the Save button.
+
+3. Create Schdule form page will be displayed.
+
+#### Add new schedule:
+
+| Field | Description |
+| --- | --- |
+| Name | Name of the schedule |
+| cronTime | Time interval to determine how often to run the task |
+| enabled? | Enable or disable this schedule |
+| data | Set the tasks operation data when started with this schedule |
+
+4. Click the Save button.
 ![Tasks-Schedule](https://raw.githubusercontent.com/internalfx/centric-server/master/resources/screenshot_taskSchedule2.png)
 
 
