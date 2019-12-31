@@ -54,7 +54,7 @@ module.exports = async function ({ config }) {
 }
 ```
 
-Services are useful for any logic you with to share between tasks (like a database connection).
+Services are useful for any logic you wish to share between tasks (like a database connection).
 
 ## Creating a new task
 
