@@ -56,6 +56,34 @@ module.exports = async function ({ config }) {
 
 Services are useful for any logic you wish to share between tasks (like a database connection).
 
+## config file
+The config file contains the configurations details for development as well as production environment.
+
+You can add more configurations detail as per your need and requirement in the config.js file.
+ 
+The format of the configuration file `config.js` goes as:
+
+``` javascript
+export const environment = {
+  baseURL: 'base_url',
+  arango: {
+    url: 'arangodb_url',
+    database: 'database_name'
+  },
+  services: [
+    'service_file_name'
+  ],
+  // other configurations according to your need
+}
+```
+
+| keyword | description|
+| --- | --- |
+| baseURL | The base url where the centric points for web UI.
+| arango | The arango key contains the url and database name for the arangodb used as centric database.
+| services | An array of strings consisting the name of services file which fall inside the services folder and are being used all over the project.
+
+
 ## Creating a new task
 
 Create a new file in the tasks folder that matches the following signature.
@@ -78,7 +106,42 @@ module.exports = {
 }
 ```
 
+ ### Task file understanding
+
+ #### description
+```
+  description: 'task description', // Viewable in the web UI
+```
+The value in the description key states the description of the task and is viewable in the web UI in the tasks list.
+
+#### locks
+```
+  locks: 'lockName'
+```
+The locks behaves as a lock over the task.
+
+In case you need to restrict two tasks from running togethar/parallely because of depenedencies between them, you can add same `lockName ` to both.
+
+If same `locks` string is used for more than one task it prevents other tasks having locks same as of running task from executing untill the running task execution is completed.
+
+#### defaultData
+
+The defaultData returns the default provided task data for an individual task unless the task-data is not present.
+```javascript
+defaultData: function () {
+  // Return the default data for the task.
+  // This will be the default "taskData" in the run method.
+  return {}
+},
+```
+
+#### run method
 The run method provides following listed parameters:
+```javascript
+run: async function ({ config, services, opData, saveOpData, taskData, saveTaskData, logInfo, logWarning, logError, isCancelled }) {
+  // Task logic
+}
+```
 
 | Argument | Description |
 | --- | --- |
