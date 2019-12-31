@@ -43,7 +43,7 @@ Folder Structure for a centric project.
 
 The services folder contains all your projects service files. A service file has the following signature.
 
-```
+```javascript
 module.exports = async function ({ config }) {
   // Service Logic goes here...
   const testLogging = function () {
@@ -62,7 +62,7 @@ Create a new file in the tasks folder that matches the following signature.
 
 > The name of the task in the centric web interface is equivalent to the name of the task file name.
 
-```
+```javascript
 module.exports = {
   description: 'task description', // Viewable in the web UI
   locks: null,
