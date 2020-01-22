@@ -3,7 +3,7 @@
 // import _ from 'lodash'
 
 export default function ({ app }) {
-  let config = {
+  const config = {
     icons: {
       iconfont: 'fa'
     },

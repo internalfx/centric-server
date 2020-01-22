@@ -8,14 +8,12 @@ module.exports = async function (config) {
   const taskFiles = substruct.services.taskFiles
   const runTimes = {}
 
-  const supervisorRun = async function () {
+  const run = async function () {
     try {
       await checkSchedules()
     } catch (err) {
       console.log(err)
     }
-
-    setTimeout(supervisorRun, 900)
   }
 
   const checkSchedules = async function () {
@@ -60,8 +58,6 @@ module.exports = async function (config) {
       }
     }
   }
-
-  supervisorRun()
 
   const createScheduledOp = async function (scheduleKey) {
     const schedule = await arango.qNext(aql`RETURN DOCUMENT('schedules', ${scheduleKey})`)
@@ -113,6 +109,7 @@ module.exports = async function (config) {
   }
 
   return Object.freeze({
-    createScheduledOp
+    createScheduledOp,
+    run
   })
 }

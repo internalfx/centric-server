@@ -20,7 +20,6 @@ const typeDefs = gql`
     fullName: String
     email: String
     role: String
-    active: Boolean
     createdAt: DateTime
     updatedAt: DateTime
   }
@@ -32,7 +31,6 @@ const typeDefs = gql`
     lastName: String
     email: String
     role: String
-    active: Boolean
   }
 
   extend type Query {
@@ -136,8 +134,8 @@ const resolvers = {
         },
         email: {
           type: 'string',
-          presence: true,
-          email: true
+          email: true,
+          presence: true
         },
         role: {
           type: 'string',

@@ -20,7 +20,6 @@ export default {
             lastName
             email
             role
-            active
           }
         }
       `,

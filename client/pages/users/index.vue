@@ -9,7 +9,6 @@ import { mapState, mapActions } from 'vuex'
 
 import userRoles from '../../../lib/userRoles.js'
 import userRoleWidget from '../../ui/userRoleWidget.vue'
-import userActiveWidget from '../../ui/userActiveWidget.vue'
 
 export default {
   apollo: {
@@ -37,7 +36,6 @@ export default {
               lastName
               email
               role
-              active
               createdAt
               updatedAt
             }
@@ -62,14 +60,12 @@ export default {
         { text: 'Name', value: 'fullName', sortable: false },
         { text: 'Email', value: 'email', sortable: false },
         { text: 'Role', value: 'role', sortable: false },
-        { text: 'Active', value: 'active', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false, align: 'right' }
       ]
     }
   },
   components: {
-    userRoleWidget,
-    userActiveWidget
+    userRoleWidget
   },
   computed: {
     ...mapFields('settings', {
@@ -193,9 +189,6 @@ export default {
     >
       <template v-slot:item.role="{item}">
         <userRoleWidget :value="item.role" />
-      </template>
-      <template v-slot:item.active="{item}">
-        <userActiveWidget :value="item.active" />
       </template>
       <template v-slot:item.actions="{item}">
         <v-tooltip top>

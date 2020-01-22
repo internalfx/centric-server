@@ -1,6 +1,7 @@
 
 const path = require('path')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+const substruct = require('@internalfx/substruct')
 
 module.exports = {
   apollo: {
@@ -20,19 +21,23 @@ module.exports = {
           login: { url: '/api/auth/login', method: 'post', propertyName: 'token' },
           logout: { url: '/api/auth/logout', method: 'post' },
           user: { url: '/api/auth/user', method: 'get', propertyName: 'user' }
-        },
-        tokenType: false
-      }
-    },
-    cookie: {
-      options: {
-        maxAge: 60 * 60 * 24 * 300
+        }
+        // tokenRequired: false,
+        // tokenType: false
       }
     },
     token: {
       prefix: 'centric.'
     },
-    localStorage: false,
+    cookie: {
+      options: {
+        maxAge: 60 * 60 * 24 * 300,
+        secure: substruct.config.isProduction
+      }
+    },
+    localStorage: {
+
+    },
     rewriteRedirects: true,
     fullPathRedirect: true
   },
@@ -45,7 +50,8 @@ module.exports = {
     },
     plugins: [
       new MonacoWebpackPlugin()
-    ]
+    ],
+    parallel: true
   },
   css: [
   ],
@@ -61,11 +67,12 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Centric' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
     ]
   },
   mode: 'spa',
   loading: { color: '#3B8070' },
+  modern: 'client',
   modules: [
     '@nuxtjs/apollo',
     '@nuxtjs/auth',

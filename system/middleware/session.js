@@ -2,6 +2,7 @@
 const substruct = require('@internalfx/substruct')
 const hash = require('object-hash')
 const crypto = require('crypto')
+const _ = require('lodash')
 
 const createToken = function (length) {
   const chars = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -54,14 +55,23 @@ module.exports = function (config) {
     console.log('WRITE SESSION', obj)
 
     await arango.q(aql`
-      UPSERT ${obj} INSERT ${obj} REPLACE ${obj} IN sys_sessions
+      UPSERT { _key: ${token} } INSERT ${obj} REPLACE ${_.omit(obj, '_key')} IN sys_sessions
     `)
   }
 
   return async function (ctx, next) {
     let token
 
-    token = ctx.cookies.get(cookieName)
+    const cookieToken = decodeURI(ctx.cookies.get(cookieName))
+    const headerToken = ctx.headers.authorization
+
+    if (_.isString(cookieToken) && !_.isEmpty(cookieToken)) {
+      token = cookieToken.replace('Bearer ', '')
+    }
+
+    if (_.isString(headerToken) && !_.isEmpty(headerToken)) {
+      token = headerToken.replace('Bearer ', '')
+    }
 
     if (token == null || token.length < 40) {
       token = createToken(40)

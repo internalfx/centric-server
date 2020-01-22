@@ -8,7 +8,5 @@ module.exports = async function () {
     outDir: process.cwd()
   })
 
-  console.log('SCAFFOLD')
-
   await sao.run()
 }

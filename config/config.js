@@ -24,7 +24,9 @@ module.exports = {
     'userServices',
     'garbageCollector',
     'scheduleManager',
-    'operationManager'
+    'operationManager',
+    'cron',
+    'bcrypt'
   ],
   session: {
     sessionCookieName: 'auth.centric.local',

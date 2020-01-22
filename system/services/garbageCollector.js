@@ -25,11 +25,9 @@ module.exports = async function (config) {
     } catch (err) {
       console.log(err)
     }
-
-    setTimeout(run, 1000 * 60 * 10)
   }
 
-  run()
-
-  return {}
+  return {
+    run
+  }
 }

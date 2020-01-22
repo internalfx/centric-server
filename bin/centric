@@ -19,9 +19,12 @@ const HELPTEXT = `
   A programmable automation server.
 
   Commands:
-    centric start            Start Centric Server.
+    centric start            Start Centric Server in development mode.
+    centric start --prod     Start Centric Server in production mode.
+
     centric scaffold         Bootstrap a new Centric project.
 
+    centric users            Manage Centric users
 `
 
 const main = async function () {

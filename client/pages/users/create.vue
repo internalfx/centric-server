@@ -18,8 +18,7 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        role: 'USR',
-        active: true
+        role: 'USR'
       }
     }
   },

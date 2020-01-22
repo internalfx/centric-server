@@ -1,14 +1,13 @@
 
 <script>
-// import { ErrorBag } from 'vee-validate'
 import { to } from '../../../lib/utils.js'
-// import { log } from 'util'
 
 export default {
   data: function () {
     return {
       error: null,
-      email: null
+      email: null,
+      password: null
     }
   },
   components: {
@@ -17,20 +16,27 @@ export default {
   methods: {
     submit: async function () {
       this.error = null
-      let res = await to(this.$axios.post('/api/auth/getLink', { email: this.email }))
-
+      const res = await to(this.$auth.loginWith('local', {
+        data: {
+          email: this.email,
+          password: this.password
+        }
+      }))
       if (res.isError) {
         this.error = res.response.data
       } else {
-        this.$router.push({ path: '/login/validate', query: { email: this.email } })
+        this.$router.push('/')
       }
+    },
+    resetPassword: function () {
+      this.$router.push({ path: '/login/reset', query: { email: this.email } })
     }
   }
 }
 </script>
 
 <template>
-  <v-container>
+  <v-container style="max-width: 600px;">
     <v-row class="mt-6 mb-7 align-center">
       <v-col class="d-flex">
         <h1>Login</h1>
@@ -39,15 +45,21 @@ export default {
       </v-col>
     </v-row>
 
-    <v-text-field v-model="email" label="Email" type="email" outlined @keydown.enter="submit" />
+    <v-alert class="my-6" :value="error" type="error">{{error}}</v-alert>
 
-    <v-btn x-large color="primary" @click="submit">submit</v-btn>
+    <v-text-field v-model="email" label="Email" type="email" outlined />
+    <v-text-field v-model="password" label="Password" type="password" outlined @keydown.enter="submit" />
 
-    <v-alert class="mt-6" :value="error" type="error">{{error}}</v-alert>
+    <v-row class="align-center">
+      <v-col cols="auto" class="d-flex">
+        <v-btn x-large color="primary" @click="submit">Login</v-btn>
+      </v-col>
+      <v-col cols="auto" class="d-flex">
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <style>
 
 </style>
-

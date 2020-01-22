@@ -8,7 +8,6 @@ import { mapState, mapActions } from 'vuex'
 // import { mapFields } from 'vuex-map-fields'
 
 import userRoleWidget from '../../ui/userRoleWidget.vue'
-import userActiveWidget from '../../ui/userActiveWidget.vue'
 
 export default {
   apollo: {
@@ -25,7 +24,6 @@ export default {
             fullName
             email
             role
-            active
             createdAt
             updatedAt
           }
@@ -44,8 +42,7 @@ export default {
     }
   },
   components: {
-    userRoleWidget,
-    userActiveWidget
+    userRoleWidget
   },
   computed: {
     ...mapState({
@@ -139,10 +136,6 @@ export default {
           <v-col cols="">
             <v-simple-table>
               <tbody>
-                <tr>
-                  <td>Active:</td>
-                  <td><userActiveWidget :value="userRecord.active" /></td>
-                </tr>
                 <tr>
                   <td>createdAt:</td>
                   <td>{{dateTime(userRecord.createdAt)}}</td>
