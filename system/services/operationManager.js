@@ -134,7 +134,7 @@ module.exports = async function (config) {
     }
   }
 
-  const supervisorRun = async function () {
+  const run = async function () {
     try {
       if (firstRun) {
         await recoverStuckOperations()
@@ -145,8 +145,6 @@ module.exports = async function (config) {
     } catch (err) {
       console.log(err)
     }
-
-    setTimeout(supervisorRun, 900)
   }
 
   const runTask = async function (operation) {
@@ -309,8 +307,7 @@ module.exports = async function (config) {
     }
   }
 
-  supervisorRun()
-
   return Object.freeze({
+    run
   })
 }

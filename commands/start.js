@@ -1,38 +1,42 @@
-const path = require('path')
-
-require('@babel/register')({
-  cwd: __dirname,
-  plugins: ['@babel/plugin-transform-modules-commonjs'],
-  only: [
-    '../lib/*',
-    path.join(process.cwd(), 'services'),
-    path.join(process.cwd(), 'tasks'),
-    path.join(process.cwd(), 'config.js')
-  ]
-})
-
-const argv = require('minimist')(process.argv.slice(2))
-const substruct = require('@internalfx/substruct')
-
-// const _ = require('lodash')
-const { ApolloServer, AuthenticationError, ForbiddenError } = require('apollo-server-koa')
-const { typeDefs, resolvers } = require('../graphql/index.js')
-require('../lib/cycle.js')
-
-const taskFilePath = path.join(process.cwd(), 'tasks')
-const buildContextPath = path.join(process.cwd(), 'context.js')
-
-const port = Number.isFinite(argv.port) ? argv.port : 8000
-
-const config = substruct.configure({
-  runDir: process.cwd(),
-  appDir: path.join(__dirname, '..'),
-  taskFilePath,
-  buildContextPath,
-  port
-})
 
 module.exports = async function () {
+  const path = require('path')
+  const appDir = path.join(__dirname, '..')
+
+  require('@babel/register')({
+    cwd: appDir,
+    plugins: ['@babel/plugin-transform-modules-commonjs'],
+    only: [
+      'lib/*',
+      path.join(process.cwd(), 'services'),
+      path.join(process.cwd(), 'tasks'),
+      path.join(process.cwd(), 'config.js')
+    ]
+  })
+
+  const argv = require('minimist')(process.argv.slice(2))
+  const substruct = require('@internalfx/substruct')
+
+  // const _ = require('lodash')
+  const { ApolloServer, AuthenticationError, ForbiddenError } = require('apollo-server-koa')
+  const { typeDefs, resolvers } = require('../graphql/index.js')
+  require('../lib/cycle.js')
+
+  const taskFilePath = path.join(process.cwd(), 'tasks')
+  const buildContextPath = path.join(process.cwd(), 'context.js')
+
+  const port = Number.isFinite(argv.port) ? argv.port : 8000
+
+  const config = substruct.configure({
+    build: argv.nobuild !== true,
+    runCron: true,
+    runDir: process.cwd(),
+    appDir,
+    taskFilePath,
+    buildContextPath,
+    port
+  })
+
   const apollo = new ApolloServer({
     typeDefs,
     resolvers,

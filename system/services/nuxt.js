@@ -15,7 +15,11 @@ module.exports = async function (config) {
 
   const nuxt = new Nuxt(nuxtConfig)
 
-  new Builder(nuxt).build()
+  await nuxt.ready()
+
+  if (config.build) {
+    new Builder(nuxt).build()
+  }
 
   return nuxt
 }
