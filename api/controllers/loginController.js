@@ -1,15 +1,7 @@
 
 const substruct = require('@internalfx/substruct')
-const config = substruct.config
-const userConfig = substruct.services.userConfig
-
-const mailer = substruct.services.mailer
 const bcrypt = substruct.services.bcrypt
 const { arango, aql } = substruct.services.arango
-
-const { uniqueId } = require('../../lib/utils.js')
-const moment = require('moment')
-const _ = require('lodash')
 
 module.exports = {
 
