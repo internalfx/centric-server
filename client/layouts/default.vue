@@ -1,12 +1,14 @@
 <script>
 import { mapState } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
+import ResetPassowrd from './components/resetPassword';
 
 export default {
   data: function () {
     return {
       drawer: false,
-      navColor: 'primary'
+      navColor: 'primary',
+      showResetDialog: false
     }
   },
   computed: {
@@ -43,6 +45,9 @@ export default {
 
       }
     }
+  },
+  components: {
+    'reset-password': ResetPassowrd
   },
   methods: {
     logout: async function () {
@@ -90,6 +95,15 @@ export default {
 
       <v-list dense>
         <v-divider/>
+        <v-list-item :color="navColor" @click="showResetDialog = true">
+          <v-list-item-action>
+            <v-icon>fas fa-key</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Reset Password</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item :color="navColor" @click="logout">
           <v-list-item-action>
             <v-icon>fas fa-sign-out-alt</v-icon>
@@ -147,6 +161,7 @@ export default {
       </v-card>
     </v-dialog>
 
+    <reset-password @closed="showResetDialog = false" v-if="showResetDialog"></reset-password>
     <v-snackbar
       v-model="snackbarShow"
       :color="snackbarColor"

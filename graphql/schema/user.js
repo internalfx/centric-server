@@ -4,6 +4,7 @@ const { gql } = require('apollo-server-koa')
 // let { listSubFields } = require('../../utils.js')
 // let { to } = require('../../shared/utils.js')
 const validate = require('validate.js')
+const substruct = require('@internalfx/substruct')
 
 const typeDefs = gql`
   type UserConnection {
@@ -32,6 +33,10 @@ const typeDefs = gql`
     email: String
     role: String
   }
+  input UserPassword {
+    _key: ID
+    password: String
+  }
 
   extend type Query {
     allUsers (
@@ -49,7 +54,8 @@ const typeDefs = gql`
 
   extend type Mutation {
     upsertUser (user: UserInput!): User
-    destroyUser (_key: ID!): User
+    destroyUser (_key: ID!): User,
+    resetPassword (user: UserPassword!): User
   }
 `
 
@@ -170,6 +176,16 @@ const resolvers = {
 
       await ctx.arango.qNext(ctx.aql`
         REMOVE { _key: ${args._key} } IN users RETURN OLD
+      `)
+    },
+    resetPassword: async function(obj, args, ctx, info) {
+      let record = args.user
+
+      const bcrypt = substruct.services.bcrypt
+      const passwordHash = await bcrypt.hashPassword(record.password)
+
+      await ctx.arango.q(ctx.aql`
+        UPDATE ${record} WITH { passwordHash: ${passwordHash} } IN users
       `)
     }
   },
