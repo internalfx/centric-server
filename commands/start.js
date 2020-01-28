@@ -18,7 +18,7 @@ module.exports = async function () {
   const substruct = require('@internalfx/substruct')
 
   // const _ = require('lodash')
-  const { ApolloServer, AuthenticationError, ForbiddenError } = require('apollo-server-koa')
+  const { ApolloServer, AuthenticationError, ForbiddenError, UserInputError } = require('apollo-server-koa')
   const { typeDefs, resolvers } = require('../graphql/index.js')
   require('../lib/cycle.js')
 
@@ -70,12 +70,18 @@ module.exports = async function () {
         }
       }
 
+      const userInputError = function (message, data) {
+        throw new UserInputError(message, data)
+      }
+
       return {
         session,
         arango,
         aql,
+        bcrypt: substruct.services.bcrypt,
         getNumber,
-        requireAdmin
+        requireAdmin,
+        userInputError
       }
     }
   })

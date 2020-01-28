@@ -1,7 +1,7 @@
 <script>
 import { mapState } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
-import ResetPassowrd from './components/resetPassword';
+import resetPassword from '../ui/resetPassword'
 
 export default {
   data: function () {
@@ -47,7 +47,7 @@ export default {
     }
   },
   components: {
-    'reset-password': ResetPassowrd
+    resetPassword
   },
   methods: {
     logout: async function () {
@@ -161,7 +161,8 @@ export default {
       </v-card>
     </v-dialog>
 
-    <reset-password @closed="showResetDialog = false" v-if="showResetDialog"></reset-password>
+    <resetPassword v-model="showResetDialog" @closed="showResetDialog = false" />
+
     <v-snackbar
       v-model="snackbarShow"
       :color="snackbarColor"

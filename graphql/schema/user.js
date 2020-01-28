@@ -4,7 +4,6 @@ const { gql } = require('apollo-server-koa')
 // let { listSubFields } = require('../../utils.js')
 // let { to } = require('../../shared/utils.js')
 const validate = require('validate.js')
-const substruct = require('@internalfx/substruct')
 
 const typeDefs = gql`
   type UserConnection {
@@ -55,7 +54,7 @@ const typeDefs = gql`
   extend type Mutation {
     upsertUser (user: UserInput!): User
     destroyUser (_key: ID!): User,
-    resetPassword (user: UserPassword!): User
+    resetPassword (userKey: String!, oldPassword: String!, newPassword: String!, confirmPassword: String!): User
   }
 `
 
@@ -96,9 +95,7 @@ const resolvers = {
       ctx.requireAdmin()
 
       return ctx.arango.qNext(ctx.aql`
-        FOR user IN users
-          FILTER user._key == ${args._key}
-          RETURN user
+        RETURN DOCUMENT('users', ${args._key})
       `)
     },
     usersAutocomplete: async function (obj, args, ctx, info) {
@@ -178,14 +175,37 @@ const resolvers = {
         REMOVE { _key: ${args._key} } IN users RETURN OLD
       `)
     },
-    resetPassword: async function(obj, args, ctx, info) {
-      let record = args.user
+    resetPassword: async function (obj, args, ctx, info) {
+      const user = await ctx.arango.qNext(ctx.aql`
+        RETURN DOCUMENT('users', ${args.userKey})
+      `)
 
-      const bcrypt = substruct.services.bcrypt
-      const passwordHash = await bcrypt.hashPassword(record.password)
+      if (user == null) {
+        ctx.userInputError('User not found')
+      }
+
+      const check = await ctx.bcrypt.checkPassword(args.oldPassword, user.passwordHash)
+
+      if (check.result !== true) {
+        ctx.userInputError('Old password is incorrect')
+      }
+
+      if (_.isEmpty(args.newPassword)) {
+        ctx.userInputError('New password is required')
+      }
+
+      if (args.newPassword.length < 10) {
+        ctx.userInputError('Password must be at least 10 characters')
+      }
+
+      if (args.newPassword !== args.confirmPassword) {
+        ctx.userInputError('New password does not match confirm password')
+      }
+
+      const passwordHash = await ctx.bcrypt.hashPassword(args.newPassword)
 
       await ctx.arango.q(ctx.aql`
-        UPDATE ${record} WITH { passwordHash: ${passwordHash} } IN users
+        UPDATE ${args.userKey} WITH { passwordHash: ${passwordHash} } IN users
       `)
     }
   },
