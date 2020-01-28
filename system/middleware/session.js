@@ -52,8 +52,6 @@ module.exports = function (config) {
       data
     }
 
-    console.log('WRITE SESSION', obj)
-
     await arango.q(aql`
       UPSERT { _key: ${token} } INSERT ${obj} REPLACE ${_.omit(obj, '_key')} IN sys_sessions
     `)
