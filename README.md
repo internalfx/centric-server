@@ -2,6 +2,9 @@
 
 ### A programmable automation server
 
+[![license](https://img.shields.io/npm/l/centric.svg)](https://github.com/internalfx/centric-server/blob/master/LICENSE)
+[![npm version](https://img.shields.io/npm/v/centric.svg)](https://www.npmjs.com/package/centric)
+
 ## Installation
 
 ### Install centric
