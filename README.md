@@ -25,7 +25,7 @@ $ centric scaffold
 - After that, start the server using the command:
 
 ```
-$ centric start --build
+$ centric start
 ```
 
 And your done!
