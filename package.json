@@ -19,6 +19,7 @@
     "centric": "./bin/centric"
   },
   "dependencies": {
+    "@babel/core": "^7.8.3",
     "@babel/register": "^7.8.3",
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@internalfx/arangofs": "^0.1.5",
@@ -26,14 +27,16 @@
     "@nuxtjs/apollo": "^4.0.0-rc19",
     "@nuxtjs/auth": "^4.8.5",
     "@nuxtjs/vuetify": "^1.10.1",
+    "apollo-cache-inmemory": "^1.6.5",
     "apollo-server-koa": "^2.9.16",
-    "arangojs": "^6.12.0",
+    "arangojs": "^6.13.0",
     "bcryptjs": "^2.4.3",
     "chokidar": "^3.3.1",
     "core-js": "2",
     "cron-parser": "^2.13.0",
-    "cronstrue": "^1.86.0",
-    "inquirer": "^7.0.3",
+    "cronstrue": "^1.88.0",
+    "graphql": "^14.6.0",
+    "inquirer": "^7.0.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "monaco-editor": "0.19.3",
@@ -50,7 +53,10 @@
     "shelljs": "^0.8.3",
     "validate.js": "^0.13.1",
     "velocity-animate": "^1.5.2",
-    "vuex-map-fields": "^1.3.6"
+    "vue": "^2.6.11",
+    "vue-template-compiler": "^2.6.11",
+    "vuex-map-fields": "^1.3.6",
+    "webpack": "^4.41.5"
   },
   "devDependencies": {
     "babel-eslint": "10.0.3",

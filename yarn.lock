@@ -87,7 +87,7 @@
     invariant "^2.2.4"
     semver "^5.5.0"
 
-"@babel/core@^7.7.5":
+"@babel/core@^7.7.5", "@babel/core@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.8.3.tgz#30b0ebb4dd1585de6923a0b4d179e0b9f5d82941"
   integrity sha512-4XFkf8AwyrEG7Ziu3L2L0Cv+WyY47Tcsp70JFmpftbAA1K7YL/sgE9jh9HyNj08Y/U50ItUchpN0w6HxAoX1rA==
@@ -2059,7 +2059,7 @@ apollo-cache-control@^0.8.11:
     apollo-server-env "^2.4.3"
     graphql-extensions "^0.10.10"
 
-apollo-cache-inmemory@^1.6.3:
+apollo-cache-inmemory@^1.6.3, apollo-cache-inmemory@^1.6.5:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.6.5.tgz#2ccaa3827686f6ed7fb634203dbf2b8d7015856a"
   integrity sha512-koB76JUDJaycfejHmrXBbWIN9pRKM0Z9CJGQcBzIOtmte1JhEBSuzsOUu7NQgiXKYI4iGoMREcnaWffsosZynA==
@@ -2478,7 +2478,18 @@ aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
-arangojs@^6.12.0, arangojs@^6.9.0:
+arangojs@^6.13.0:
+  version "6.13.0"
+  resolved "https://registry.yarnpkg.com/arangojs/-/arangojs-6.13.0.tgz#f9031a05ccae413939ad8a82422e85227e769a6c"
+  integrity sha512-TZmFt0cVpREPH1ufZo/i3xixvv9qdvsOw8zcl/EoRUS0AyF3vetecfZFqa5jS7fwc3dZcOQQX462rvX8eTheZg==
+  dependencies:
+    "@types/node" "*"
+    es6-error "^4.0.1"
+    multi-part "^2.0.0"
+    x3-linkedlist "1.0.0"
+    xhr "^2.4.1"
+
+arangojs@^6.9.0:
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/arangojs/-/arangojs-6.12.0.tgz#a9a21feb9fa29db7b78e727bce1d4e5f74bbed14"
   integrity sha512-nnanuIG0kaiUhUDgTrscEyrF7CbNFlu4NWxsDvg5xX3oHwae3GswH6csDxtGfeuIedyfI4gyNJimb7NBiNwiBQ==
@@ -3892,10 +3903,10 @@ cron-parser@^2.13.0:
     is-nan "^1.2.1"
     moment-timezone "^0.5.25"
 
-cronstrue@^1.86.0:
-  version "1.86.0"
-  resolved "https://registry.yarnpkg.com/cronstrue/-/cronstrue-1.86.0.tgz#e5c9780c64b24911971562874df9355baf6b48d3"
-  integrity sha512-e9+P4n8XH1UdQbPULxlJFhUxxzgTGuaVjj4f5OX6N9GbZdHepp6PzJXoVjKw4jpUJVv1FrKSPcduVG3nT2Zoiw==
+cronstrue@^1.88.0:
+  version "1.88.0"
+  resolved "https://registry.yarnpkg.com/cronstrue/-/cronstrue-1.88.0.tgz#3f5fa733905683421b0acc45523b21e4a7742d8c"
+  integrity sha512-LK/AkeYbwTb85AKq7SPJ7+If7WQNtseY9DZkMbaA3hgT6XIdBDQRCxDFnebc/i8SeAOh6+6HFEwpyMGzQg2/uA==
 
 cross-fetch@^3.0.4:
   version "3.0.4"
@@ -5754,6 +5765,13 @@ graphql-upload@^8.0.2:
   dependencies:
     iterall "^1.2.2"
 
+graphql@^14.6.0:
+  version "14.6.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.6.0.tgz#57822297111e874ea12f5cd4419616930cd83e49"
+  integrity sha512-VKzfvHEKybTKjQVpTFrA5yUq2S9ihcZvfJAtsDBBCuV6wauPu1xl/f9ehgVf0FcEJJs4vz6ysb/ZMkGigQZseg==
+  dependencies:
+    iterall "^1.2.2"
+
 gzip-size@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-5.1.1.tgz#cb9bee692f87c0612b232840a873904e4c135274"
@@ -6269,10 +6287,29 @@ inquirer@^6.2.0:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-inquirer@^7.0.0, inquirer@^7.0.3:
+inquirer@^7.0.0:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-7.0.3.tgz#f9b4cd2dff58b9f73e8d43759436ace15bed4567"
   integrity sha512-+OiOVeVydu4hnCGLCSX+wedovR/Yzskv9BFqUNNKq9uU2qg7LCcCo3R86S2E7WLo0y/x2pnEZfZe1CoYnORUAw==
+  dependencies:
+    ansi-escapes "^4.2.1"
+    chalk "^2.4.2"
+    cli-cursor "^3.1.0"
+    cli-width "^2.0.0"
+    external-editor "^3.0.3"
+    figures "^3.0.0"
+    lodash "^4.17.15"
+    mute-stream "0.0.8"
+    run-async "^2.2.0"
+    rxjs "^6.5.3"
+    string-width "^4.1.0"
+    strip-ansi "^5.1.0"
+    through "^2.3.6"
+
+inquirer@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-7.0.4.tgz#99af5bde47153abca23f5c7fc30db247f39da703"
+  integrity sha512-Bu5Td5+j11sCkqfqmUTiwv+tWisMtP0L7Q8WrqA2C/BbBhy1YTdFrvjjlrKq8oagA/tLQBski2Gcx/Sqyi2qSQ==
   dependencies:
     ansi-escapes "^4.2.1"
     chalk "^2.4.2"
@@ -11403,7 +11440,7 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.41.3:
+webpack@^4.41.3, webpack@^4.41.5:
   version "4.41.5"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.41.5.tgz#3210f1886bce5310e62bb97204d18c263341b77c"
   integrity sha512-wp0Co4vpyumnp3KlkmpM5LWuzvZYayDwM2n17EHFr4qxBBbRokC7DJawPJC7TfSFZ9HZ6GsdH40EBj4UV0nmpw==
@@ -11563,6 +11600,11 @@ ws@^6.0.0:
   integrity sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
   dependencies:
     async-limiter "~1.0.0"
+
+x3-linkedlist@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/x3-linkedlist/-/x3-linkedlist-1.0.0.tgz#f5a8c7e742cf3b31d7800e031ab15135387f85d3"
+  integrity sha512-8CwA4XCMtso4G6qJWCzqbWQ9YJjtRiD4rUHFJ77rlAXQUN38Ni9E84y4F9qt4ijxZhfpJVm9tRs8E2vdLC4ZqQ==
 
 xdg-basedir@^3.0.0:
   version "3.0.0"
