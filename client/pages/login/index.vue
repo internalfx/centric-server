@@ -60,6 +60,5 @@ export default {
   </v-container>
 </template>
 
-<style>
-
+<style lang="scss" scoped>
 </style>
