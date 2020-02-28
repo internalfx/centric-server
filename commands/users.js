@@ -18,7 +18,6 @@ module.exports = async function () {
   const substruct = require('@internalfx/substruct')
   const taskFilePath = path.join(process.cwd(), 'tasks')
   const buildContextPath = path.join(process.cwd(), 'context.js')
-  const port = Number.isFinite(argv.port) ? argv.port : 58000
   const inquirer = require('inquirer')
   const _ = require('lodash')
 
@@ -31,7 +30,6 @@ module.exports = async function () {
     appDir,
     taskFilePath,
     buildContextPath,
-    port,
     services: [
       'userConfig',
       'arango',
@@ -40,118 +38,118 @@ module.exports = async function () {
     ]
   })
 
-  return substruct.start().then(async function ({ koa, config }) {
-    const { arango, aql } = substruct.services.arango
-    const bcrypt = substruct.services.bcrypt
+  await substruct.load()
 
-    const mainMenu = async function () {
-      const answers = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'action',
-          message: 'What would you like to do?',
-          choices: [
-            { name: 'Create User', value: 'create' },
-            { name: 'Reset User Password', value: 'reset' },
-            { name: 'Exit', value: 'exit' }
-          ]
-        }
-      ])
+  const { arango, aql } = substruct.services.arango
+  const bcrypt = substruct.services.bcrypt
 
-      if (answers.action === 'create') {
-        await createUser()
-        await mainMenu()
-      } else if (answers.action === 'reset') {
-        await resetPassword()
-        await mainMenu()
-      } else if (answers.action === 'exit') {
-        await substruct.stop()
+  const mainMenu = async function () {
+    const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'action',
+        message: 'What would you like to do?',
+        choices: [
+          { name: 'Create User', value: 'create' },
+          { name: 'Reset User Password', value: 'reset' },
+          { name: 'Exit', value: 'exit' }
+        ]
       }
+    ])
+
+    if (answers.action === 'create') {
+      await createUser()
+      await mainMenu()
+    } else if (answers.action === 'reset') {
+      await resetPassword()
+      await mainMenu()
+    } else if (answers.action === 'exit') {
+      await substruct.stop()
     }
+  }
 
-    const createUser = async function () {
-      const answers = await inquirer.prompt([
-        {
-          type: 'text',
-          name: 'firstName',
-          message: 'First name?'
-        },
-        {
-          type: 'text',
-          name: 'lastName',
-          message: 'Last name?'
-        },
-        {
-          type: 'email',
-          name: 'email',
-          message: 'Email?'
-        },
-        {
-          type: 'list',
-          name: 'role',
-          message: 'Role?',
-          choices: [
-            { name: 'User', value: 'USR' },
-            { name: 'Administrator', value: 'ADM' }
-          ]
-        },
-        {
-          type: 'password',
-          name: 'password',
-          message: 'Password?'
-        }
-      ])
+  const createUser = async function () {
+    const answers = await inquirer.prompt([
+      {
+        type: 'text',
+        name: 'firstName',
+        message: 'First Name?'
+      },
+      {
+        type: 'text',
+        name: 'lastName',
+        message: 'Last Name?'
+      },
+      {
+        type: 'email',
+        name: 'email',
+        message: 'Email?'
+      },
+      {
+        type: 'list',
+        name: 'role',
+        message: 'Role?',
+        choices: [
+          { name: 'User', value: 'USR' },
+          { name: 'Administrator', value: 'ADM' }
+        ]
+      },
+      {
+        type: 'password',
+        name: 'password',
+        message: 'Password?'
+      }
+    ])
 
-      let record = _.omit(answers, 'password')
+    let record = _.omit(answers, 'password')
 
-      record.createdAt = new Date()
-      record.updatedAt = new Date()
+    record.createdAt = new Date()
+    record.updatedAt = new Date()
 
-      record.passwordHash = await bcrypt.hashPassword(answers.password)
+    record.passwordHash = await bcrypt.hashPassword(answers.password)
 
-      record = await arango.qNext(aql`
-        INSERT ${record} INTO users RETURN NEW
-      `)
+    record = await arango.qNext(aql`
+      INSERT ${record} INTO users RETURN NEW
+    `)
 
-      console.log('User Created!')
-    }
+    console.log('User Created!')
+  }
 
-    const resetPassword = async function () {
-      let users = await arango.qAll(aql`
-        FOR user IN users
-          RETURN user
-      `)
+  const resetPassword = async function () {
+    let users = await arango.qAll(aql`
+      FOR user IN users
+        RETURN user
+    `)
 
-      users = users.map(function (user) {
-        return {
-          name: `${user.firstName} ${user.lastName} [${user.email}]`,
-          value: user._key
-        }
-      })
+    users = users.map(function (user) {
+      return {
+        name: `${user.firstName} ${user.lastName} [${user.email}]`,
+        value: user._key
+      }
+    })
 
-      const answers = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'user',
-          message: 'User?',
-          choices: users
-        },
-        {
-          type: 'password',
-          name: 'password',
-          message: 'Password?'
-        }
-      ])
+    const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'user',
+        message: 'User?',
+        choices: users
+      },
+      {
+        type: 'password',
+        name: 'password',
+        message: 'Password?'
+      }
+    ])
 
-      const passwordHash = await bcrypt.hashPassword(answers.password)
+    const passwordHash = await bcrypt.hashPassword(answers.password)
 
-      await arango.q(aql`
-        UPDATE ${answers.user} WITH { passwordHash: ${passwordHash} } IN users
-      `)
+    await arango.q(aql`
+      UPDATE ${answers.user} WITH { passwordHash: ${passwordHash} } IN users
+    `)
 
-      console.log('Password Updated!')
-    }
+    console.log('Password Updated!')
+  }
 
-    return mainMenu()
-  })
+  return mainMenu()
 }

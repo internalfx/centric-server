@@ -28,7 +28,6 @@ module.exports = async function () {
   const port = Number.isFinite(argv.port) ? argv.port : 8000
 
   const config = substruct.configure({
-    build: argv.nobuild !== true,
     runCron: true,
     runDir: process.cwd(),
     appDir,
@@ -86,8 +85,11 @@ module.exports = async function () {
     }
   })
 
-  return substruct.start().then(async function ({ koa, config }) {
-    apollo.applyMiddleware({ app: substruct.koa, path: '/api/graphql' })
-    console.log('Server Started...')
-  })
+  await substruct.load()
+
+  await substruct.start()
+
+  apollo.applyMiddleware({ app: substruct.koa, path: '/api/graphql' })
+
+  console.log('Server Started...')
 }

@@ -51,7 +51,12 @@ module.exports = {
     plugins: [
       new MonacoWebpackPlugin()
     ],
-    parallel: true
+    // parallel: true,
+    splitChunks: {
+      layouts: false,
+      pages: false,
+      commons: false
+    }
   },
   css: [
   ],
@@ -72,7 +77,6 @@ module.exports = {
   },
   mode: 'spa',
   loading: { color: '#3B8070' },
-  modern: 'client',
   modules: [
     '@nuxtjs/apollo',
     '@nuxtjs/auth',

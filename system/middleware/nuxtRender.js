@@ -1,10 +1,10 @@
 
 const substruct = require('@internalfx/substruct')
-const pathReg = require('path-to-regexp')
+const { pathToRegexp } = require('path-to-regexp')
 
 module.exports = function (config) {
   const nuxt = substruct.services.nuxt
-  const routeReg = pathReg('/api/:path*')
+  const routeReg = pathToRegexp('/api/:path*')
 
   return async function (ctx, next) {
     if (routeReg.test(ctx.path) === false) {
