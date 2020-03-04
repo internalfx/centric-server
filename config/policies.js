@@ -2,7 +2,11 @@
 module.exports = {
   '*': false,
 
-  'loginController': {
+  loginController: {
+    '*': true
+  },
+
+  triggerController: {
     '*': true
   }
 }

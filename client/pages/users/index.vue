@@ -93,7 +93,7 @@ export default {
       'showSnackbar'
     ]),
     onClickRow: function (item) {
-      this.$router.push({ path: '/users/view', query: { _key: item._key } })
+      this.$router.push({ path: `/users/${item._key}/view` })
     },
     destroy: async function (item) {
       this.inFlight = true
@@ -194,7 +194,7 @@ export default {
         <v-tooltip top>
           <template v-slot:activator="{on}">
             <span v-on="on">
-              <v-btn @click.stop text fab small class="ma-0 mr-2" :to="{ path: '/users/edit', query: { _key: item._key } }">
+              <v-btn @click.stop text fab small class="ma-0 mr-2" :to="{ path: `/users/${item._key}/edit` }">
                 <v-icon>fas fa-pencil-alt</v-icon>
               </v-btn>
             </span>

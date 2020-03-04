@@ -1,54 +1,32 @@
-// let substruct = require('@internalfx/substruct')
+
+const substruct = require('@internalfx/substruct')
+const { arango, aql } = substruct.services.arango
 // let moment = require('moment')
-// let _ = require('lodash')
+let _ = require('lodash')
 // let config = substruct.config
-// let taskFiles = substruct.services.taskFiles
+const { createOp } = substruct.services.operationManager
 
 module.exports = {
-  trigger: async function (ctx) {
-    const { name } = ctx.state.params
+  run: async function (ctx) {
+    const { slug } = ctx.state.params
     const data = ctx.request.body
 
-    console.log(name, data)
+    if (slug == null) {
+      ctx.throw(404)
+    }
 
-    // let trigger = await models.trigger.findOne({
-    //   where: {
-    //     name: {
-    //       [Op.eq]: name
-    //     }
-    //   },
-    //   include: [{ model: models.task }]
-    // })
+    const trigger = await arango.qNext(aql`
+      FOR trigger in triggers
+        FILTER trigger.slug == ${slug}
+        RETURN trigger
+    `)
 
-    // if (trigger) {
-    //   let task = trigger.task
-    //   let taskFile = taskFiles[task.name]
+    if (trigger == null) {
+      ctx.throw(404)
+    }
 
-    //   let lockName = (function () {
-    //     if (_.isFunction(taskFile.lock_name)) {
-    //       return taskFile.lock_name({
-    //         opData: data,
-    //         taskData: task.data
-    //       })
-    //     } else if (_.isString(taskFile.lock_name)) {
-    //       return taskFile.lock_name
-    //     } else {
-    //       return task.name
-    //     }
-    //   }.call())
+    const operation = await createOp(trigger, data)
 
-    //   let operation = await models.operation.create({
-    //     sourceable: 'trigger',
-    //     sourceable_id: trigger.id,
-    //     task_id: trigger.task.id,
-    //     status: 'waiting',
-    //     lock_name: lockName,
-    //     data: data,
-    //     run_count: 0,
-    //     next_run_date: moment().toDate()
-    //   })
-
-    //   ctx.body = operation
-    // }
+    ctx.body = _.pick(operation, '_key', 'number', 'status', 'locks', 'data', 'runCount', 'nextRunDate', 'createdAt')
   }
 }

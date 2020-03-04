@@ -2,11 +2,11 @@
 <script>
 import _ from 'lodash'
 import gql from 'graphql-tag'
-import { to, errMsg } from '../../../lib/utils.js'
+import { to, errMsg } from '../../../../lib/utils.js'
 import { mapActions } from 'vuex'
 // import { mapFields } from 'vuex-map-fields'
 
-import userForm from '../../ui/forms/userForm.vue'
+import userForm from '../../../ui/forms/userForm.vue'
 
 export default {
   apollo: {
@@ -25,7 +25,7 @@ export default {
       `,
       variables: function () {
         return {
-          _key: this.$route.query._key
+          _key: this.$route.params.user_key
         }
       },
       result: function (res) {

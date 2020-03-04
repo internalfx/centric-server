@@ -3,10 +3,10 @@
 import { mapState, mapActions } from 'vuex'
 import gql from 'graphql-tag'
 
-import format from '../../lib/format.js'
-import { to, errMsg } from '../../lib/utils.js'
+import format from '../../../lib/format.js'
+import { to } from '../../../lib/utils.js'
 
-import operationStatus from '../ui/operationStatus.vue'
+import operationStatus from '../../ui/operationStatus.vue'
 import animate from 'velocity-animate'
 
 export default {
@@ -182,7 +182,7 @@ export default {
         <v-card class="pa-3 mb-3">
 
           <div class="d-flex justify-space-between align-center">
-            <h1><nuxt-link :to="{ path: '/operations/view', query: { _key: operation._key } }"># {{operation.number}}</nuxt-link></h1>
+            <h1><nuxt-link :to="{ path: `/operations/${operation._key}/view` }"># {{operation.number}}</nuxt-link></h1>
             <h2>{{operation.task.name}}</h2>
             <span>
               <v-btn rounded color="error" v-if="['active', 'failed', 'waiting'].includes(operation.status)" @click="cancelOperation(operation)">

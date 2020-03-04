@@ -1,6 +1,6 @@
 
 <script>
-import { to } from '../../../lib/utils.js'
+import { to } from '../../lib/utils.js'
 
 export default {
   data: function () {

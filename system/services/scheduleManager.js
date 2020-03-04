@@ -6,6 +6,7 @@ module.exports = async function (config) {
   const substruct = require('@internalfx/substruct')
   const { arango, aql, getNumber } = substruct.services.arango
   const taskFiles = substruct.services.taskFiles
+  const { createOp } = substruct.services.operationManager
   const runTimes = {}
 
   const run = async function () {
@@ -66,43 +67,7 @@ module.exports = async function (config) {
     }
 
     try {
-      const task = await arango.qNext(aql`RETURN DOCUMENT('tasks', ${schedule.taskKey})`)
-      const taskFile = taskFiles[task.name]
-
-      console.log(`${new Date()} - Creating new operation for task "${task.name}"`)
-
-      const locks = (function () {
-        if (_.isFunction(taskFile.locks)) {
-          return taskFile.locks({
-            opData: schedule.data,
-            taskData: task.data
-          })
-        } else if (_.isString(taskFile.locks)) {
-          return [taskFile.locks]
-        } else if (_.isArray(taskFile.locks)) {
-          return taskFile.locks
-        } else {
-          return null
-        }
-      }.call())
-
-      let operation = {
-        number: (await getNumber('operation')),
-        sourceId: schedule._id,
-        taskKey: task._key,
-        status: 'waiting',
-        locks: locks,
-        data: schedule.data || {},
-        runCount: 0,
-        nextRunDate: new Date(),
-        createdAt: new Date()
-      }
-
-      operation = await arango.qNext(aql`
-        INSERT ${operation} IN operations RETURN NEW
-      `)
-
-      return operation
+      return createOp(schedule)
     } catch (err) {
       console.log(err)
     }

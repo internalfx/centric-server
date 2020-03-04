@@ -1,26 +1,43 @@
 
 <script>
-// import _ from 'lodash'
+import _ from 'lodash'
 import gql from 'graphql-tag'
-import { to, errMsg } from '../../../lib/utils.js'
+import { to, errMsg } from '../../../../../../lib/utils.js'
 import { mapActions } from 'vuex'
 // import { mapFields } from 'vuex-map-fields'
 
-import scheduleForm from '../../ui/forms/scheduleForm.vue'
+import scheduleForm from '../../../../../ui/forms/scheduleForm.vue'
 
 export default {
   apollo: {
+    record: {
+      query: gql`
+        query getSchedule ($_key: ID!) {
+          record: getSchedule (_key: $_key) {
+            _key
+            name
+            cronTime
+            enabled
+            taskKey
+            data
+          }
+        }
+      `,
+      variables: function () {
+        return {
+          _key: this.$route.params.schedule_key
+        }
+      },
+      result: function (res) {
+        this.schedule = _.omit(res.data.record, '__typename')
+      },
+      fetchPolicy: 'no-cache'
+    }
   },
   data: function () {
     return {
       inFlight: false,
-      schedule: {
-        name: null,
-        cronTime: null,
-        enabled: null,
-        taskKey: null,
-        data: null
-      }
+      schedule: null
     }
   },
   components: {
@@ -58,18 +75,15 @@ export default {
 
       this.inFlight = false
     }
-  },
-  mounted: function () {
-    this.schedule.taskKey = this.$route.query.task_key
   }
 }
 </script>
 
 <template>
-  <v-container>
+  <v-container v-if="schedule">
     <v-row class="mt-6 mb-7 align-center">
       <v-col class="d-flex">
-        <h1>Create Schedule</h1>
+        <h1>Edit Schedule</h1>
       </v-col>
       <v-col cols="auto" class="d-flex justify-end">
       </v-col>

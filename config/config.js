@@ -23,8 +23,8 @@ module.exports = {
     'ejs',
     'userServices',
     'garbageCollector',
-    'scheduleManager',
     'operationManager',
+    'scheduleManager',
     'cron',
     'bcrypt'
   ],

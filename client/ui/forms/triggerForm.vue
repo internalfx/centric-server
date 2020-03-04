@@ -1,9 +1,6 @@
 
 <script>
 import _ from 'lodash'
-import cronstrue from 'cronstrue'
-
-import dataEdit from '../dataEdit.vue'
 
 export default {
   apollo: {
@@ -16,9 +13,24 @@ export default {
     value: Object
   },
   components: {
-    dataEdit
   },
   computed: {
+    name: {
+      get: function () {
+        return this.value.name
+      },
+      set: function (value) {
+        this.set({ name: value })
+      }
+    },
+    // slug: {
+    //   get: function () {
+    //     return this.value.slug
+    //   },
+    //   set: function (value) {
+    //     this.set({ slug: value })
+    //   }
+    // },
     enabled: {
       get: function () {
         return this.value.enabled
@@ -26,13 +38,6 @@ export default {
       set: function (value) {
         this.set({ enabled: value })
       }
-    },
-    friendlyCronTime: function () {
-      let text = null
-      try {
-        text = cronstrue.toString(this.value.cronTime)
-      } catch (err) {}
-      return text
     }
   },
   methods: {
@@ -43,16 +48,20 @@ export default {
       }
       this.$emit('input', propVal)
     }
+    // checkSlug: function () {
+    //   if (_.isEmpty(this.value.slug)) {
+    //     this.set({ slug: _.snakeCase(this.value.name) })
+    //   }
+    // }
   }
 }
+
 </script>
 
 <template>
   <div>
-    <v-text-field label="Name" :value="value.name" @input="set({ name: $event })" />
-    <v-text-field label="Cron Time" :value="value.cronTime" @input="set({ cronTime: $event })" :hint="friendlyCronTime" persistent-hint />
+    <v-text-field label="Name" v-model="name" />
     <v-switch label="Enabled" v-model="enabled"/>
-    <dataEdit :value="value.data" @input="set({data: $event})" label="Data" helpText="Data given to operation" />
   </div>
 </template>
 

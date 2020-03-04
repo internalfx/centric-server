@@ -2,12 +2,12 @@
 <script>
 // import _ from 'lodash'
 import gql from 'graphql-tag'
-import { to, errMsg } from '../../../lib/utils.js'
-import format from '../../../lib/format.js'
+import { to, errMsg } from '../../../../lib/utils.js'
+import format from '../../../../lib/format.js'
 import { mapState, mapActions } from 'vuex'
 // import { mapFields } from 'vuex-map-fields'
 
-import userRoleWidget from '../../ui/userRoleWidget.vue'
+import userRoleWidget from '../../../ui/userRoleWidget.vue'
 
 export default {
   apollo: {
@@ -31,7 +31,7 @@ export default {
       `,
       variables: function () {
         return {
-          _key: this.$route.query._key
+          _key: this.$route.params.user_key
         }
       },
       fetchPolicy: 'no-cache'

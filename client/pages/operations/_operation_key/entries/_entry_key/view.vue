@@ -2,10 +2,10 @@
 <script>
 // import _ from 'lodash'
 
-import dataEdit from '../../ui/dataEdit.vue'
-import entryStatus from '../../ui/entryStatus.vue'
-import format from '../../../lib/format.js'
-import { spiderData } from '../../../lib/utils.js'
+import dataEdit from '../../../../../ui/dataEdit.vue'
+import entryStatus from '../../../../../ui/entryStatus.vue'
+import format from '../../../../../../lib/format.js'
+import { spiderData } from '../../../../../../lib/utils.js'
 
 import gql from 'graphql-tag'
 
@@ -28,7 +28,7 @@ export default {
       `,
       variables: function () {
         return {
-          _key: this.$route.query._key
+          _key: this.$route.params.entry_key
         }
       }
     }

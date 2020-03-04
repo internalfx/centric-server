@@ -1,7 +1,7 @@
 
 <script>
 import _ from 'lodash'
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
 // import { mapFields, mapMultiRowFields } from 'vuex-map-fields'
 import format from '../../lib/format.js'
@@ -125,7 +125,7 @@ export default {
     get: _.get,
     ...format('dataDisplay', 'truncate', 'dateTimeSeconds'),
     onClickRow: function (item) {
-      this.$router.push({ path: '/operations/view', query: { _key: item._key } })
+      this.$router.push({ path: `/operations/${item._key}/view` })
     }
   },
   mounted: function () {

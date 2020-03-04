@@ -27,10 +27,6 @@ const typeDefs = gql`
     operations: [Operation]
   }
 
-  extend type Query {
-    getSchedule (_key: ID): Schedule
-  }
-
   input ScheduleInput {
     _key: ID
     _id: ID
@@ -39,6 +35,10 @@ const typeDefs = gql`
     enabled: Boolean
     data: JSON
     taskKey: ID
+  }
+
+  extend type Query {
+    getSchedule (_key: ID): Schedule
   }
 
   extend type Mutation {
@@ -52,9 +52,7 @@ const resolvers = {
   Query: {
     getSchedule: async function (obj, args, ctx, info) {
       return ctx.arango.qNext(ctx.aql`
-        FOR schedule IN schedules
-          FILTER schedule._key == ${args._key}
-          RETURN schedule
+        RETURN DOCUMENT(schedules, ${args._key})
       `)
     }
   },
@@ -78,8 +76,8 @@ const resolvers = {
       return schedule
     },
     destroySchedule: async function (obj, args, ctx, info) {
-      await ctx.arango.qNext(ctx.aql`
-        REMOVE { _key: ${args._key} } IN schedules RETURN OLD
+      return ctx.arango.qNext(ctx.aql`
+        REMOVE ${args._key} IN schedules RETURN OLD
       `)
     },
     runScheduleNow: async function (obj, args, ctx, info) {

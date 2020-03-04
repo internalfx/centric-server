@@ -89,7 +89,13 @@ module.exports = {
   router: {
     middleware: [
       'auth'
-    ]
+    ],
+    extendRoutes: function (routes, resolve) {
+      routes.push({
+        path: '/',
+        redirect: '/operations'
+      })
+    }
   },
   srcDir: path.join(__dirname, 'client'),
   vuetify: {

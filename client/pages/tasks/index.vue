@@ -100,7 +100,7 @@ export default {
       this.saved = true
     },
     onClickRow: function (item) {
-      this.$router.push({ path: '/tasks/view', query: { _key: item._key } })
+      this.$router.push({ path: `/tasks/${item._key}/view` })
     }
   },
   watch: {
@@ -134,48 +134,7 @@ export default {
       <template v-slot:item.enabled="{item}">
         <v-switch hide-details class="ma-0 py-1" @click.stop="updateTask({ _key: item._key, enabled: !item.enabled })" :input-value="item.enabled" />
       </template>
-      <!-- <template v-slot:item.actions="{item}">
-        <v-tooltip top>
-          <template v-slot:activator="{on}">
-            <span v-on="on">
-              <v-btn @click.stop text fab small class="ma-0 mr-2" :to="{ path: '/tasks/edit', query: { _key: item._key } }">
-                <v-icon>fas fa-pencil-alt</v-icon>
-              </v-btn>
-            </span>
-          </template>
-          <span>Edit</span>
-        </v-tooltip>
-      </template> -->
     </v-data-table>
-
-    <!-- <v-card>
-      <v-simple-table dense>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Auto Retry?</th>
-            <th>Enabled?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="task of tasks" :key="task._key">
-            <td>
-              <router-link :to="{path: '/task/edit', query: {_id: task._id}}">
-                {{ task.name }}
-              </router-link>
-            </td>
-            <td>{{ task.description }}</td>
-            <td>
-              <v-switch hide-details class="ma-0 py-1" @click="updateTask({ _id: task._id, autoRetry: !task.autoRetry })" :input-value="task.autoRetry" />
-            </td>
-            <td>
-              <v-switch hide-details class="ma-0 py-1" @click="updateTask({ _id: task._id, enabled: !task.enabled })" :input-value="task.enabled" />
-            </td>
-          </tr>
-        </tbody>
-      </v-simple-table>
-    </v-card> -->
   </v-container>
 </template>
 

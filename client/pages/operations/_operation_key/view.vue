@@ -4,17 +4,17 @@
 
 // import vInput from '../ui/vInput.vue'
 // import alert from '../ui/alert.vue'
-import dataEdit from '../../ui/dataEdit.vue'
+import dataEdit from '../../../ui/dataEdit.vue'
 
-import operationStatus from '../../ui/operationStatus.vue'
-import entryStatus from '../../ui/entryStatus.vue'
+import operationStatus from '../../../ui/operationStatus.vue'
+import entryStatus from '../../../ui/entryStatus.vue'
 // import opStatusBadge from '../ui/opStatusBadge.vue'
 // import entryDialog from '../dialogs/entryDialog.vue'
 // import { setTimeout, clearTimeout } from 'timers';
 // import { log } from 'util';
-import format from '../../../lib/format.js'
+import format from '../../../../lib/format.js'
 import gql from 'graphql-tag'
-import { to } from '../../../lib/utils.js'
+import { to } from '../../../../lib/utils.js'
 
 import animate from 'velocity-animate'
 
@@ -56,7 +56,7 @@ export default {
       `,
       variables: function () {
         return {
-          _key: this.$route.query._key,
+          _key: this.$route.params.operation_key,
           entryPage: this.page,
           entryTypes: this.filterLogTypes
         }
@@ -171,10 +171,10 @@ export default {
   <div v-if="operation && operation.task">
     <v-container>
       <v-layout class="mb-3" align-center justify-space-between>
-        <v-btn :disabled="!operation.prevOperationKey" rounded :to="{ query: { _key: operation.prevOperationKey } }">
+        <v-btn :disabled="!operation.prevOperationKey" rounded :to="{ path: `/operations/${operation.prevOperationKey}/view` }">
           <v-icon class="mr-2">fas fa-angle-left</v-icon> Previous
         </v-btn>
-        <v-btn :disabled="!operation.nextOperationKey" rounded :to="{ query: { _key: operation.nextOperationKey } }">
+        <v-btn :disabled="!operation.nextOperationKey" rounded :to="{ path: `/operations/${operation.nextOperationKey}/view` }">
           Next <v-icon class="ml-2">fas fa-angle-right</v-icon>
         </v-btn>
       </v-layout>
@@ -221,7 +221,7 @@ export default {
         v-on:leave="leave"
       >
         <div v-for="(entry, index) of operation.entries.items" :key="entry._key" v-bind:data-index="index">
-          <v-card class="pa-2 mb-1" :to="{ path: '/entries/view', query: { _key: entry._key } }">
+          <v-card class="pa-2 mb-1" :to="{ path: `/operations/${$route.params.operation_key}/entries/${entry._key}/view` }">
              <v-row>
               <v-col cols="3" sm="2" lg="1" class="my-0 py-0">
                 <entryStatus :value="entry.type" compact />
@@ -248,7 +248,7 @@ export default {
       <div class="i-grid gap-3 my-3" :class="{'cols-2': this.$vuetify.breakpoint.mdAndUp}">
         <div>
           <v-card class="pa-3">
-            <h2>Operation Data</h2>
+            <h2>Current Operation Data</h2>
             <dataEdit :value="operation.data" :readOnly="true"/>
           </v-card>
         </div>
