@@ -14,7 +14,6 @@ module.exports = async function () {
     ]
   })
 
-  const argv = require('minimist')(process.argv.slice(2))
   const substruct = require('@internalfx/substruct')
   const taskFilePath = path.join(process.cwd(), 'tasks')
   const buildContextPath = path.join(process.cwd(), 'context.js')
@@ -34,6 +33,7 @@ module.exports = async function () {
       'userConfig',
       'arango',
       'schema',
+      'operationManager',
       'bcrypt'
     ]
   })
