@@ -21,17 +21,28 @@ module.exports = async function (config) {
       collection: 'entries',
       deduplicate: false,
       fields: ['operationKey', 'type'],
-      name: 'operationKey-type',
+      name: 'entries-operationKey-type',
       type: 'persistent',
-      unique: false
+      unique: false,
+      sparse: false
     },
     {
       collection: 'operations',
       deduplicate: false,
       fields: ['number'],
-      name: 'number',
+      name: 'operations-number',
       type: 'persistent',
-      unique: true
+      unique: true,
+      sparse: false
+    },
+    {
+      collection: 'tasks',
+      deduplicate: false,
+      fields: ['name'],
+      name: 'tasks-name',
+      type: 'persistent',
+      unique: true,
+      sparse: true
     }
   ]
 
@@ -70,8 +81,8 @@ module.exports = async function (config) {
     const existing = indexList.find(i => i.name === spec.name)
 
     if (existing != null) {
-      const existingComp = _.pick(existing, 'deduplicate', 'fields', 'name', 'type', 'unique')
-      const specComp = _.pick(spec, 'deduplicate', 'fields', 'name', 'type', 'unique')
+      const existingComp = _.pick(existing, 'deduplicate', 'fields', 'name', 'type', 'unique', 'sparse')
+      const specComp = _.pick(spec, 'deduplicate', 'fields', 'name', 'type', 'unique', 'sparse')
 
       if (!_.isEqual(existingComp, specComp)) {
         console.log(`Recreating Index ${spec.collection}:${spec.name}...`)

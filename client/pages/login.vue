@@ -45,7 +45,7 @@ export default {
       </v-col>
     </v-row>
 
-    <v-alert class="my-6" :value="error" type="error">{{error}}</v-alert>
+    <v-alert class="my-6" :value="error != null" type="error">{{error}}</v-alert>
 
     <v-text-field v-model="email" label="Email" type="email" outlined />
     <v-text-field v-model="password" label="Password" type="password" outlined @keydown.enter="submit" />

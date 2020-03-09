@@ -184,6 +184,7 @@ module.exports = async function (config) {
           config: userConfig,
           services: userServices,
           opData: operation.data || {},
+          createOp,
           saveOpData,
           taskData,
           saveTaskData,
@@ -307,8 +308,12 @@ module.exports = async function (config) {
     }
   }
 
-  const createOp = async function (source, data) {
-    const task = await arango.qNext(aql`RETURN DOCUMENT('tasks', ${source.taskKey})`)
+  const createOp = async function (taskName, data, sourceId = null) {
+    const task = await arango.qNext(aql`
+      FOR task IN tasks
+        FILTER task.name == ${taskName}
+        RETURN task
+    `)
     const taskFile = taskFiles[task.name]
 
     console.log(`${new Date()} - Creating new operation for task "${task.name}"`)
@@ -316,7 +321,7 @@ module.exports = async function (config) {
     const locks = (function () {
       if (_.isFunction(taskFile.locks)) {
         return taskFile.locks({
-          opData: source.data,
+          opData: data || {},
           taskData: task.data
         })
       } else if (_.isString(taskFile.locks)) {
@@ -330,11 +335,11 @@ module.exports = async function (config) {
 
     let operation = {
       number: (await getNumber('operation')),
-      sourceId: source._id,
+      sourceId: sourceId,
       taskKey: task._key,
       status: 'waiting',
       locks: locks,
-      data: data || source.data || {},
+      data: data || {},
       runCount: 0,
       nextRunDate: new Date(),
       createdAt: new Date()

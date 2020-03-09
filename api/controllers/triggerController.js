@@ -25,7 +25,8 @@ module.exports = {
       ctx.throw(404)
     }
 
-    const operation = await createOp(trigger, data)
+    const task = await arango.qNext(aql`RETURN DOCUMENT(tasks, ${trigger.taskKey})`)
+    const operation = await createOp(task.name, { data }, trigger._id)
 
     ctx.body = _.pick(operation, '_key', 'number', 'status', 'locks', 'data', 'runCount', 'nextRunDate', 'createdAt')
   }

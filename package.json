@@ -19,20 +19,21 @@
     "centric": "./bin/centric"
   },
   "dependencies": {
-    "@babel/core": "^7.8.6",
+    "@babel/core": "^7.8.7",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-env": "^7.8.7",
     "@babel/register": "^7.8.6",
     "@fortawesome/fontawesome-free": "^5.12.1",
-    "@internalfx/arangofs": "^0.1.5",
+    "@internalfx/arangofs": "^0.1.6",
     "@internalfx/substruct": "^5.0.4",
     "@nuxtjs/apollo": "^4.0.0-rc19",
     "@nuxtjs/auth": "^4.8.5",
     "@nuxtjs/vuetify": "^1.11.0",
+    "@vue/cli-shared-utils": "^4.2.3",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",
-    "apollo-server-koa": "^2.10.1",
+    "apollo-server-koa": "^2.11.0",
     "arangojs": "^6.13.0",
     "bcryptjs": "^2.4.3",
     "chokidar": "^3.3.1",
@@ -41,13 +42,13 @@
     "cronstrue": "^1.91.0",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
-    "inquirer": "^7.0.4",
+    "inquirer": "^7.0.6",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "monaco-editor": "0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.0",
     "node-cron": "^2.0.3",
-    "nodemailer": "^6.4.3",
+    "nodemailer": "^6.4.4",
     "nodemailer-direct-transport": "^3.3.2",
     "numeral": "^2.0.6",
     "nuxt": "^2.11.0",
@@ -61,7 +62,7 @@
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
     "vuex-map-fields": "^1.4.0",
-    "webpack": "^4.41.6"
+    "webpack": "^4.42.0"
   },
   "devDependencies": {
     "babel-eslint": "10.1.0",
@@ -72,6 +73,6 @@
     "eslint-plugin-node": "11.0.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
-    "eslint-plugin-vue": "6.2.1"
+    "eslint-plugin-vue": "6.2.2"
   }
 }

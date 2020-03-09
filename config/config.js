@@ -21,9 +21,9 @@ module.exports = {
     'mailer',
     'taskFiles',
     'ejs',
+    'operationManager',
     'userServices',
     'garbageCollector',
-    'operationManager',
     'scheduleManager',
     'cron',
     'bcrypt'

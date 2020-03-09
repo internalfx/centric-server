@@ -67,7 +67,8 @@ module.exports = async function (config) {
     }
 
     try {
-      return createOp(schedule)
+      const task = await arango.qNext(aql`RETURN DOCUMENT(tasks, ${schedule.taskKey})`)
+      return createOp(task.name, schedule.data, schedule._id)
     } catch (err) {
       console.log(err)
     }
