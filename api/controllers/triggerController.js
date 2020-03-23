@@ -26,7 +26,20 @@ module.exports = {
       ctx.throw(404)
     }
 
+    if (trigger.enabled !== true) {
+      ctx.throw(400, 'Trigger is disabled')
+    }
+
     const task = await arango.qNext(aql`RETURN DOCUMENT(tasks, ${trigger.taskKey})`)
+
+    if (task == null) {
+      ctx.throw(400, 'Task is null')
+    }
+
+    if (task.enabled !== true) {
+      ctx.throw(400, 'Task is disabled')
+    }
+
     const operation = await createOp(task.name, { body, query }, trigger._id)
 
     ctx.body = _.pick(operation, '_key', 'number', 'status', 'locks', 'body', 'runCount', 'nextRunDate', 'createdAt')
