@@ -2,14 +2,15 @@
 const substruct = require('@internalfx/substruct')
 const { arango, aql } = substruct.services.arango
 // let moment = require('moment')
-let _ = require('lodash')
+const _ = require('lodash')
 // let config = substruct.config
 const { createOp } = substruct.services.operationManager
 
 module.exports = {
   run: async function (ctx) {
     const { slug } = ctx.state.params
-    const data = ctx.request.body
+    const body = ctx.request.body
+    const query = ctx.query
 
     if (slug == null) {
       ctx.throw(404)
@@ -26,8 +27,8 @@ module.exports = {
     }
 
     const task = await arango.qNext(aql`RETURN DOCUMENT(tasks, ${trigger.taskKey})`)
-    const operation = await createOp(task.name, { data }, trigger._id)
+    const operation = await createOp(task.name, { body, query }, trigger._id)
 
-    ctx.body = _.pick(operation, '_key', 'number', 'status', 'locks', 'data', 'runCount', 'nextRunDate', 'createdAt')
+    ctx.body = _.pick(operation, '_key', 'number', 'status', 'locks', 'body', 'runCount', 'nextRunDate', 'createdAt')
   }
 }
