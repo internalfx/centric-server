@@ -1,6 +1,6 @@
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
 import jsp from 'jsplumb'
 
 const jsPlumb = jsp.jsPlumb
