@@ -35,9 +35,7 @@ module.exports = {
         secure: substruct.config.isProduction
       }
     },
-    localStorage: {
-
-    },
+    localStorage: {},
     rewriteRedirects: true,
     fullPathRedirect: true
   },
