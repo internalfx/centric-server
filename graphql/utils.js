@@ -1,10 +1,10 @@
 
-let _ = require('lodash')
+const _ = require(`lodash`)
 
-let listSubFields = function (fieldNodes) {
-  let selections = _.get(fieldNodes, '[0].selectionSet.selections')
+const listSubFields = function (fieldNodes) {
+  const selections = _.get(fieldNodes, `[0].selectionSet.selections`)
 
-  return selections.map(s => _.get(s, 'name.value'))
+  return selections.map(s => _.get(s, `name.value`))
 }
 
 module.exports = {

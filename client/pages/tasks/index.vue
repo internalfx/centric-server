@@ -43,17 +43,17 @@ export default {
           search: this.searchVar
         }
       },
-      fetchPolicy: 'network-only'
+      fetchPolicy: `network-only`
     }
   },
   data: function () {
     return {
-      searchVar: '',
+      searchVar: ``,
       headers: [
-        { text: 'Name', value: 'name', sortable: false },
-        { text: 'Description', value: 'description', sortable: false },
-        { text: 'Auto Retry?', value: 'autoRetry', sortable: false },
-        { text: 'Enabled?', value: 'enabled', sortable: false }
+        { text: `Name`, value: `name`, sortable: false },
+        { text: `Description`, value: `description`, sortable: false },
+        { text: `Auto Retry?`, value: `autoRetry`, sortable: false },
+        { text: `Enabled?`, value: `enabled`, sortable: false }
         // { text: 'Actions', value: 'actions', sortable: false, align: 'right' }
       ]
     }
@@ -63,13 +63,13 @@ export default {
     // alert
   },
   computed: {
-    ...mapFields('settings', {
-      page: 'tasks.page',
-      pageSize: 'tasks.pageSize',
-      search: 'tasks.search'
+    ...mapFields(`settings`, {
+      page: `tasks.page`,
+      pageSize: `tasks.pageSize`,
+      search: `tasks.search`
     }),
-    ...mapState('settings', {
-      pageSizeOptions: 'pageSizeOptions'
+    ...mapState(`settings`, {
+      pageSizeOptions: `pageSizeOptions`
     })
   },
   methods: {
@@ -89,7 +89,7 @@ export default {
         variables: {
           task: data
         },
-        refetchQueries: ['allTasks']
+        refetchQueries: [`allTasks`]
       }))
 
       if (res.isError) {

@@ -2,8 +2,8 @@ module.exports = {
   prompts: function () {
     return [
       {
-        name: 'name',
-        message: 'What is the name of the new project',
+        name: `name`,
+        message: `What is the name of the new project`,
         default: this.outFolder,
         filter: val => val.toLowerCase()
       }
@@ -11,13 +11,13 @@ module.exports = {
   },
   actions: [
     {
-      type: 'add',
-      files: '**'
+      type: `add`,
+      files: `**`
     },
     {
-      type: 'move',
+      type: `move`,
       patterns: {
-        gitignore: '.gitignore'
+        gitignore: `.gitignore`
       }
     }
   ],

@@ -22,7 +22,7 @@ export const state = function () {
     },
     snackbar: {
       show: false,
-      color: 'primary',
+      color: `primary`,
       message: null
     },
     window: {
@@ -47,16 +47,16 @@ export const actions = {
 
   showAlert: function ({ state, commit }, opts = {}) {
     let { title, body } = opts
-    title = title || ''
-    body = body || ''
+    title = title || ``
+    body = body || ``
     return new Promise(function (resolve) {
-      commit('set', {
+      commit(`set`, {
         'alert.title': title,
         'alert.body': body,
         'alert.resolve': resolve
       })
     }).then(function (choice) {
-      commit('set', {
+      commit(`set`, {
         'alert.title': null,
         'alert.body': null,
         'alert.resolve': null
@@ -68,16 +68,16 @@ export const actions = {
 
   showConfirm: function ({ state, commit }, opts = {}) {
     let { title, body } = opts
-    title = title || 'Are you sure?'
-    body = body || ''
+    title = title || `Are you sure?`
+    body = body || ``
     return new Promise(function (resolve) {
-      commit('set', {
+      commit(`set`, {
         'confirm.title': title,
         'confirm.body': body,
         'confirm.resolve': resolve
       })
     }).then(function (choice) {
-      commit('set', {
+      commit(`set`, {
         'confirm.title': null,
         'confirm.body': null,
         'confirm.resolve': null
@@ -88,15 +88,15 @@ export const actions = {
   },
 
   showSnackbar: function ({ state, commit }, payload) {
-    let message = ''
-    let color = 'secondary'
+    let message = ``
+    let color = `secondary`
     if (_.isString(payload)) {
       message = payload
     } else {
       message = payload.message
       color = payload.color
     }
-    commit('set', {
+    commit(`set`, {
       'snackbar.show': true,
       'snackbar.color': color,
       'snackbar.message': message

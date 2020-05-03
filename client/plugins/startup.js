@@ -8,14 +8,14 @@ export default function (ctx, inject) {
     const { app } = ctx
 
     const setWindowSize = function () {
-      app.store.commit('set', {
+      app.store.commit(`set`, {
         'window.width': window.innerWidth,
         'window.height': window.innerHeight
       })
     }
 
     const setWindowScroll = function () {
-      app.store.commit('set', {
+      app.store.commit(`set`, {
         'window.scrollY': window.scrollY
       })
     }
@@ -23,7 +23,7 @@ export default function (ctx, inject) {
     setWindowSize()
     setWindowScroll()
 
-    window.addEventListener('scroll', _.debounce(setWindowScroll, 100, { maxWait: 333 }))
-    window.addEventListener('resize', _.debounce(setWindowSize, 100, { maxWait: 333 }))
+    window.addEventListener(`scroll`, _.debounce(setWindowScroll, 100, { maxWait: 333 }))
+    window.addEventListener(`resize`, _.debounce(setWindowSize, 100, { maxWait: 333 }))
   }
 }

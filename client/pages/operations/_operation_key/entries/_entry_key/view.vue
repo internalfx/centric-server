@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-    ...format('dateTimeSeconds'),
+    ...format(`dateTimeSeconds`),
     spiderData: spiderData
   }
 }

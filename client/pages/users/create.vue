@@ -15,10 +15,10 @@ export default {
     return {
       inFlight: false,
       user: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        role: 'USR'
+        firstName: ``,
+        lastName: ``,
+        email: ``,
+        role: `USR`
       }
     }
   },
@@ -29,11 +29,11 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showSnackbar'
+      `showSnackbar`
     ]),
     save: async function () {
       this.inFlight = true
-      let res = await to(this.$apollo.mutate({
+      const res = await to(this.$apollo.mutate({
         mutation: gql`
           mutation ($user: UserInput!) {
             upsertUser (user: $user) {
@@ -45,14 +45,14 @@ export default {
         variables: {
           user: this.user
         },
-        refetchQueries: ['allUsers']
+        refetchQueries: [`allUsers`]
       }))
 
       if (res.isError) {
-        this.showSnackbar({ message: errMsg(res), color: 'error' })
+        this.showSnackbar({ message: errMsg(res), color: `error` })
       } else {
-        this.showSnackbar({ message: 'User saved.', color: 'success' })
-        this.$router.push('/users')
+        this.showSnackbar({ message: `User saved.`, color: `success` })
+        this.$router.push(`/users`)
       }
 
       this.inFlight = false
@@ -89,4 +89,3 @@ export default {
 
 <style lang="scss" scoped>
 </style>
-

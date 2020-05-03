@@ -50,7 +50,7 @@ export default {
           _key: this.$route.params.task_key
         }
       },
-      fetchPolicy: 'no-cache'
+      fetchPolicy: `no-cache`
     }
   },
   data: function () {
@@ -58,19 +58,19 @@ export default {
       schedulePage: 1,
       schedulePageSize: 10,
       scheduleHeaders: [
-        { text: 'Name', value: 'name', sortable: false },
-        { text: 'Cron Time', value: 'cronTime', sortable: false },
-        { text: 'Enabled?', value: 'enabled', sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false, align: 'right' }
+        { text: `Name`, value: `name`, sortable: false },
+        { text: `Cron Time`, value: `cronTime`, sortable: false },
+        { text: `Enabled?`, value: `enabled`, sortable: false },
+        { text: `Actions`, value: `actions`, sortable: false, align: `right` }
       ],
 
       triggerPage: 1,
       triggerPageSize: 10,
       triggerHeaders: [
-        { text: 'Name', value: 'name', sortable: false },
-        { text: 'API URL', value: 'slug', sortable: false },
-        { text: 'Enabled?', value: 'enabled', sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false, align: 'right' }
+        { text: `Name`, value: `name`, sortable: false },
+        { text: `API URL`, value: `slug`, sortable: false },
+        { text: `Enabled?`, value: `enabled`, sortable: false },
+        { text: `Actions`, value: `actions`, sortable: false, align: `right` }
       ]
     }
   },
@@ -80,15 +80,15 @@ export default {
     ...mapState({
       user: state => state.auth.user
     }),
-    ...mapState('settings', {
-      pageSizeOptions: 'pageSizeOptions'
+    ...mapState(`settings`, {
+      pageSizeOptions: `pageSizeOptions`
     })
   },
   methods: {
-    ...format('dateTime', 'friendlyCronTime'),
+    ...format(`dateTime`, `friendlyCronTime`),
     ...mapActions([
-      'showSnackbar',
-      'showConfirm'
+      `showSnackbar`,
+      `showConfirm`
     ]),
     updateTask: async function (data) {
       const res = await to(this.$apollo.mutate({
@@ -102,7 +102,7 @@ export default {
         variables: {
           task: data
         },
-        refetchQueries: ['getTask']
+        refetchQueries: [`getTask`]
       }))
 
       if (res.isError) {
@@ -122,18 +122,18 @@ export default {
           _key: item._key
         }
       }))
-      const operation = _.get(res, 'data.runScheduleNow')
+      const operation = _.get(res, `data.runScheduleNow`)
       this.$router.push({ path: `/operations/${operation._key}/view` })
     },
     destroySchedule: async function (item) {
       this.inFlight = true
 
       const choice = await this.showConfirm({
-        title: 'Are you sure?',
-        body: 'This schedule will be deleted!'
+        title: `Are you sure?`,
+        body: `This schedule will be deleted!`
       })
 
-      if (choice === 'yes') {
+      if (choice === `yes`) {
         const res = await to(this.$apollo.mutate({
           mutation: gql`
             mutation ($_key: ID!) {
@@ -145,13 +145,13 @@ export default {
           variables: {
             _key: item._key
           },
-          refetchQueries: ['getTask']
+          refetchQueries: [`getTask`]
         }))
 
         if (res.isError) {
-          this.showSnackbar({ message: errMsg(res), color: 'error' })
+          this.showSnackbar({ message: errMsg(res), color: `error` })
         } else {
-          this.showSnackbar({ message: 'Schedule deleted.', color: 'success' })
+          this.showSnackbar({ message: `Schedule deleted.`, color: `success` })
         }
       }
 
@@ -161,11 +161,11 @@ export default {
       this.inFlight = true
 
       const choice = await this.showConfirm({
-        title: 'Are you sure?',
-        body: 'This trigger will be deleted!'
+        title: `Are you sure?`,
+        body: `This trigger will be deleted!`
       })
 
-      if (choice === 'yes') {
+      if (choice === `yes`) {
         const res = await to(this.$apollo.mutate({
           mutation: gql`
             mutation ($_key: ID!) {
@@ -177,13 +177,13 @@ export default {
           variables: {
             _key: item._key
           },
-          refetchQueries: ['getTask']
+          refetchQueries: [`getTask`]
         }))
 
         if (res.isError) {
-          this.showSnackbar({ message: errMsg(res), color: 'error' })
+          this.showSnackbar({ message: errMsg(res), color: `error` })
         } else {
-          this.showSnackbar({ message: 'Trigger deleted.', color: 'success' })
+          this.showSnackbar({ message: `Trigger deleted.`, color: `success` })
         }
       }
 

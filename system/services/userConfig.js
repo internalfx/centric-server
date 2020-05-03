@@ -1,15 +1,15 @@
 
-const path = require('path')
-const fsp = require('fs').promises
-const { to } = require('../../lib/utils.js')
+const path = require(`path`)
+const fsp = require(`fs`).promises
+const { to } = require(`../../lib/utils.js`)
 
 module.exports = async function (config) {
-  const configPath = path.join(config.runDir, 'config.js')
+  const configPath = path.join(config.runDir, `config.js`)
 
   const stat = await to(fsp.stat(configPath))
 
-  if (stat.isError && stat.code === 'ENOENT') {
-    throw new Error('Your config.js file is missing!')
+  if (stat.isError && stat.code === `ENOENT`) {
+    throw new Error(`Your config.js file is missing!`)
   }
 
   const userConfig = require(configPath)

@@ -2,8 +2,8 @@
 // let _ = require('lodash')
 // let Promise = require('bluebird')
 // let moment = require('moment')
-const { gql } = require('apollo-server-koa')
-const substruct = require('@internalfx/substruct')
+const { gql } = require(`apollo-server-koa`)
+const substruct = require(`@internalfx/substruct`)
 
 const typeDefs = gql`
   type ScheduleConnection {

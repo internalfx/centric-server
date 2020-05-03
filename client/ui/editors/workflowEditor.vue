@@ -33,10 +33,10 @@ export default {
     //   endpoint: 'Rectangle'
     // })
 
-    jsPlumb.addEndpoint(this.$refs.item1, { anchor: 'Top' }, { isSource: false, isTarget: true, endpoint: 'Rectangle' })
-    jsPlumb.addEndpoint(this.$refs.item1, { anchor: 'Bottom' }, { isSource: true, isTarget: false })
-    jsPlumb.addEndpoint(this.$refs.item2, { anchor: 'Top' }, { isSource: false, isTarget: true, endpoint: 'Rectangle' })
-    jsPlumb.addEndpoint(this.$refs.item2, { anchor: 'Bottom' }, { isSource: true, isTarget: false })
+    jsPlumb.addEndpoint(this.$refs.item1, { anchor: `Top` }, { isSource: false, isTarget: true, endpoint: `Rectangle` })
+    jsPlumb.addEndpoint(this.$refs.item1, { anchor: `Bottom` }, { isSource: true, isTarget: false })
+    jsPlumb.addEndpoint(this.$refs.item2, { anchor: `Top` }, { isSource: false, isTarget: true, endpoint: `Rectangle` })
+    jsPlumb.addEndpoint(this.$refs.item2, { anchor: `Bottom` }, { isSource: true, isTarget: false })
   }
 }
 </script>

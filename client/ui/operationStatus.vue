@@ -8,53 +8,53 @@ export default {
   },
   computed: {
     theme: function () {
-      if (this.value === 'waiting') {
+      if (this.value === `waiting`) {
         return {
-          icon: 'fas fa-fw fa-clock',
-          color: 'info',
-          textColor: 'white',
+          icon: `fas fa-fw fa-clock`,
+          color: `info`,
+          textColor: `white`,
           outlined: false
         }
-      } else if (this.value === 'active') {
+      } else if (this.value === `active`) {
         return {
-          icon: 'fas fa-fw fa-spin fa-spinner',
-          color: 'indigo',
-          textColor: 'white',
+          icon: `fas fa-fw fa-spin fa-spinner`,
+          color: `indigo`,
+          textColor: `white`,
           outlined: false
         }
-      } else if (this.value === 'completed') {
+      } else if (this.value === `completed`) {
         return {
-          icon: 'fas fa-fw fa-check-circle',
-          color: 'success',
-          textColor: 'white',
+          icon: `fas fa-fw fa-check-circle`,
+          color: `success`,
+          textColor: `white`,
           outlined: false
         }
-      } else if (this.value === 'cancelled') {
+      } else if (this.value === `cancelled`) {
         return {
-          icon: 'fas fa-fw fa-stop-circle',
-          color: 'error',
-          textColor: 'white',
+          icon: `fas fa-fw fa-stop-circle`,
+          color: `error`,
+          textColor: `white`,
           outlined: false
         }
-      } else if (this.value === 'failed') {
+      } else if (this.value === `failed`) {
         return {
-          icon: 'fas fa-fw fa-exclamation-circle',
-          color: 'warning',
-          textColor: 'white',
+          icon: `fas fa-fw fa-exclamation-circle`,
+          color: `warning`,
+          textColor: `white`,
           outlined: false
         }
-      } else if (this.value === 'terminated') {
+      } else if (this.value === `terminated`) {
         return {
-          icon: 'fas fa-fw fa-times-circle',
-          color: 'black',
-          textColor: 'error lighten-0',
+          icon: `fas fa-fw fa-times-circle`,
+          color: `black`,
+          textColor: `error lighten-0`,
           outlined: false
         }
       } else {
         return {
-          icon: 'fas fa-fw fa-circle',
-          color: 'gray',
-          textColor: 'black',
+          icon: `fas fa-fw fa-circle`,
+          color: `gray`,
+          textColor: `black`,
           outlined: true
         }
       }
@@ -81,4 +81,3 @@ export default {
 }
 
 </style>
-

@@ -1,15 +1,15 @@
 
-const path = require('path')
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
-const substruct = require('@internalfx/substruct')
+const path = require(`path`)
+const MonacoWebpackPlugin = require(`monaco-editor-webpack-plugin`)
+const substruct = require(`@internalfx/substruct`)
 
 module.exports = {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://localhost:8000/api/graphql',
+        httpEndpoint: `http://localhost:8000/api/graphql`,
         httpLinkOptions: {
-          credentials: 'same-origin'
+          credentials: `same-origin`
         }
       }
     }
@@ -18,16 +18,16 @@ module.exports = {
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/api/auth/login', method: 'post', propertyName: 'token' },
-          logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/auth/user', method: 'get', propertyName: 'user' }
+          login: { url: `/api/auth/login`, method: `post`, propertyName: `token` },
+          logout: { url: `/api/auth/logout`, method: `post` },
+          user: { url: `/api/auth/user`, method: `get`, propertyName: `user` }
         }
         // tokenRequired: false,
         // tokenType: false
       }
     },
     token: {
-      prefix: 'centric.'
+      prefix: `centric.`
     },
     cookie: {
       options: {
@@ -45,10 +45,10 @@ module.exports = {
       presets: function ({ isServer }) {
         return [
           [
-            require.resolve('@nuxt/babel-preset-app'),
+            require.resolve(`@nuxt/babel-preset-app`),
             // require.resolve('@nuxt/babel-preset-app-edge'), // For nuxt-edge users
             {
-              buildTarget: isServer ? 'server' : 'client',
+              buildTarget: isServer ? `server` : `client`,
               corejs: { version: 3 }
             }
           ]
@@ -57,7 +57,7 @@ module.exports = {
     },
     extend: function (config, { isDev, isClient }) {
       if (isDev && isClient) {
-        config.devtool = 'inline-source-map'
+        config.devtool = `inline-source-map`
       }
     },
     plugins: [
@@ -73,45 +73,45 @@ module.exports = {
   css: [
   ],
   buildModules: [
-    '@nuxtjs/vuetify'
+    `@nuxtjs/vuetify`
   ],
   env: {},
   head: {
-    title: 'Centric Server',
+    title: `Centric Server`,
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui' },
-      { hid: 'description', name: 'description', content: 'Centric' }
+      { charset: `utf-8` },
+      { name: `viewport`, content: `width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui` },
+      { hid: `description`, name: `description`, content: `Centric` }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
+      { rel: `icon`, type: `image/x-icon`, href: `/icon.png` }
     ]
   },
-  mode: 'spa',
-  loading: { color: '#3B8070' },
+  mode: `spa`,
+  loading: { color: `#3B8070` },
   modules: [
-    '@nuxtjs/apollo',
-    '@nuxtjs/auth',
-    '@nuxtjs/axios'
+    `@nuxtjs/apollo`,
+    `@nuxtjs/auth`,
+    `@nuxtjs/axios`
   ],
   plugins: [
-    'plugins/startup.js'
+    `plugins/startup.js`
   ],
   rootDir: path.join(__dirname),
   router: {
     middleware: [
-      'auth'
+      `auth`
     ],
     extendRoutes: function (routes, resolve) {
       routes.push({
-        path: '/',
-        redirect: '/operations'
+        path: `/`,
+        redirect: `/operations`
       })
     }
   },
-  srcDir: path.join(__dirname, 'client'),
+  srcDir: path.join(__dirname, `client`),
   vuetify: {
     defaultAssets: false,
-    optionsPath: path.join(__dirname, 'client', 'vuetify.options.js')
+    optionsPath: path.join(__dirname, `client`, `vuetify.options.js`)
   }
 }

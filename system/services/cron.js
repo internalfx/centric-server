@@ -1,7 +1,7 @@
 
 // const _ = require('lodash')
-const cron = require('node-cron')
-const substruct = require('@internalfx/substruct')
+const cron = require(`node-cron`)
+const substruct = require(`@internalfx/substruct`)
 
 module.exports = async function (config) {
   const garbageCollector = substruct.services.garbageCollector
@@ -9,22 +9,22 @@ module.exports = async function (config) {
   const scheduleManager = substruct.services.scheduleManager
 
   let schedules = {
-    garbageCollector: '0 0 * * * *',
-    operationManager: '* * * * * *',
-    scheduleManager: '* * * * * *'
+    garbageCollector: `0 0 * * * *`,
+    operationManager: `* * * * * *`,
+    scheduleManager: `* * * * * *`
   }
 
   if (config.isDevelopment) {
     schedules = {
-      garbageCollector: '0 * * * * *',
-      operationManager: '* * * * * *',
-      scheduleManager: '* * * * * *'
+      garbageCollector: `0 * * * * *`,
+      operationManager: `* * * * * *`,
+      scheduleManager: `* * * * * *`
     }
   }
 
   const garbageCollectorTask = cron.schedule(schedules.garbageCollector, async function () {
     try {
-      console.log('CRON - garbageCollectorTask')
+      console.log(`CRON - garbageCollectorTask`)
 
       await garbageCollector.run()
     } catch (err) {

@@ -5,14 +5,14 @@
 export default function ({ app }) {
   const config = {
     icons: {
-      iconfont: 'fa'
+      iconfont: `fa`
     },
     theme: {
       themes: {
         light: {
-          primary: '#1D4F90',
-          secondary: '#669EBA',
-          accent: '#F15922'
+          primary: `#1D4F90`,
+          secondary: `#669EBA`,
+          accent: `#F15922`
         }
       },
       options: {

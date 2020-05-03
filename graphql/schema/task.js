@@ -2,7 +2,7 @@
 // let _ = require('lodash')
 // let Promise = require('bluebird')
 // let moment = require('moment')
-const { gql } = require('apollo-server-koa')
+const { gql } = require(`apollo-server-koa`)
 
 const typeDefs = gql`
   type TaskConnection {
@@ -57,7 +57,7 @@ const resolvers = {
   Query: {
     allTasks: async function (obj, args, ctx, info) {
       const offset = args.pageSize * (args.page - 1)
-      const search = `%${args.search || ''}%`
+      const search = `%${args.search || ``}%`
 
       const { items, count } = await ctx.arango.qNext(ctx.aql`
         let items = (
@@ -86,7 +86,7 @@ const resolvers = {
       `)
     },
     tasksAutocomplete: async function (obj, args, ctx, info) {
-      const search = args.search ? `%${args.search}%` : '%%'
+      const search = args.search ? `%${args.search}%` : `%%`
       const taskKeys = args.task_keys || []
 
       return ctx.arango.qAll(ctx.aql`

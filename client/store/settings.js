@@ -8,17 +8,17 @@ export const state = function () {
       page: 1,
       pageSize: 10,
       taskKey: null,
-      search: ''
+      search: ``
     },
     tasks: {
       page: 1,
       pageSize: 25,
-      search: ''
+      search: ``
     },
     users: {
       page: 1,
       pageSize: 10,
-      search: '',
+      search: ``,
       userRole: null
     },
 

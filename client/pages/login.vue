@@ -12,11 +12,11 @@ export default {
   },
   components: {
   },
-  layout: 'login',
+  layout: `login`,
   methods: {
     submit: async function () {
       this.error = null
-      const res = await to(this.$auth.loginWith('local', {
+      const res = await to(this.$auth.loginWith(`local`, {
         data: {
           email: this.email,
           password: this.password
@@ -25,11 +25,11 @@ export default {
       if (res.isError) {
         this.error = res.response.data
       } else {
-        this.$router.push('/')
+        this.$router.push(`/`)
       }
     },
     resetPassword: function () {
-      this.$router.push({ path: '/login/reset', query: { email: this.email } })
+      this.$router.push({ path: `/login/reset`, query: { email: this.email } })
     }
   }
 }

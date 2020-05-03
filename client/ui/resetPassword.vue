@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showSnackbar'
+      `showSnackbar`
     ]),
     save: async function () {
       this.inFlight = true
@@ -44,13 +44,13 @@ export default {
       }))
 
       if (res.isError) {
-        this.showSnackbar({ message: errMsg(res), color: 'error' })
+        this.showSnackbar({ message: errMsg(res), color: `error` })
       } else {
-        this.showSnackbar({ message: 'Password saved.', color: 'success' })
+        this.showSnackbar({ message: `Password saved.`, color: `success` })
         this.oldPassword = null
         this.newPassword = null
         this.confirmPassword = null
-        this.$emit('closed')
+        this.$emit(`closed`)
       }
 
       this.inFlight = false
@@ -59,7 +59,7 @@ export default {
       this.oldPassword = null
       this.newPassword = null
       this.confirmPassword = null
-      this.$emit('closed')
+      this.$emit(`closed`)
     }
   }
 

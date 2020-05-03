@@ -1,8 +1,8 @@
 
 // const _ = require('lodash')
 // const substruct = require('@internalfx/substruct')
-const bcrypt = require('bcryptjs')
-const Promise = require('bluebird')
+const bcrypt = require(`bcryptjs`)
+const Promise = require(`bluebird`)
 
 module.exports = async function (config) {
   const targetRounds = 10

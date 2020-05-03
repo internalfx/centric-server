@@ -1,6 +1,6 @@
 
-const { GraphQLScalarType } = require('graphql')
-const { gql } = require('apollo-server-koa')
+const { GraphQLScalarType } = require(`graphql`)
+const { gql } = require(`apollo-server-koa`)
 // let _ = require('lodash')
 
 const typeDefs = gql`
@@ -9,8 +9,8 @@ const typeDefs = gql`
 
 const resolvers = {
   ANY: new GraphQLScalarType({
-    name: 'ANY',
-    description: 'ANY Data',
+    name: `ANY`,
+    description: `ANY Data`,
     parseValue: function (value) {
       const result = value
 

@@ -1,11 +1,11 @@
 
-const substruct = require('@internalfx/substruct')
-const hash = require('object-hash')
-const crypto = require('crypto')
-const _ = require('lodash')
+const substruct = require(`@internalfx/substruct`)
+const hash = require(`object-hash`)
+const crypto = require(`crypto`)
+const _ = require(`lodash`)
 
 const createToken = function (length) {
-  const chars = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+  const chars = `1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`
   const charLength = chars.length
   const bytes = Array.from(crypto.randomBytes(length))
 
@@ -13,7 +13,7 @@ const createToken = function (length) {
     return chars[byte % charLength]
   })
 
-  return value.join('')
+  return value.join(``)
 }
 
 module.exports = function (config) {
@@ -53,7 +53,7 @@ module.exports = function (config) {
     }
 
     await arango.q(aql`
-      UPSERT { _key: ${token} } INSERT ${obj} REPLACE ${_.omit(obj, '_key')} IN sys_sessions
+      UPSERT { _key: ${token} } INSERT ${obj} REPLACE ${_.omit(obj, `_key`)} IN sys_sessions
     `)
   }
 
@@ -64,11 +64,11 @@ module.exports = function (config) {
     const headerToken = ctx.headers.authorization
 
     if (_.isString(cookieToken) && !_.isEmpty(cookieToken)) {
-      token = cookieToken.replace('Bearer ', '')
+      token = cookieToken.replace(`Bearer `, ``)
     }
 
     if (_.isString(headerToken) && !_.isEmpty(headerToken)) {
-      token = headerToken.replace('Bearer ', '')
+      token = headerToken.replace(`Bearer `, ``)
     }
 
     if (token == null || token.length < 40) {

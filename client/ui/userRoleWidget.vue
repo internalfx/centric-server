@@ -17,24 +17,30 @@ export default {
   },
   computed: {
     roleName: function () {
-      let roleObj = this.userRoles.find(i => i.value === this.value)
+      const roleObj = this.userRoles.find(i => i.value === this.value)
       if (roleObj != null) {
         return roleObj.text
       }
+
+      return null
     },
     color: function () {
-      if (this.value === 'USR') {
-        return 'secondary'
-      } else if (this.value === 'ADM') {
-        return 'primary'
+      if (this.value === `USR`) {
+        return `secondary`
+      } else if (this.value === `ADM`) {
+        return `primary`
       }
+
+      return null
     },
     textColor: function () {
-      if (this.value === 'USR') {
-        return 'secondary'
-      } else if (this.value === 'ADM') {
-        return 'primary'
+      if (this.value === `USR`) {
+        return `secondary`
+      } else if (this.value === `ADM`) {
+        return `primary`
       }
+
+      return null
     }
   },
   methods: {

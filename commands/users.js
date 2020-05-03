@@ -1,24 +1,24 @@
 
 module.exports = async function () {
-  const path = require('path')
-  const appDir = path.join(__dirname, '..')
+  const path = require(`path`)
+  const appDir = path.join(__dirname, `..`)
 
-  require('@babel/register')({
+  require(`@babel/register`)({
     cwd: appDir,
-    plugins: ['@babel/plugin-transform-modules-commonjs'],
+    plugins: [`@babel/plugin-transform-modules-commonjs`],
     only: [
-      'lib/*',
-      path.join(process.cwd(), 'services'),
-      path.join(process.cwd(), 'tasks'),
-      path.join(process.cwd(), 'config.js')
+      `lib/*`,
+      path.join(process.cwd(), `services`),
+      path.join(process.cwd(), `tasks`),
+      path.join(process.cwd(), `config.js`)
     ]
   })
 
-  const substruct = require('@internalfx/substruct')
-  const taskFilePath = path.join(process.cwd(), 'tasks')
-  const buildContextPath = path.join(process.cwd(), 'context.js')
-  const inquirer = require('inquirer')
-  const _ = require('lodash')
+  const substruct = require(`@internalfx/substruct`)
+  const taskFilePath = path.join(process.cwd(), `tasks`)
+  const buildContextPath = path.join(process.cwd(), `context.js`)
+  const inquirer = require(`inquirer`)
+  const _ = require(`lodash`)
 
   console.log(appDir)
 
@@ -30,11 +30,11 @@ module.exports = async function () {
     taskFilePath,
     buildContextPath,
     services: [
-      'userConfig',
-      'arango',
-      'schema',
-      'operationManager',
-      'bcrypt'
+      `userConfig`,
+      `arango`,
+      `schema`,
+      `operationManager`,
+      `bcrypt`
     ]
   })
 
@@ -46,24 +46,24 @@ module.exports = async function () {
   const mainMenu = async function () {
     const answers = await inquirer.prompt([
       {
-        type: 'list',
-        name: 'action',
-        message: 'What would you like to do?',
+        type: `list`,
+        name: `action`,
+        message: `What would you like to do?`,
         choices: [
-          { name: 'Create User', value: 'create' },
-          { name: 'Reset User Password', value: 'reset' },
-          { name: 'Exit', value: 'exit' }
+          { name: `Create User`, value: `create` },
+          { name: `Reset User Password`, value: `reset` },
+          { name: `Exit`, value: `exit` }
         ]
       }
     ])
 
-    if (answers.action === 'create') {
+    if (answers.action === `create`) {
       await createUser()
       await mainMenu()
-    } else if (answers.action === 'reset') {
+    } else if (answers.action === `reset`) {
       await resetPassword()
       await mainMenu()
-    } else if (answers.action === 'exit') {
+    } else if (answers.action === `exit`) {
       await substruct.stop()
     }
   }
@@ -71,37 +71,37 @@ module.exports = async function () {
   const createUser = async function () {
     const answers = await inquirer.prompt([
       {
-        type: 'text',
-        name: 'firstName',
-        message: 'First Name?'
+        type: `text`,
+        name: `firstName`,
+        message: `First Name?`
       },
       {
-        type: 'text',
-        name: 'lastName',
-        message: 'Last Name?'
+        type: `text`,
+        name: `lastName`,
+        message: `Last Name?`
       },
       {
-        type: 'email',
-        name: 'email',
-        message: 'Email?'
+        type: `email`,
+        name: `email`,
+        message: `Email?`
       },
       {
-        type: 'list',
-        name: 'role',
-        message: 'Role?',
+        type: `list`,
+        name: `role`,
+        message: `Role?`,
         choices: [
-          { name: 'User', value: 'USR' },
-          { name: 'Administrator', value: 'ADM' }
+          { name: `User`, value: `USR` },
+          { name: `Administrator`, value: `ADM` }
         ]
       },
       {
-        type: 'password',
-        name: 'password',
-        message: 'Password?'
+        type: `password`,
+        name: `password`,
+        message: `Password?`
       }
     ])
 
-    let record = _.omit(answers, 'password')
+    let record = _.omit(answers, `password`)
 
     record.createdAt = new Date()
     record.updatedAt = new Date()
@@ -112,7 +112,7 @@ module.exports = async function () {
       INSERT ${record} INTO users RETURN NEW
     `)
 
-    console.log('User Created!')
+    console.log(`User Created!`)
   }
 
   const resetPassword = async function () {
@@ -130,15 +130,15 @@ module.exports = async function () {
 
     const answers = await inquirer.prompt([
       {
-        type: 'list',
-        name: 'user',
-        message: 'User?',
+        type: `list`,
+        name: `user`,
+        message: `User?`,
         choices: users
       },
       {
-        type: 'password',
-        name: 'password',
-        message: 'Password?'
+        type: `password`,
+        name: `password`,
+        message: `Password?`
       }
     ])
 
@@ -148,7 +148,7 @@ module.exports = async function () {
       UPDATE ${answers.user} WITH { passwordHash: ${passwordHash} } IN users
     `)
 
-    console.log('Password Updated!')
+    console.log(`Password Updated!`)
   }
 
   return mainMenu()

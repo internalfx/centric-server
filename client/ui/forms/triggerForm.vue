@@ -46,7 +46,7 @@ export default {
       for (const [key, val] of Object.entries(data)) {
         _.set(propVal, key, val)
       }
-      this.$emit('input', propVal)
+      this.$emit(`input`, propVal)
     }
     // checkSlug: function () {
     //   if (_.isEmpty(this.value.slug)) {

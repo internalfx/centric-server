@@ -47,7 +47,7 @@ export default {
           taskKeys: this.taskKeys
         }
       },
-      fetchPolicy: 'network-only'
+      fetchPolicy: `network-only`
     },
     tasksAutocomplete: {
       query: gql`
@@ -70,44 +70,44 @@ export default {
           search: this.currentSearch
         }
       },
-      fetchPolicy: 'no-cache'
+      fetchPolicy: `no-cache`
     }
 
   },
   data: function () {
     return {
       headers: [
-        { text: 'Operation #', align: 'left', sortable: false, value: 'number' },
-        { text: 'Task Name', align: 'left', sortable: false, value: 'task.name' },
-        { text: 'Status', align: 'left', sortable: false, value: 'status' },
-        { text: 'Run Date', align: 'left', sortable: false, value: 'nextRunDate' },
-        { text: 'Entry Count', align: 'left', sortable: false, value: 'entries.count' },
-        { text: 'Last Entry Message', align: 'left', sortable: false, value: 'entries' },
-        { text: 'Last Entry Data', align: 'left', sortable: false, value: 'entries.items' }
+        { text: `Operation #`, align: `left`, sortable: false, value: `number` },
+        { text: `Task Name`, align: `left`, sortable: false, value: `task.name` },
+        { text: `Status`, align: `left`, sortable: false, value: `status` },
+        { text: `Run Date`, align: `left`, sortable: false, value: `nextRunDate` },
+        { text: `Entry Count`, align: `left`, sortable: false, value: `entries.count` },
+        { text: `Last Entry Message`, align: `left`, sortable: false, value: `entries` },
+        { text: `Last Entry Data`, align: `left`, sortable: false, value: `entries.items` }
       ],
       syncBus: null,
       taskKeys: [],
-      currentTaskSearch: ''
+      currentTaskSearch: ``
     }
   },
   components: {
     operationStatus
   },
   computed: {
-    ...mapState('dashboard', [
+    ...mapState(`dashboard`, [
     ]),
-    ...mapFields('settings', {
-      page: 'history.page',
-      pageSize: 'history.pageSize',
-      taskKey: 'history.taskKey',
-      search: 'history.search',
-      pageSizeOptions: 'pageSizeOptions'
+    ...mapFields(`settings`, {
+      page: `history.page`,
+      pageSize: `history.pageSize`,
+      taskKey: `history.taskKey`,
+      search: `history.search`,
+      pageSizeOptions: `pageSizeOptions`
     }),
     tasksList: function () {
       const tasks = this.tasks || []
 
       return [
-        { _key: null, name: 'Any Task' },
+        { _key: null, name: `Any Task` },
         ...tasks
       ]
     },
@@ -116,14 +116,14 @@ export default {
         return this.search
       },
       set: function (newValue) {
-        newValue = newValue || ''
+        newValue = newValue || ``
         this.search = newValue.toLowerCase()
       }
     }
   },
   methods: {
     get: _.get,
-    ...format('dataDisplay', 'truncate', 'dateTimeSeconds'),
+    ...format(`dataDisplay`, `truncate`, `dateTimeSeconds`),
     onClickRow: function (item) {
       this.$router.push({ path: `/operations/${item._key}/view` })
     }

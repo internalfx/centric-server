@@ -1,11 +1,11 @@
 
-const cronParser = require('cron-parser')
-const _ = require('lodash')
+const cronParser = require(`cron-parser`)
+// const _ = require(`lodash`)
 
 module.exports = async function (config) {
-  const substruct = require('@internalfx/substruct')
-  const { arango, aql, getNumber } = substruct.services.arango
-  const taskFiles = substruct.services.taskFiles
+  const substruct = require(`@internalfx/substruct`)
+  const { arango, aql } = substruct.services.arango
+  // const taskFiles = substruct.services.taskFiles
   const { createOp } = substruct.services.operationManager
   const runTimes = {}
 

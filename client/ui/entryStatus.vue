@@ -9,25 +9,25 @@ export default {
   },
   computed: {
     theme: function () {
-      if (this.value === 'info') {
+      if (this.value === `info`) {
         return {
-          icon: 'fas fa-fw fa-info-circle',
-          color: 'info',
-          textColor: 'white',
+          icon: `fas fa-fw fa-info-circle`,
+          color: `info`,
+          textColor: `white`,
           outlined: false
         }
-      } else if (this.value === 'warning') {
+      } else if (this.value === `warning`) {
         return {
-          icon: 'fas fa-fw fa-exclamation-circle',
-          color: 'warning',
-          textColor: 'white',
+          icon: `fas fa-fw fa-exclamation-circle`,
+          color: `warning`,
+          textColor: `white`,
           outlined: false
         }
-      } else if (this.value === 'error') {
+      } else if (this.value === `error`) {
         return {
-          icon: 'fas fa-fw fa-times-circle',
-          color: 'error',
-          textColor: 'white',
+          icon: `fas fa-fw fa-times-circle`,
+          color: `error`,
+          textColor: `white`,
           outlined: false
         }
       }
@@ -68,4 +68,3 @@ export default {
 }
 
 </style>
-

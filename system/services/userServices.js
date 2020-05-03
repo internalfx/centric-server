@@ -1,14 +1,14 @@
 
-const requireAll = require('require-all')
-const path = require('path')
-const substruct = require('@internalfx/substruct')
+const requireAll = require(`require-all`)
+const path = require(`path`)
+const substruct = require(`@internalfx/substruct`)
 
 module.exports = async function (config) {
   const userConfig = substruct.services.userConfig
   const { createOp } = substruct.services.operationManager
   const services = {}
   const userServices = requireAll({
-    dirname: path.join(config.runDir, 'services')
+    dirname: path.join(config.runDir, `services`)
   })
 
   for (const name of userConfig.services) {

@@ -34,7 +34,7 @@ export default {
           _key: this.$route.params.user_key
         }
       },
-      fetchPolicy: 'no-cache'
+      fetchPolicy: `no-cache`
     }
   },
   data: function () {
@@ -48,25 +48,25 @@ export default {
     ...mapState({
       user: state => state.auth.user
     }),
-    ...mapState('settings', {
-      pageSizeOptions: 'pageSizeOptions'
+    ...mapState(`settings`, {
+      pageSizeOptions: `pageSizeOptions`
     })
   },
   methods: {
-    ...format('dateTime'),
+    ...format(`dateTime`),
     ...mapActions([
-      'showSnackbar',
-      'showConfirm'
+      `showSnackbar`,
+      `showConfirm`
     ]),
     destroy: async function (item) {
       this.inFlight = true
 
       const choice = await this.showConfirm({
-        title: 'Are you sure?',
-        body: 'This form will be deleted!'
+        title: `Are you sure?`,
+        body: `This form will be deleted!`
       })
 
-      if (choice === 'yes') {
+      if (choice === `yes`) {
         const res = await to(this.$apollo.mutate({
           mutation: gql`
             mutation ($_key: ID!) {
@@ -78,20 +78,20 @@ export default {
           variables: {
             _key: item._key
           },
-          refetchQueries: ['getUser']
+          refetchQueries: [`getUser`]
         }))
 
         if (res.isError) {
-          this.showSnackbar({ message: errMsg(res), color: 'error' })
+          this.showSnackbar({ message: errMsg(res), color: `error` })
         } else {
-          this.showSnackbar({ message: 'Form deleted.', color: 'success' })
+          this.showSnackbar({ message: `Form deleted.`, color: `success` })
         }
       }
 
       this.inFlight = false
     },
     onClickRow: function (item) {
-      this.$router.push({ path: '/forms/view', query: { _key: item._key } })
+      this.$router.push({ path: `/forms/view`, query: { _key: item._key } })
     }
   },
   mounted: function () {

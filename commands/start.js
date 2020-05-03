@@ -1,29 +1,29 @@
 
 module.exports = async function () {
-  const path = require('path')
-  const appDir = path.join(__dirname, '..')
+  const path = require(`path`)
+  const appDir = path.join(__dirname, `..`)
 
-  require('@babel/register')({
+  require(`@babel/register`)({
     cwd: appDir,
-    plugins: ['@babel/plugin-transform-modules-commonjs'],
+    plugins: [`@babel/plugin-transform-modules-commonjs`],
     only: [
-      'lib/*',
-      path.join(process.cwd(), 'services'),
-      path.join(process.cwd(), 'tasks'),
-      path.join(process.cwd(), 'config.js')
+      `lib/*`,
+      path.join(process.cwd(), `services`),
+      path.join(process.cwd(), `tasks`),
+      path.join(process.cwd(), `config.js`)
     ]
   })
 
-  const argv = require('minimist')(process.argv.slice(2))
-  const substruct = require('@internalfx/substruct')
+  const argv = require(`minimist`)(process.argv.slice(2))
+  const substruct = require(`@internalfx/substruct`)
 
   // const _ = require('lodash')
-  const { ApolloServer, AuthenticationError, ForbiddenError, UserInputError } = require('apollo-server-koa')
-  const { typeDefs, resolvers } = require('../graphql/index.js')
-  require('../lib/cycle.js')
+  const { ApolloServer, AuthenticationError, ForbiddenError, UserInputError } = require(`apollo-server-koa`)
+  const { typeDefs, resolvers } = require(`../graphql/index.js`)
+  require(`../lib/cycle.js`)
 
-  const taskFilePath = path.join(process.cwd(), 'tasks')
-  const buildContextPath = path.join(process.cwd(), 'context.js')
+  const taskFilePath = path.join(process.cwd(), `tasks`)
+  const buildContextPath = path.join(process.cwd(), `context.js`)
 
   const port = Number.isFinite(argv.port) ? argv.port : 8000
 
@@ -41,9 +41,9 @@ module.exports = async function () {
     resolvers,
     formatError: function (error) {
       const data = JSON.decycle(error)
-      console.log('================================================================== GRAPHQL ERROR')
+      console.log(`================================================================== GRAPHQL ERROR`)
       console.dir(data, { colors: true, depth: null })
-      console.log('================================================================================')
+      console.log(`================================================================================`)
       return data
     },
     context: async function ({ ctx }) {
@@ -58,14 +58,14 @@ module.exports = async function () {
 
       if (
         session.userId == null &&
-        ctx.request.header['x-apikey'] !== config.apiKey
+        ctx.request.header[`x-apikey`] !== config.apiKey
       ) {
-        throw new AuthenticationError('You are not logged in')
+        throw new AuthenticationError(`You are not logged in`)
       }
 
       const requireAdmin = function () {
-        if (user.role !== 'ADM') {
-          throw new ForbiddenError('You must be an Administrator to do that.')
+        if (user.role !== `ADM`) {
+          throw new ForbiddenError(`You must be an Administrator to do that.`)
         }
       }
 
@@ -89,7 +89,7 @@ module.exports = async function () {
 
   await substruct.start()
 
-  apollo.applyMiddleware({ app: substruct.koa, path: '/api/graphql' })
+  apollo.applyMiddleware({ app: substruct.koa, path: `/api/graphql` })
 
-  console.log('Server Started...')
+  console.log(`Server Started...`)
 }

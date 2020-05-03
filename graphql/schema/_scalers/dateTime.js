@@ -1,16 +1,16 @@
 
-let { GraphQLScalarType } = require('graphql')
-let { gql } = require('apollo-server-koa')
-let moment = require('moment')
+const { GraphQLScalarType } = require(`graphql`)
+const { gql } = require(`apollo-server-koa`)
+const moment = require(`moment`)
 
-let typeDefs = gql`
+const typeDefs = gql`
   scalar DateTime
 `
 
-let resolvers = {
+const resolvers = {
   DateTime: new GraphQLScalarType({
-    name: 'DateTime',
-    description: 'Date/Time value',
+    name: `DateTime`,
+    description: `Date/Time value`,
     parseValue: function (value) {
       let result = null
 

@@ -25,6 +25,7 @@ module.exports = {
     "vue"
   ],
   "rules": {
+    "quotes": [1, "backtick"]
   },
   "parser": "vue-eslint-parser",
   "parserOptions": {

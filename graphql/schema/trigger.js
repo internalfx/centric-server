@@ -1,9 +1,9 @@
 
-let _ = require('lodash')
+const _ = require(`lodash`)
 // let Promise = require('bluebird')
 // let moment = require('moment')
-const { gql } = require('apollo-server-koa')
-const { uniqueId } = require('../../lib/utils.js')
+const { gql } = require(`apollo-server-koa`)
+const { uniqueId } = require(`../../lib/utils.js`)
 
 const typeDefs = gql`
   type TriggerConnection {

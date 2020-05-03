@@ -7,7 +7,7 @@ export default {
   data: function () {
     return {
       drawer: false,
-      navColor: 'primary',
+      navColor: `primary`,
       showResetDialog: false
     }
   },
@@ -18,16 +18,16 @@ export default {
       confirm: state => state.confirm
     }),
     ...mapFields({
-      snackbarShow: 'snackbar.show',
-      snackbarColor: 'snackbar.color',
-      snackbarMessage: 'snackbar.message'
+      snackbarShow: `snackbar.show`,
+      snackbarColor: `snackbar.color`,
+      snackbarMessage: `snackbar.message`
     }),
     showAlert: {
       get: function () {
         return this.alert.resolve != null
       },
       set: function (val) {
-        this.alert.resolve('close')
+        this.alert.resolve(`close`)
       }
     },
     showConfirm: {
@@ -52,7 +52,7 @@ export default {
   methods: {
     logout: async function () {
       await this.$auth.logout()
-      this.$router.push('/login')
+      this.$router.push(`/login`)
     }
   }
 }

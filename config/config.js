@@ -4,32 +4,32 @@
 // options in this file are overidden by keys in environment specific files. e.g. dev.js or prod.js
 
 module.exports = {
-  appName: 'Centric Server',
+  appName: `Centric Server`,
   middleware: [
-    'performance',
-    'body',
-    'httpError',
-    'session',
-    'router',
-    'nuxtRender'
+    `performance`,
+    `body`,
+    `httpError`,
+    `session`,
+    `router`,
+    `nuxtRender`
   ],
   services: [
-    'userConfig',
-    'arango',
-    'schema',
-    'nuxt',
-    'mailer',
-    'taskFiles',
-    'ejs',
-    'operationManager',
-    'userServices',
-    'garbageCollector',
-    'scheduleManager',
-    'cron',
-    'bcrypt'
+    `userConfig`,
+    `arango`,
+    `schema`,
+    `nuxt`,
+    `mailer`,
+    `taskFiles`,
+    `ejs`,
+    `operationManager`,
+    `userServices`,
+    `garbageCollector`,
+    `scheduleManager`,
+    `cron`,
+    `bcrypt`
   ],
   session: {
-    sessionCookieName: 'auth.centric.local',
+    sessionCookieName: `auth.centric.local`,
     sessionCookieMaxAge: 1000 * 60 * 60 * 24 * 365
   }
 }

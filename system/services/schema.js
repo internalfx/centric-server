@@ -1,46 +1,46 @@
-const substruct = require('@internalfx/substruct')
-const Promise = require('bluebird')
-const _ = require('lodash')
+const substruct = require(`@internalfx/substruct`)
+const Promise = require(`bluebird`)
+const _ = require(`lodash`)
 
 module.exports = async function (config) {
   const { arango } = substruct.services.arango
 
   const collectionList = [
-    'entries',
-    'operations',
-    'schedules',
-    'sys_sessions',
-    'sys_settings',
-    'tasks',
-    'triggers',
-    'users'
+    `entries`,
+    `operations`,
+    `schedules`,
+    `sys_sessions`,
+    `sys_settings`,
+    `tasks`,
+    `triggers`,
+    `users`
   ]
 
   const indexList = [
     {
-      collection: 'entries',
+      collection: `entries`,
       deduplicate: false,
-      fields: ['operationKey', 'type'],
-      name: 'entries-operationKey-type',
-      type: 'persistent',
+      fields: [`operationKey`, `type`],
+      name: `entries-operationKey-type`,
+      type: `persistent`,
       unique: false,
       sparse: false
     },
     {
-      collection: 'operations',
+      collection: `operations`,
       deduplicate: false,
-      fields: ['number'],
-      name: 'operations-number',
-      type: 'persistent',
+      fields: [`number`],
+      name: `operations-number`,
+      type: `persistent`,
       unique: true,
       sparse: false
     },
     {
-      collection: 'tasks',
+      collection: `tasks`,
       deduplicate: false,
-      fields: ['name'],
-      name: 'tasks-name',
-      type: 'persistent',
+      fields: [`name`],
+      name: `tasks-name`,
+      type: `persistent`,
       unique: true,
       sparse: true
     }
@@ -48,18 +48,18 @@ module.exports = async function (config) {
 
   const viewList = [
     {
-      name: 'entriesIndex',
-      type: 'arangosearch',
+      name: `entriesIndex`,
+      type: `arangosearch`,
       links: {
         entries: {
-          analyzers: ['identity'],
+          analyzers: [`identity`],
           includeAllFields: true
         }
       },
       primarySort: [
         {
-          field: 'createdAt',
-          direction: 'desc'
+          field: `createdAt`,
+          direction: `desc`
         }
       ]
     }
@@ -81,8 +81,8 @@ module.exports = async function (config) {
     const existing = indexList.find(i => i.name === spec.name)
 
     if (existing != null) {
-      const existingComp = _.pick(existing, 'deduplicate', 'fields', 'name', 'type', 'unique', 'sparse')
-      const specComp = _.pick(spec, 'deduplicate', 'fields', 'name', 'type', 'unique', 'sparse')
+      const existingComp = _.pick(existing, `deduplicate`, `fields`, `name`, `type`, `unique`, `sparse`)
+      const specComp = _.pick(spec, `deduplicate`, `fields`, `name`, `type`, `unique`, `sparse`)
 
       if (!_.isEqual(existingComp, specComp)) {
         console.log(`Recreating Index ${spec.collection}:${spec.name}...`)

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-const pjson = require('../package.json')
+const pjson = require(`../package.json`)
 global.VERSION = pjson.version
-const _ = require('lodash')
-const requireAll = require('require-all')
-var argv = require('minimist')(process.argv.slice(2))
+const _ = require(`lodash`)
+const requireAll = require(`require-all`)
+var argv = require(`minimist`)(process.argv.slice(2))
 
 /* global VERSION */
 
@@ -42,6 +42,6 @@ const main = async function () {
 }
 
 main().catch(function (err) {
-  console.log('ERROR')
+  console.log(`ERROR`)
   console.log(err)
 })

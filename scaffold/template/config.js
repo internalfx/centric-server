@@ -1,19 +1,19 @@
 
 // Development Config
 export const development = {
-  baseURL: 'http://localhost:8000',
+  baseURL: `http://localhost:8000`,
   arango: {
-    url: 'http://localhost:8529',
-    database: 'centric_dev'
+    url: `http://localhost:8529`,
+    database: `centric_dev`
   },
   services: [
-    'example'
+    `example`
   ]
 }
 
 // Production Config
 export const production = {
-  baseURL: 'http://localhost:8000',
+  baseURL: `http://localhost:8000`,
   services: [
   ]
 }

@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showSnackbar'
+      `showSnackbar`
     ]),
     save: async function () {
       this.inFlight = true
@@ -50,9 +50,9 @@ export default {
       }))
 
       if (res.isError) {
-        this.showSnackbar({ message: errMsg(res), color: 'error' })
+        this.showSnackbar({ message: errMsg(res), color: `error` })
       } else {
-        this.showSnackbar({ message: 'Schedule saved.', color: 'success' })
+        this.showSnackbar({ message: `Schedule saved.`, color: `success` })
         this.$router.go(-1)
       }
 

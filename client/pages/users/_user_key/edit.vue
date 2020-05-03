@@ -29,9 +29,9 @@ export default {
         }
       },
       result: function (res) {
-        this.user = _.omit(res.data.record, '__typename')
+        this.user = _.omit(res.data.record, `__typename`)
       },
-      fetchPolicy: 'no-cache'
+      fetchPolicy: `no-cache`
     }
   },
   data: function () {
@@ -48,11 +48,11 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showSnackbar'
+      `showSnackbar`
     ]),
     save: async function () {
       this.inFlight = true
-      let res = await to(this.$apollo.mutate({
+      const res = await to(this.$apollo.mutate({
         mutation: gql`
           mutation ($user: UserInput!) {
             upsertUser (user: $user) {
@@ -64,14 +64,14 @@ export default {
         variables: {
           user: this.user
         },
-        refetchQueries: ['allUsers']
+        refetchQueries: [`allUsers`]
       }))
 
       if (res.isError) {
-        this.showSnackbar({ message: errMsg(res), color: 'error' })
+        this.showSnackbar({ message: errMsg(res), color: `error` })
       } else {
-        this.showSnackbar({ message: 'User saved.', color: 'success' })
-        this.$router.push('/users')
+        this.showSnackbar({ message: `User saved.`, color: `success` })
+        this.$router.push(`/users`)
       }
 
       this.inFlight = false
@@ -108,4 +108,3 @@ export default {
 
 <style lang="scss" scoped>
 </style>
-

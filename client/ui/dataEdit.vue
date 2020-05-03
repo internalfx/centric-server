@@ -22,7 +22,7 @@ export default {
     },
     language: {
       type: String,
-      default: 'json'
+      default: `json`
     }
 
   },
@@ -31,16 +31,16 @@ export default {
   },
   methods: {
     onInput (val) {
-      if (this.language === 'json') {
+      if (this.language === `json`) {
         try {
           val = JSON.parse(val)
-          this.$emit('input', val)
+          this.$emit(`input`, val)
           this.error = null
         } catch (err) {
           this.error = err.message
         }
       } else {
-        this.$emit('input', val)
+        this.$emit(`input`, val)
         this.error = null
       }
     }
@@ -52,7 +52,7 @@ export default {
       } else if (_.isString(this.value)) {
         return this.value
       } else {
-        return ''
+        return ``
       }
     }
   },

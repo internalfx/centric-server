@@ -35,18 +35,18 @@ export default {
           }
         }
       `,
-      fetchPolicy: 'no-cache',
+      fetchPolicy: `no-cache`,
       pollInterval: 1000
     }
   },
   data: function () {
     return {
       headers: [
-        { text: 'Op. #', align: 'left', sortable: false },
-        { text: 'Name', align: 'left', sortable: false },
-        { text: 'Status', align: 'left', sortable: false },
-        { text: 'Run Date', align: 'left', sortable: false },
-        { text: 'Entries', align: 'left', sortable: false }
+        { text: `Op. #`, align: `left`, sortable: false },
+        { text: `Name`, align: `left`, sortable: false },
+        { text: `Status`, align: `left`, sortable: false },
+        { text: `Run Date`, align: `left`, sortable: false },
+        { text: `Entries`, align: `left`, sortable: false }
       ],
       syncBus: null
     }
@@ -60,54 +60,54 @@ export default {
     }),
     truncateSize: function () {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 20
-        case 'sm': return 30
-        case 'md': return 35
-        case 'lg': return 38
-        case 'xl': return 50
+        case `xs`: return 20
+        case `sm`: return 30
+        case `md`: return 35
+        case `lg`: return 38
+        case `xl`: return 50
       }
 
       return null
     }
   },
   methods: {
-    ...format('dataDisplay', 'truncate', 'dateTimeSeconds'),
-    ...mapActions('dashboard', [
+    ...format(`dataDisplay`, `truncate`, `dateTimeSeconds`),
+    ...mapActions(`dashboard`, [
     ]),
     chipStyle: function (status) {
-      if (status === 'waiting') {
+      if (status === `waiting`) {
         return {
-          icon: 'fas fa-fw fa-clock',
-          color: 'gray',
-          textColor: 'black',
+          icon: `fas fa-fw fa-clock`,
+          color: `gray`,
+          textColor: `black`,
           outline: true
         }
-      } else if (status === 'active') {
+      } else if (status === `active`) {
         return {
-          icon: 'fas fa-fw fa-spin fa-spinner',
-          color: 'indigo',
-          textColor: 'white',
+          icon: `fas fa-fw fa-spin fa-spinner`,
+          color: `indigo`,
+          textColor: `white`,
           outline: false
         }
-      } else if (status === 'failed') {
+      } else if (status === `failed`) {
         return {
-          icon: 'fas fa-fw fa-exclamation-circle',
-          color: 'warning',
-          textColor: 'white',
+          icon: `fas fa-fw fa-exclamation-circle`,
+          color: `warning`,
+          textColor: `white`,
           outline: false
         }
-      } else if (status === 'completed') {
+      } else if (status === `completed`) {
         return {
-          icon: 'fas fa-fw fa-check-circle',
-          color: 'success',
-          textColor: 'white',
+          icon: `fas fa-fw fa-check-circle`,
+          color: `success`,
+          textColor: `white`,
           outline: false
         }
       } else {
         return {
-          icon: 'fas fa-fw fa-circle',
-          color: 'gray',
-          textColor: 'black',
+          icon: `fas fa-fw fa-circle`,
+          color: `gray`,
+          textColor: `black`,
           outline: true
         }
       }

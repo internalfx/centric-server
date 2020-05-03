@@ -50,17 +50,17 @@ export default {
           userRole: this.userRole
         }
       },
-      fetchPolicy: 'no-cache'
+      fetchPolicy: `no-cache`
     }
   },
   data: function () {
     return {
-      searchVar: '',
+      searchVar: ``,
       headers: [
-        { text: 'Name', value: 'fullName', sortable: false },
-        { text: 'Email', value: 'email', sortable: false },
-        { text: 'Role', value: 'role', sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false, align: 'right' }
+        { text: `Name`, value: `fullName`, sortable: false },
+        { text: `Email`, value: `email`, sortable: false },
+        { text: `Role`, value: `role`, sortable: false },
+        { text: `Actions`, value: `actions`, sortable: false, align: `right` }
       ]
     }
   },
@@ -68,20 +68,20 @@ export default {
     userRoleWidget
   },
   computed: {
-    ...mapFields('settings', {
-      page: 'users.page',
-      pageSize: 'users.pageSize',
-      search: 'users.search',
-      userRole: 'users.userRole'
+    ...mapFields(`settings`, {
+      page: `users.page`,
+      pageSize: `users.pageSize`,
+      search: `users.search`,
+      userRole: `users.userRole`
     }),
-    ...mapState('settings', {
-      pageSizeOptions: 'pageSizeOptions'
+    ...mapState(`settings`, {
+      pageSizeOptions: `pageSizeOptions`
     }),
     userRoles: function () { return userRoles },
     userRoleList: function () {
       const list = _.cloneDeep(this.userRoles)
       list.unshift({
-        text: 'Any Role',
+        text: `Any Role`,
         value: null
       })
       return list
@@ -89,8 +89,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'showConfirm',
-      'showSnackbar'
+      `showConfirm`,
+      `showSnackbar`
     ]),
     onClickRow: function (item) {
       this.$router.push({ path: `/users/${item._key}/view` })
@@ -99,11 +99,11 @@ export default {
       this.inFlight = true
 
       const choice = await this.showConfirm({
-        title: 'Are you sure?',
-        body: 'This record will be deleted!'
+        title: `Are you sure?`,
+        body: `This record will be deleted!`
       })
 
-      if (choice === 'yes') {
+      if (choice === `yes`) {
         const res = await to(this.$apollo.mutate({
           mutation: gql`
             mutation ($_key: ID!) {
@@ -115,14 +115,14 @@ export default {
           variables: {
             _key: item._key
           },
-          refetchQueries: ['allUsers']
+          refetchQueries: [`allUsers`]
         }))
 
         if (res.isError) {
-          this.showSnackbar({ message: errMsg(res), color: 'error' })
+          this.showSnackbar({ message: errMsg(res), color: `error` })
         } else {
-          this.showSnackbar({ message: 'Record deleted.', color: 'secondary' })
-          this.$router.push('/users')
+          this.showSnackbar({ message: `Record deleted.`, color: `secondary` })
+          this.$router.push(`/users`)
         }
       }
 

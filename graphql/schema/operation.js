@@ -1,8 +1,8 @@
 
-const _ = require('lodash')
+const _ = require(`lodash`)
 // let Promise = require('bluebird')
 // let moment = require('moment')
-const { gql } = require('apollo-server-koa')
+const { gql } = require(`apollo-server-koa`)
 
 const typeDefs = gql`
   type OperationConnection {

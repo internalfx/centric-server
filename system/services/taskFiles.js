@@ -1,17 +1,17 @@
-const requireAll = require('require-all')
-const _ = require('lodash')
-const Promise = require('bluebird')
-const chokidar = require('chokidar')
-const path = require('path')
+const requireAll = require(`require-all`)
+const _ = require(`lodash`)
+const Promise = require(`bluebird`)
+const chokidar = require(`chokidar`)
+const path = require(`path`)
 
-const keyPrefix = '=-_-='
+const keyPrefix = `=-_-=`
 
 const collapse = function (obj) {
   let output = {}
   for (let [key, val] of Object.entries(obj)) {
     let hasPrefix = false
     if (key.includes(keyPrefix)) {
-      key = key.replace(keyPrefix, '')
+      key = key.replace(keyPrefix, ``)
       hasPrefix = true
     }
 
@@ -29,9 +29,9 @@ const collapse = function (obj) {
 }
 
 module.exports = async function (config) {
-  const substruct = require('@internalfx/substruct')
+  const substruct = require(`@internalfx/substruct`)
   const { arango, aql } = substruct.services.arango
-  console.log('Loading tasks...')
+  console.log(`Loading tasks...`)
 
   const nameList = []
 
@@ -40,7 +40,7 @@ module.exports = async function (config) {
     filter: /(.+)\.js$/,
     recursive: true,
     map: function (name, path) {
-      if (path.includes('.js')) {
+      if (path.includes(`.js`)) {
         if (nameList.includes(name)) {
           throw new Error(`Task file already exists with this name "${name}"`)
         }
@@ -79,7 +79,7 @@ module.exports = async function (config) {
     task.description = taskObj.description || null
     task.locks = taskObj.locks || []
 
-    if (config.env === 'development') {
+    if (config.env === `development`) {
       task.enabled = false
     }
 
@@ -102,9 +102,9 @@ module.exports = async function (config) {
   }
 
   if (config.isDevelopment) {
-    console.log('Watching tasks...')
+    console.log(`Watching tasks...`)
     // console.log(require.cache)
-    const watcher = chokidar.watch('./tasks/', {
+    const watcher = chokidar.watch(`./tasks/`, {
       ignored: /[/\\]\./,
       persistent: true,
       ignoreInitial: true,
@@ -114,9 +114,9 @@ module.exports = async function (config) {
       cwd: process.cwd()
     })
 
-    watcher.on('all', async function (event, filePath) {
-      if (['change'].includes(event)) {
-        console.log('Hot reloading tasks...')
+    watcher.on(`all`, async function (event, filePath) {
+      if ([`change`].includes(event)) {
+        console.log(`Hot reloading tasks...`)
 
         const cacheKey = path.resolve(filePath)
         delete require.cache[cacheKey]
@@ -126,7 +126,7 @@ module.exports = async function (config) {
           filter: /(.+)\.js$/,
           recursive: true,
           map: function (name, path) {
-            if (path.includes('.js')) {
+            if (path.includes(`.js`)) {
               return name
             } else {
               return keyPrefix + name

@@ -1,7 +1,7 @@
 
-const { GraphQLScalarType } = require('graphql')
-const { gql } = require('apollo-server-koa')
-const _ = require('lodash')
+const { GraphQLScalarType } = require(`graphql`)
+const { gql } = require(`apollo-server-koa`)
+const _ = require(`lodash`)
 
 const typeDefs = gql`
   scalar JSON
@@ -10,20 +10,20 @@ const typeDefs = gql`
 const getAstValue = function (field) {
   let value = null
 
-  if (field.kind === 'StringValue') {
+  if (field.kind === `StringValue`) {
     value = field.value
-  } else if (field.kind === 'IntValue') {
+  } else if (field.kind === `IntValue`) {
     value = parseInt(field.value, 10)
-  } else if (field.kind === 'FloatValue') {
+  } else if (field.kind === `FloatValue`) {
     value = parseFloat(field.value)
-  } else if (field.kind === 'ObjectValue') {
+  } else if (field.kind === `ObjectValue`) {
     value = {}
     for (const subField of field.fields) {
       value[subField.name.value] = getAstValue(subField)
     }
-  } else if (field.kind === 'ObjectField') {
+  } else if (field.kind === `ObjectField`) {
     value = getAstValue(field.value)
-  } else if (field.kind === 'ListValue') {
+  } else if (field.kind === `ListValue`) {
     value = []
     for (const subField of field.values) {
       value.push(getAstValue(subField))
@@ -35,8 +35,8 @@ const getAstValue = function (field) {
 
 const resolvers = {
   JSON: new GraphQLScalarType({
-    name: 'JSON',
-    description: 'JSON Data',
+    name: `JSON`,
+    description: `JSON Data`,
     parseValue: function (value) {
       let result = null
 
@@ -64,7 +64,7 @@ const resolvers = {
     parseLiteral: function (ast) {
       let value = null
 
-      if (ast.kind === 'ObjectValue') {
+      if (ast.kind === `ObjectValue`) {
         value = getAstValue(ast)
       }
 

@@ -1,9 +1,9 @@
 
-const _ = require('lodash')
-const { gql } = require('apollo-server-koa')
+const _ = require(`lodash`)
+const { gql } = require(`apollo-server-koa`)
 // let { listSubFields } = require('../../utils.js')
 // let { to } = require('../../shared/utils.js')
-const validate = require('validate.js')
+const validate = require(`validate.js`)
 
 const typeDefs = gql`
   type UserConnection {
@@ -64,7 +64,7 @@ const resolvers = {
       ctx.requireAdmin()
 
       const offset = args.pageSize * (args.page - 1)
-      const search = `%${args.search || ''}%`
+      const search = `%${args.search || ``}%`
 
       const { items, count } = await ctx.arango.qNext(ctx.aql`
         let items = (
@@ -99,7 +99,7 @@ const resolvers = {
       `)
     },
     usersAutocomplete: async function (obj, args, ctx, info) {
-      const search = args.search ? `%${args.search}%` : '%%'
+      const search = args.search ? `%${args.search}%` : `%%`
       const userKeys = args.user_keys || []
 
       return ctx.arango.qAll(ctx.aql`
@@ -126,28 +126,28 @@ const resolvers = {
 
       const report = validate(record, {
         firstName: {
-          type: 'string',
+          type: `string`,
           length: { minimum: 1 },
           presence: true
         },
         lastName: {
-          type: 'string',
+          type: `string`,
           length: { minimum: 1 },
           presence: true
         },
         email: {
-          type: 'string',
+          type: `string`,
           email: true,
           presence: true
         },
         role: {
-          type: 'string',
+          type: `string`,
           length: {
             is: 3
           },
           presence: true
         }
-      }, { format: 'flat' })
+      }, { format: `flat` })
 
       if (_.first(report)) {
         throw new Error(_.first(report))
@@ -181,25 +181,25 @@ const resolvers = {
       `)
 
       if (user == null) {
-        ctx.userInputError('User not found')
+        ctx.userInputError(`User not found`)
       }
 
       const check = await ctx.bcrypt.checkPassword(args.oldPassword, user.passwordHash)
 
       if (check.result !== true) {
-        ctx.userInputError('Old password is incorrect')
+        ctx.userInputError(`Old password is incorrect`)
       }
 
       if (_.isEmpty(args.newPassword)) {
-        ctx.userInputError('New password is required')
+        ctx.userInputError(`New password is required`)
       }
 
       if (args.newPassword.length < 10) {
-        ctx.userInputError('Password must be at least 10 characters')
+        ctx.userInputError(`Password must be at least 10 characters`)
       }
 
       if (args.newPassword !== args.confirmPassword) {
-        ctx.userInputError('New password does not match confirm password')
+        ctx.userInputError(`New password does not match confirm password`)
       }
 
       const passwordHash = await ctx.bcrypt.hashPassword(args.newPassword)
@@ -211,7 +211,7 @@ const resolvers = {
   },
   User: {
     fullName: async function (obj, args, ctx, info) {
-      return _.compact([obj.firstName, obj.lastName]).join(' ')
+      return _.compact([obj.firstName, obj.lastName]).join(` `)
     }
   }
 }

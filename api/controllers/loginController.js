@@ -1,5 +1,5 @@
 
-const substruct = require('@internalfx/substruct')
+const substruct = require(`@internalfx/substruct`)
 const bcrypt = substruct.services.bcrypt
 const { arango, aql } = substruct.services.arango
 
@@ -9,7 +9,7 @@ module.exports = {
     const { password, email } = ctx.request.body || {}
 
     if (email == null) {
-      ctx.throw(400, 'Invalid login.')
+      ctx.throw(400, `Invalid login.`)
     }
 
     const user = await arango.qNext(aql`
@@ -19,17 +19,17 @@ module.exports = {
     `)
 
     if (user == null) {
-      ctx.throw(400, 'Invalid password or email.')
+      ctx.throw(400, `Invalid password or email.`)
     }
 
     if (password == null) {
-      ctx.throw(400, 'Password is required.')
+      ctx.throw(400, `Password is required.`)
     }
 
     const check = await bcrypt.checkPassword(password, user.passwordHash)
 
     if (check.result !== true) {
-      ctx.throw(400, 'Invalid password or email.')
+      ctx.throw(400, `Invalid password or email.`)
     }
 
     const payload = {

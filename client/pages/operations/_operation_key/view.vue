@@ -61,7 +61,7 @@ export default {
           entryTypes: this.filterLogTypes
         }
       },
-      fetchPolicy: 'no-cache',
+      fetchPolicy: `no-cache`,
       pollInterval: 1000
     }
   },
@@ -73,13 +73,13 @@ export default {
       timeout: null,
       dialogEntry: null,
       headers: [
-        { text: 'Time', align: 'left', sortable: false },
-        { text: 'Type', align: 'left', sortable: false },
-        { text: 'Message', align: 'left', sortable: false },
-        { text: 'Data', align: 'left', sortable: false }
+        { text: `Time`, align: `left`, sortable: false },
+        { text: `Type`, align: `left`, sortable: false },
+        { text: `Message`, align: `left`, sortable: false },
+        { text: `Data`, align: `left`, sortable: false }
       ],
-      logTypes: ['info', 'warning', 'error'],
-      filterLogTypes: ['info', 'warning', 'error']
+      logTypes: [`info`, `warning`, `error`],
+      filterLogTypes: [`info`, `warning`, `error`]
     }
   },
   components: {
@@ -90,11 +90,11 @@ export default {
   computed: {
     truncateSize () {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 20
-        case 'sm': return 60
-        case 'md': return 28
-        case 'lg': return 38
-        case 'xl': return 50
+        case `xs`: return 20
+        case `sm`: return 60
+        case `md`: return 28
+        case `lg`: return 38
+        case `xl`: return 50
       }
 
       return null
@@ -131,12 +131,12 @@ export default {
         }
       }))
     },
-    ...format('dateTimeSeconds', 'dataDisplay', 'truncate'),
+    ...format(`dateTimeSeconds`, `dataDisplay`, `truncate`),
     getStyle: function (status) {
-      if (status === 'warning') {
-        return { 'background-color': 'hsl(55, 88%, 92%)' }
-      } else if (status === 'error') {
-        return { 'background-color': 'hsl(0, 85%, 90%)' }
+      if (status === `warning`) {
+        return { 'background-color': `hsl(55, 88%, 92%)` }
+      } else if (status === `error`) {
+        return { 'background-color': `hsl(0, 85%, 90%)` }
       }
     },
     beforeEnter: function (el) {
@@ -162,7 +162,7 @@ export default {
   },
   mounted: function () {
     this.page = 1
-    this.filterLogTypes = ['info', 'warning', 'error']
+    this.filterLogTypes = [`info`, `warning`, `error`]
   }
 }
 </script>

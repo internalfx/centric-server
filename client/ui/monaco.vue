@@ -16,7 +16,7 @@ export default {
     value: String,
     height: {
       type: String,
-      default: '400px'
+      default: `400px`
     },
     readOnly: {
       type: Boolean,
@@ -28,14 +28,14 @@ export default {
   },
   methods: {
     onInput (evt) {
-      this.$emit('input', evt.target.value)
+      this.$emit(`input`, evt.target.value)
     }
   },
   computed: {
     style: function () {
       return {
         height: `${this.height}`,
-        'min-height': '250px'
+        'min-height': `250px`
       }
     },
     ...mapState({
@@ -46,9 +46,9 @@ export default {
   mounted: function () {
     this.editor = monaco.editor.create(this.$refs.editor, {
       value: this.value,
-      language: 'json',
+      language: `json`,
       readOnly: this.readOnly,
-      renderWhitespace: 'all'
+      renderWhitespace: `all`
     })
 
     this.editor.getModel().updateOptions({ tabSize: 2 })
@@ -58,7 +58,7 @@ export default {
       if (value.length === 0) {
         value = null
       }
-      this.$emit('input', value)
+      this.$emit(`input`, value)
     })
   },
   watch: {
