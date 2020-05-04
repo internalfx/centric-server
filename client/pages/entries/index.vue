@@ -119,10 +119,10 @@ export default {
         {{dateTimeSeconds(item.createdAt)}}
       </template>
       <template v-slot:item.message="{ item }">
-        <div class="d-block text-truncate">{{ truncate(item.message, 100) }}</div>
+        <div class="d-block text-truncate">{{ truncate(item.message, 90) }}</div>
       </template>
       <template v-slot:item.data="{ item }">
-        <code class="d-block text-truncate">{{ dataDisplay(item.data, 100) }}</code>
+        <code class="d-block text-truncate">{{ dataDisplay(item.data, 90) }}</code>
       </template>
     </v-data-table>
   </v-container>
