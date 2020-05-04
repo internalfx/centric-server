@@ -221,7 +221,7 @@ export default {
         v-on:leave="leave"
       >
         <div v-for="(entry, index) of operation.entries.items" :key="entry._key" v-bind:data-index="index">
-          <v-card class="pa-2 mb-1" :to="{ path: `/operations/${$route.params.operation_key}/entries/${entry._key}/view` }">
+          <v-card class="pa-2 mb-1" :to="{ path: `/entries/${entry._key}/view` }">
              <v-row>
               <v-col cols="3" sm="2" lg="1" class="my-0 py-0">
                 <entryStatus :value="entry.type" compact />

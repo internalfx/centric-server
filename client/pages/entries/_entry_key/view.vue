@@ -2,10 +2,10 @@
 <script>
 // import _ from 'lodash'
 
-import dataEdit from '../../../../../ui/dataEdit.vue'
-import entryStatus from '../../../../../ui/entryStatus.vue'
-import format from '../../../../../../lib/format.js'
-import { spiderData } from '../../../../../../lib/utils.js'
+import dataEdit from '../../../ui/dataEdit.vue'
+import entryStatus from '../../../ui/entryStatus.vue'
+import format from '../../../../lib/format.js'
+import { spiderData } from '../../../../lib/utils.js'
 
 import gql from 'graphql-tag'
 
@@ -23,6 +23,11 @@ export default {
             groupName
             message
             data
+            operation {
+              _key
+              number
+              status
+            }
           }
         }
       `,
@@ -63,7 +68,10 @@ export default {
 <template>
   <v-container v-if="entry">
     <v-layout justify-space-between>
-      <h1 class="mb-3">Entry #{{entry.number}}</h1>
+      <div class="mb-3">
+        <h1 class="mb-0">Entry #{{entry.number}}</h1>
+        <nuxt-link :to="{ path: `/operations/${entry.operation._key}/view` }">Operation #{{entry.operation.number}}</nuxt-link>
+      </div>
       <entryStatus :value="entry.type" />
     </v-layout>
     <v-layout wrap>

@@ -81,6 +81,11 @@ export default {
           <v-list-item-content><v-list-item-title>Tasks</v-list-item-title></v-list-item-content>
         </v-list-item>
 
+        <v-list-item :color="navColor" to="/entries" exact nuxt>
+          <v-list-item-action><v-icon>fas fa-exclamation-triangle fa-fw</v-icon></v-list-item-action>
+          <v-list-item-content><v-list-item-title>Warnings and Errors</v-list-item-title></v-list-item-content>
+        </v-list-item>
+
         <v-list-item :color="navColor" to="/history" exact nuxt>
           <v-list-item-action><v-icon>fas fa-history fa-fw</v-icon></v-list-item-action>
           <v-list-item-content><v-list-item-title>History</v-list-item-title></v-list-item-content>

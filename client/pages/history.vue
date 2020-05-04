@@ -85,7 +85,6 @@ export default {
         { text: `Last Entry Message`, align: `left`, sortable: false, value: `entries` },
         { text: `Last Entry Data`, align: `left`, sortable: false, value: `entries.items` }
       ],
-      syncBus: null,
       taskKeys: [],
       currentTaskSearch: ``
     }

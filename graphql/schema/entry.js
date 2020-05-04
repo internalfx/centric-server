@@ -21,11 +21,16 @@ const typeDefs = gql`
     data: ANY
     createdAt: DateTime
 
-    operationId: ID
+    operationKey: ID
     operation: Operation
   }
 
   extend type Query {
+    searchEntries (
+      page: Int = 1,
+      pageSize: Int = 10,
+      types: [String] = []
+    ): EntryConnection
     getEntry (_key: ID): Entry
   }
 
@@ -43,6 +48,39 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
+    searchEntries: async function (obj, args, ctx, info) {
+      const offset = args.pageSize * (args.page - 1)
+      const entryTypes = args.types || []
+
+      const { items, count } = await ctx.arango.qNext(ctx.aql`
+        let items = (
+          FOR entry IN entries
+            FILTER entry.type IN ${entryTypes}
+            SORT entry.createdAt DESC
+            LIMIT ${offset}, ${args.pageSize}
+            let operation = DOCUMENT('operations', entry.operationKey)
+            RETURN MERGE(entry, { operation })
+        )
+
+        let count = (
+          FOR entry IN entries
+            FILTER entry.type IN ${entryTypes}
+            COLLECT WITH COUNT INTO count
+            RETURN count
+        )
+
+        RETURN {
+          items: items,
+          count: FIRST(count)
+        }
+      `)
+
+      return {
+        count,
+        pageCount: Math.ceil(count / args.pageSize),
+        items
+      }
+    },
     getEntry: async function (obj, args, ctx, info) {
       return ctx.arango.qNext(ctx.aql`
         RETURN DOCUMENT('entries', ${args._key})
@@ -53,11 +91,13 @@ const resolvers = {
   },
   Entry: {
     operation: async function (obj, args, ctx, info) {
-      return ctx.arango.qNext(ctx.aql`
-        FOR operation IN centric_operations
-          FILTER operation._id == ${obj.operationId}
-          RETURN operation
-      `)
+      if (obj.operation) {
+        return obj.operation
+      } else {
+        return ctx.arango.qNext(ctx.aql`
+          RETURN DOCUMENT('operations', ${obj.operationKey})
+        `)
+      }
     }
   }
 }

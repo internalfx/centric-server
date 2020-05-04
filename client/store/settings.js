@@ -21,6 +21,11 @@ export const state = function () {
       search: ``,
       userRole: null
     },
+    'entries-index': {
+      page: 1,
+      pageSize: 10,
+      entryTypes: [`warning`, `error`]
+    },
 
     pageSizeOptions: [10, 25, 50]
   }

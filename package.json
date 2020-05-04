@@ -40,7 +40,6 @@
     "core-js": "3.6.5",
     "cron-parser": "^2.13.0",
     "cronstrue": "^1.94.0",
-    "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "inquirer": "^7.1.0",
     "lodash": "^4.17.15",
