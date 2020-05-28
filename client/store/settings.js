@@ -7,7 +7,8 @@ export const state = function () {
     history: {
       page: 1,
       pageSize: 10,
-      taskKey: null,
+      taskKeys: [],
+      taskSearch: ``,
       search: ``
     },
     tasks: {

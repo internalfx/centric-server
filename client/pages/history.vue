@@ -43,7 +43,7 @@ export default {
         return {
           page: this.page,
           pageSize: this.pageSize,
-          search: this.currentSearch,
+          search: this.search,
           taskKeys: this.taskKeys
         }
       },
@@ -52,11 +52,9 @@ export default {
     tasksAutocomplete: {
       query: gql`
         query tasksAutocomplete (
-          $task_keys: [ID!]
           $search: String
         ) {
           tasksAutocomplete: tasksAutocomplete (
-            task_keys: $task_keys
             search: $search
           ) {
             _key
@@ -66,8 +64,7 @@ export default {
       `,
       variables: function () {
         return {
-          task_keys: this.taskKeys,
-          search: this.currentSearch
+          search: this.taskSearch
         }
       },
       fetchPolicy: `no-cache`
@@ -84,9 +81,7 @@ export default {
         { text: `Entry Count`, align: `left`, sortable: false, value: `entries.count` },
         { text: `Last Entry Message`, align: `left`, sortable: false, value: `entries` },
         { text: `Last Entry Data`, align: `left`, sortable: false, value: `entries.items` }
-      ],
-      taskKeys: [],
-      currentTaskSearch: ``
+      ]
     }
   },
   components: {
@@ -98,7 +93,8 @@ export default {
     ...mapFields(`settings`, {
       page: `history.page`,
       pageSize: `history.pageSize`,
-      taskKey: `history.taskKey`,
+      taskKeys: `history.taskKeys`,
+      taskSearch: `history.taskSearch`,
       search: `history.search`,
       pageSizeOptions: `pageSizeOptions`
     }),
@@ -131,12 +127,12 @@ export default {
     this.currentSearch = this.search
   },
   watch: {
-    taskId: _.debounce(function (val) {
-      this.page = 1
+    taskKeys: _.debounce(function (val) {
+      // this.page = 1
     }, 500, { maxWait: 1000 }),
     search: _.debounce(function (val) {
-      this.currentSearch = val
-      this.page = 1
+      // this.currentSearch = val
+      // this.page = 1
     }, 500, { maxWait: 1000 })
   }
 }
@@ -149,7 +145,7 @@ export default {
       <v-autocomplete
         v-model="taskKeys"
         :items="tasksAutocomplete"
-        :search-input.sync="currentTaskSearch"
+        :search-input.sync="taskSearch"
         :loading="$apollo.queries.tasksAutocomplete.loading"
         label="Filter by task"
         item-text="name"
@@ -157,7 +153,7 @@ export default {
         hide-details
         multiple
         clearable
-        @click:clear.stop="taskKey = null"
+        @click:clear.stop="taskKeys = []"
         solo
         flat
       />
@@ -173,9 +169,8 @@ export default {
       />
     </v-toolbar>
 
-    <!-- <v-pagination class="my-3" v-if="operations.pageCount > 1" v-model="page" :length="operations.pageCount" /> -->
-
     <v-data-table
+      v-if="operations"
       loading-text="Loading... Please wait"
       :headers="headers"
       :items="operations && operations.items"
@@ -210,8 +205,6 @@ export default {
         </div>
       </template>
     </v-data-table>
-
-    <!-- <v-pagination class="my-3" v-if="operations.pageCount > 1" v-model="page" :length="operations.pageCount" /> -->
   </v-container>
 </template>
 

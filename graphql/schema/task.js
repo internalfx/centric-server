@@ -36,7 +36,6 @@ const typeDefs = gql`
     ): TaskConnection
     getTask (_key: ID!): Task
     tasksAutocomplete (
-      task_keys: [ID!],
       search: String = ""
     ): [Task]
   }
@@ -87,19 +86,10 @@ const resolvers = {
     },
     tasksAutocomplete: async function (obj, args, ctx, info) {
       const search = args.search ? `%${args.search}%` : `%%`
-      const taskKeys = args.task_keys || []
 
       return ctx.arango.qAll(ctx.aql`
-        let task_keys = (
-          FOR task IN tasks
-            FILTER LIKE(task.name, ${search}, true)
-            SORT task.name ASC
-            LIMIT 10
-            RETURN task._key
-        )
-
         FOR task IN tasks
-          FILTER task._key IN task_keys OR task._key IN ${taskKeys}
+          FILTER LIKE(task.name, ${search}, true)
           SORT task.name ASC
           RETURN KEEP(task, '_key', 'name')
       `)
