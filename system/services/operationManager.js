@@ -1,17 +1,17 @@
 
 const MAX_BATCH_SIZE = 525
 // let BATCH_CONCURRENCY = 5
-const ERROR_STRING = '---logError---'
+const ERROR_STRING = `---logError---`
 
-const Promise = require('bluebird')
-const moment = require('moment')
+const Promise = require(`bluebird`)
+const moment = require(`moment`)
 // let cronParser = require('cron-parser')
-const _ = require('lodash')
+const _ = require(`lodash`)
 
-const { spiderData } = require('../../lib/utils.js')
+const { spiderData } = require(`../../lib/utils.js`)
 
 module.exports = async function (config) {
-  const substruct = require('@internalfx/substruct')
+  const substruct = require(`@internalfx/substruct`)
   const { arango, aql, getNumber } = substruct.services.arango
   const taskFiles = substruct.services.taskFiles
 
@@ -19,7 +19,7 @@ module.exports = async function (config) {
 
   const createOpFunctions = function (operation) {
     if (!operation) {
-      throw new Error('operation required')
+      throw new Error(`operation required`)
     }
 
     const saveOpData = async function (data) {
@@ -38,7 +38,7 @@ module.exports = async function (config) {
       data = JSON.decycle(data)
 
       const entry = {
-        number: (await getNumber('entry')),
+        number: (await getNumber(`entry`)),
         createdAt: new Date(),
         operationKey: operation._key,
         type: type,
@@ -57,10 +57,10 @@ module.exports = async function (config) {
       data = JSON.decycle(data)
 
       const entry = {
-        number: (await getNumber('entry')),
+        number: (await getNumber(`entry`)),
         createdAt: new Date(),
         operationKey: operation._key,
-        type: 'info',
+        type: `info`,
         groupName: group,
         message: message,
         data: data,
@@ -76,10 +76,10 @@ module.exports = async function (config) {
       data = JSON.decycle(data)
 
       const entry = {
-        number: (await getNumber('entry')),
+        number: (await getNumber(`entry`)),
         createdAt: new Date(),
         operationKey: operation._key,
-        type: 'warning',
+        type: `warning`,
         groupName: group,
         message: message,
         data: data,
@@ -95,10 +95,10 @@ module.exports = async function (config) {
       data = JSON.decycle(data)
 
       const entry = {
-        number: (await getNumber('entry')),
+        number: (await getNumber(`entry`)),
         createdAt: new Date(),
         operationKey: operation._key,
-        type: 'error',
+        type: `error`,
         groupName: group,
         message: message,
         data: data,
@@ -116,7 +116,7 @@ module.exports = async function (config) {
         RETURN DOCUMENT('operations', ${operation._key})
       `)
 
-      if (op.status === 'cancelled') {
+      if (op.status === `cancelled`) {
         return true
       }
 
@@ -156,7 +156,7 @@ module.exports = async function (config) {
         RETURN DOCUMENT('tasks', ${operation.taskKey})
       `)
 
-      operation.status = 'active'
+      operation.status = `active`
       operation.runDate = new Date()
 
       await arango.q(aql`
@@ -178,7 +178,7 @@ module.exports = async function (config) {
           taskData = taskFile.defaultData
         }
 
-        await logInfo('Task started', { taskData, opData: operation.data })
+        await logInfo(`Task started`, { taskData, opData: operation.data })
 
         const result = await taskFile.run({
           config: userConfig,
@@ -198,11 +198,11 @@ module.exports = async function (config) {
           RETURN DOCUMENT('operations', ${operation._key})
         `)
 
-        if (operation.status === 'active') {
-          await log('info', 'Task completed')
+        if (operation.status === `active`) {
+          await log(`info`, `Task completed`)
 
           operation.result = result
-          operation.status = 'completed'
+          operation.status = `completed`
           operation.completedDate = new Date()
 
           await arango.q(aql`
@@ -210,18 +210,18 @@ module.exports = async function (config) {
           `)
         }
       } catch (err) {
-        console.log('=========================================================== TASK ERROR')
+        console.log(`=========================================================== TASK ERROR`)
         console.dir(err, { colors: true, depth: null })
-        console.log('======================================================================')
+        console.log(`======================================================================`)
         if (err.message !== ERROR_STRING) {
-          await log('error', err.stack, JSON.decycle(err))
+          await log(`error`, err.stack, JSON.decycle(err))
         }
 
-        if (task.autoRetry) {
-          operation.status = 'failed'
+        if (task.autoRetry && operation.runCount < 15) {
+          operation.status = `failed`
           operation.nextRunDate = moment(Date.now() + 5000 + (Math.pow(2, operation.runCount) * 1000))
         } else {
-          operation.status = 'terminated'
+          operation.status = `terminated`
         }
 
         operation.runCount += 1
@@ -272,7 +272,7 @@ module.exports = async function (config) {
   }
 
   const recoverStuckOperations = async function () {
-    console.log('Recovering stuck operations...')
+    console.log(`Recovering stuck operations...`)
 
     const ops = await arango.qAll(aql`
       FOR op IN operations
@@ -280,12 +280,12 @@ module.exports = async function (config) {
         RETURN op
     `)
 
-    if (config.env === 'production') {
+    if (config.env === `production`) {
       await Promise.map(ops, async function (operation) {
         const { logWarning } = createOpFunctions(operation)
-        if (operation.status === 'active') {
-          await logWarning('Server wen\'t offline, restarting task...')
-          operation.status = 'failed'
+        if (operation.status === `active`) {
+          await logWarning(`Server wen't offline, restarting task...`)
+          operation.status = `failed`
           operation.nextRunDate = moment(Date.now() + (Math.pow(2, operation.runCount) * 1000))
           operation.runCount += 1
 
@@ -297,9 +297,9 @@ module.exports = async function (config) {
     } else {
       await Promise.map(ops, async function (operation) {
         const { logWarning } = createOpFunctions(operation)
-        await logWarning('Server started in dev mode, cancelling task...')
+        await logWarning(`Server started in dev mode, cancelling task...`)
 
-        operation.status = 'cancelled'
+        operation.status = `cancelled`
 
         await arango.q(aql`
           UPDATE ${operation} in operations
@@ -334,10 +334,10 @@ module.exports = async function (config) {
     }.call())
 
     let operation = {
-      number: (await getNumber('operation')),
+      number: (await getNumber(`operation`)),
       sourceId: sourceId,
       taskKey: task._key,
-      status: 'waiting',
+      status: `waiting`,
       locks: locks,
       data: data || {},
       runCount: 0,
