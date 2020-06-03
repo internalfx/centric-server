@@ -27,6 +27,14 @@ export default {
         this.set({ enabled: value })
       }
     },
+    allowMultiple: {
+      get: function () {
+        return this.value.allowMultiple
+      },
+      set: function (value) {
+        this.set({ allowMultiple: value })
+      }
+    },
     friendlyCronTime: function () {
       let text = null
       try {
@@ -52,6 +60,7 @@ export default {
     <v-text-field label="Name" :value="value.name" @input="set({ name: $event })" />
     <v-text-field label="Cron Time" :value="value.cronTime" @input="set({ cronTime: $event })" :hint="friendlyCronTime" persistent-hint />
     <v-switch label="Enabled" v-model="enabled"/>
+    <v-switch label="Allow scheduling multiple" v-model="allowMultiple"/>
     <dataEdit :value="value.data" @input="set({data: $event})" label="Data" helpText="Data given to operation" />
   </div>
 </template>

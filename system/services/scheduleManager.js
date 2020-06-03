@@ -61,12 +61,24 @@ module.exports = async function (config) {
   }
 
   const createScheduledOp = async function (scheduleKey) {
-    const schedule = await arango.qNext(aql`RETURN DOCUMENT('schedules', ${scheduleKey})`)
-    if (schedule == null) {
-      console.log(`Schedule ${scheduleKey} removed`)
-    }
-
     try {
+      const schedule = await arango.qNext(aql`RETURN DOCUMENT('schedules', ${scheduleKey})`)
+      if (schedule == null) {
+        console.log(`Schedule ${scheduleKey} removed`)
+      }
+
+      if (!schedule.allowMultiple) {
+        const operations = await arango.qAll(aql`
+          FOR op IN operations
+            FILTER op.taskKey == ${schedule.taskKey} AND op.status IN ['waiting', 'failed', 'active']
+            RETURN op
+        `)
+
+        if (operations.length > 0) {
+          return
+        }
+      }
+
       const task = await arango.qNext(aql`RETURN DOCUMENT(tasks, ${schedule.taskKey})`)
       return createOp(task.name, schedule.data, schedule._id)
     } catch (err) {

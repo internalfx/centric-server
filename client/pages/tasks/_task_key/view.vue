@@ -33,6 +33,7 @@ export default {
               name
               cronTime
               enabled
+              allowMultiple
             }
 
             triggers {
@@ -61,6 +62,7 @@ export default {
         { text: `Name`, value: `name`, sortable: false },
         { text: `Cron Time`, value: `cronTime`, sortable: false },
         { text: `Enabled?`, value: `enabled`, sortable: false },
+        { text: `Multiple?`, value: `allowMultiple`, sortable: false },
         { text: `Actions`, value: `actions`, sortable: false, align: `right` }
       ],
 
@@ -123,7 +125,11 @@ export default {
         }
       }))
       const operation = _.get(res, `data.runScheduleNow`)
-      this.$router.push({ path: `/operations/${operation._key}/view` })
+      if (operation) {
+        this.$router.push({ path: `/operations/${operation._key}/view` })
+      } else {
+        this.showSnackbar({ message: `This task is already running or scheduled to run.`, color: `error` })
+      }
     },
     destroySchedule: async function (item) {
       this.inFlight = true

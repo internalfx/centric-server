@@ -17,6 +17,7 @@ export default {
             _key
             name
             cronTime
+            allowMultiple
             enabled
             taskKey
             data

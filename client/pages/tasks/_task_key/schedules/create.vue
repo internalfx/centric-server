@@ -18,6 +18,7 @@ export default {
         name: null,
         cronTime: null,
         enabled: null,
+        allowMultiple: null,
         taskKey: null,
         data: null
       }

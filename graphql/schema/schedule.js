@@ -18,6 +18,7 @@ const typeDefs = gql`
     name: String
     cronTime: String
     enabled: Boolean
+    allowMultiple: Boolean
     data: JSON
     createdAt: DateTime
     updatedAt: DateTime
@@ -33,6 +34,7 @@ const typeDefs = gql`
     name: String
     cronTime: String
     enabled: Boolean
+    allowMultiple: Boolean
     data: JSON
     taskKey: ID
   }
