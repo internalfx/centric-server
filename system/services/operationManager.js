@@ -1,5 +1,5 @@
 
-const MAX_BATCH_SIZE = 525
+const MAX_BATCH_SIZE = 20
 // let BATCH_CONCURRENCY = 5
 const ERROR_STRING = `---logError---`
 
