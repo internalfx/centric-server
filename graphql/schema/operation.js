@@ -119,20 +119,20 @@ const resolvers = {
           query: `
             let itemCount = (
               FOR operation IN operations
-                SORT operation.number DESC
+                SORT operation.nextRunDate DESC
                 FILTER LENGTH(@taskKeys) == 0 OR operation.taskKey IN @taskKeys
                 return true
             )
 
             let items = (
               FOR operation IN operations
-                SORT operation.number DESC
+                SORT operation.nextRunDate DESC
                 FILTER LENGTH(@taskKeys) == 0 OR operation.taskKey IN @taskKeys
                 LIMIT @offset, @pageSize
                 let entries = (
                   FOR entry IN entries
                     FILTER entry.operationKey == operation._key
-                    SORT entry.number DESC
+                    SORT entry.createdAt DESC
                     RETURN MERGE(
                       UNSET(entry, 'index'),
                       {
@@ -185,7 +185,7 @@ const resolvers = {
                 )
                 let entryCount = COUNT(entries)
                 let operation = DOCUMENT('operations', operationKey)
-                SORT operation.number DESC
+                SORT operation.nextRunDate DESC
                 RETURN MERGE(
                   operation,
                   {
