@@ -137,11 +137,11 @@ module.exports = async function (config) {
   const run = async function () {
     try {
       if (firstRun) {
+        firstRun = false
         await recoverStuckOperations()
       }
-      await startTasks()
 
-      firstRun = false
+      await startTasks()
     } catch (err) {
       console.log(err)
     }

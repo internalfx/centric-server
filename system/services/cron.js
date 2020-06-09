@@ -8,6 +8,10 @@ module.exports = async function (config) {
   const operationManager = substruct.services.operationManager
   const scheduleManager = substruct.services.scheduleManager
 
+  let gcReady = true
+  let omReady = true
+  let smReady = true
+
   let schedules = {
     garbageCollector: `0 0 * * * *`,
     operationManager: `* * * * * *`,
@@ -24,32 +28,41 @@ module.exports = async function (config) {
 
   const garbageCollectorTask = cron.schedule(schedules.garbageCollector, async function () {
     try {
-      console.log(`CRON - garbageCollectorTask`)
-
-      await garbageCollector.run()
+      if (gcReady) {
+        console.log(`CRON - garbageCollectorTask`)
+        gcReady = false
+        await garbageCollector.run()
+      }
     } catch (err) {
       console.log(err)
     }
+    gcReady = true
   })
 
   const operationManagerTask = cron.schedule(schedules.operationManager, async function () {
     try {
-      // console.log('CRON - operationManagerTask')
-
-      await operationManager.run()
+      if (omReady) {
+        // console.log('CRON - operationManagerTask')
+        omReady = false
+        await operationManager.run()
+      }
     } catch (err) {
       console.log(err)
     }
+    omReady = true
   })
 
   const scheduleManagerTask = cron.schedule(schedules.scheduleManager, async function () {
     try {
-      // console.log('CRON - scheduleManagerTask')
-
-      await scheduleManager.run()
+      if (smReady) {
+        // console.log('CRON - scheduleManagerTask')
+        smReady = false
+        await scheduleManager.run()
+      }
     } catch (err) {
       console.log(err)
     }
+    smReady = true
   })
 
   return {
