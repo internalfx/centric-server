@@ -1,4 +1,5 @@
 
+const _ = require(`lodash`)
 const requireAll = require(`require-all`)
 const path = require(`path`)
 const substruct = require(`@internalfx/substruct`)
@@ -16,7 +17,7 @@ module.exports = async function (config) {
       throw new Error(`"${name}" service not found.`)
     }
     const fn = userServices[name]
-    services[name] = await Promise.resolve(fn({ config: userConfig, services, createOp }))
+    services[name] = await Promise.resolve(fn({ config: userConfig, services, createOp, ..._.pick(config, `env`, `runDir`) }))
   }
 
   return services
