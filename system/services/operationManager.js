@@ -183,6 +183,7 @@ module.exports = async function (config) {
         const result = await taskFile.run({
           config: userConfig,
           services: userServices,
+          operation: _.omit(operation, `data`),
           opData: operation.data || {},
           createOp,
           saveOpData,
