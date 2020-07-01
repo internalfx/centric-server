@@ -10,7 +10,7 @@ module.exports = async function (config) {
       console.log(`GC BEGIN ====================================`)
       const res = await arango.qAll(aql`
         FOR op IN operations
-          FILTER op.runDate < ${moment().subtract(14, `days`).toDate()}
+          FILTER op.runDate < ${moment().subtract(7, `days`).toDate()}
           let opKey = op._key
           let opNumber = op.number
           REMOVE op IN operations
