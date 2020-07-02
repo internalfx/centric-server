@@ -13,7 +13,7 @@ module.exports = async function (config) {
   let smReady = true
 
   let schedules = {
-    garbageCollector: `0 0 * * * *`,
+    garbageCollector: `0 */10 * * * *`,
     operationManager: `* * * * * *`,
     scheduleManager: `* * * * * *`
   }

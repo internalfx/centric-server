@@ -11,6 +11,7 @@ module.exports = async function (config) {
       const res = await arango.qAll(aql`
         FOR op IN operations
           FILTER op.runDate < ${moment().subtract(7, `days`).toDate()}
+          LIMIT 10000
           let opKey = op._key
           let opNumber = op.number
           REMOVE op IN operations
