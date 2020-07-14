@@ -3,12 +3,16 @@ const MAX_BATCH_SIZE = 20
 // let BATCH_CONCURRENCY = 5
 const ERROR_STRING = `---logError---`
 
+const AwaitLock = require(`await-lock`).default
+
 const Promise = require(`bluebird`)
 const moment = require(`moment`)
 // let cronParser = require('cron-parser')
 const _ = require(`lodash`)
 
 const { spiderData } = require(`../../lib/utils.js`)
+
+const startTasksLock = new AwaitLock()
 
 module.exports = async function (config) {
   const substruct = require(`@internalfx/substruct`)
@@ -141,6 +145,7 @@ module.exports = async function (config) {
         await recoverStuckOperations()
       }
 
+      console.log(`============`)
       await startTasks()
     } catch (err) {
       console.log(err)
@@ -156,12 +161,12 @@ module.exports = async function (config) {
         RETURN DOCUMENT('tasks', ${operation.taskKey})
       `)
 
-      operation.status = `active`
-      operation.runDate = new Date()
+      // operation.status = `active`
+      // operation.runDate = new Date()
 
-      await arango.q(aql`
-        UPDATE ${operation} in operations
-      `)
+      // await arango.q(aql`
+      //   UPDATE ${operation} in operations
+      // `)
 
       const { saveOpData, saveTaskData, log, logInfo, logWarning, logError, isCancelled } = createOpFunctions(operation)
 
@@ -230,46 +235,63 @@ module.exports = async function (config) {
           UPDATE ${operation} in operations
         `)
       }
+
+      await startTasks()
     } catch (err) {
       console.log(err)
     }
   }
 
   const startTasks = async function () {
-    const runningOps = await arango.qAll(aql`
-      FOR op IN operations
-        FILTER op.status IN ['active']
-        SORT op.createdAt ASC
-        RETURN op
-    `)
+    console.time(`startTasks`)
+    await startTasksLock.acquireAsync()
 
-    let activeLocks = runningOps.map(op => op.locks)
-    activeLocks = _.uniq(activeLocks.flat())
-
-    const headroom = MAX_BATCH_SIZE - runningOps.length
-
-    if (headroom > 0) {
-      const operations = await arango.qAll(aql`
+    try {
+      const runningOps = await arango.qAll(aql`
         FOR op IN operations
-          FILTER op.nextRunDate <= ${new Date()} AND op.status IN ['waiting', 'failed']
+          FILTER op.status IN ['active']
           SORT op.createdAt ASC
-          LIMIT ${headroom}
           RETURN op
       `)
 
-      for (const operation of operations) {
-        // Lockname must be an array for _.intersection to work properly
-        const locks = _.isArray(operation.locks) ? operation.locks : [operation.locks]
+      let activeLocks = runningOps.map(op => op.locks)
+      activeLocks = _.uniq(activeLocks.flat())
 
-        if (operation.locks != null && _.intersection(activeLocks, locks).length > 0) {
-          continue
+      const headroom = MAX_BATCH_SIZE - runningOps.length
+
+      if (headroom > 0) {
+        const operations = await arango.qAll(aql`
+          FOR op IN operations
+            FILTER op.nextRunDate <= ${new Date()} AND op.status IN ['waiting', 'failed']
+            SORT op.createdAt ASC
+            LIMIT ${headroom}
+            RETURN op
+        `)
+
+        for (const operation of operations) {
+          // Lockname must be an array for _.intersection to work properly
+          const locks = _.isArray(operation.locks) ? operation.locks : [operation.locks]
+
+          if (operation.locks != null && _.intersection(activeLocks, locks).length > 0) {
+            continue
+          }
+
+          activeLocks = _.uniq(activeLocks.concat(operation.locks))
+
+          operation.status = `active`
+          operation.runDate = new Date()
+
+          await arango.q(aql`
+            UPDATE ${operation} in operations
+          `)
+
+          runTask(operation)
         }
-
-        activeLocks = _.uniq(activeLocks.concat(operation.locks))
-
-        runTask(operation)
       }
+    } finally {
+      startTasksLock.release()
     }
+    console.timeEnd(`startTasks`)
   }
 
   const recoverStuckOperations = async function () {

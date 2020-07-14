@@ -21,7 +21,7 @@ module.exports = async function (config) {
   if (config.isDevelopment) {
     schedules = {
       garbageCollector: `0 * * * * *`,
-      operationManager: `* * * * * *`,
+      operationManager: `*/5 * * * * *`,
       scheduleManager: `* * * * * *`
     }
   }
