@@ -1,6 +1,9 @@
 
 const cronParser = require(`cron-parser`)
+const AwaitLock = require(`await-lock`).default
 // const _ = require(`lodash`)
+
+const scheduleLock = new AwaitLock()
 
 module.exports = async function (config) {
   const substruct = require(`@internalfx/substruct`)
@@ -18,49 +21,56 @@ module.exports = async function (config) {
   }
 
   const checkSchedules = async function () {
-    const schedules = await arango.qAll(aql`
-      FOR s IN schedules
-        RETURN MERGE(s, { task: DOCUMENT('tasks', s.taskKey) })
-    `)
+    await scheduleLock.acquireAsync()
 
-    for (const schedule of schedules) {
-      const interval = cronParser.parseExpression(schedule.cronTime)
-      const nextRun = interval.next().toDate()
+    try {
+      const schedules = await arango.qAll(aql`
+        FOR s IN schedules
+          RETURN MERGE(s, { task: DOCUMENT('tasks', s.taskKey) })
+      `)
 
-      let enabled = schedule.enabled
+      for (const schedule of schedules) {
+        const interval = cronParser.parseExpression(schedule.cronTime)
+        const nextRun = interval.next().toDate()
 
-      if (schedule.task == null) {
-        continue
+        let enabled = schedule.enabled
+
+        if (schedule.task == null) {
+          continue
+        }
+
+        if (schedule.task.enabled !== true) {
+          enabled = false
+        }
+
+        if (schedule.task.valid !== true) {
+          enabled = false
+        }
+
+        const runTime = runTimes[schedule._key]
+
+        if (runTime != null && enabled !== true) {
+          console.log(`=== ${schedule.task.name} === Remove runTime`)
+          delete runTimes[schedule._key]
+        } else if (runTime == null && enabled === true) {
+          console.log(`=== ${schedule.task.name} === Create runTime`)
+          runTimes[schedule._key] = nextRun.getTime()
+        } else if (runTime != null && enabled === true && runTime <= Date.now()) {
+          console.log(`=== ${schedule.task.name} === Run Now!`)
+          createScheduledOp(schedule._key)
+          runTimes[schedule._key] = nextRun.getTime()
+        } else if (runTime != null && enabled === true && runTime !== nextRun.getTime()) {
+          console.log(`=== ${schedule.task.name} === Reset runTime`)
+          runTimes[schedule._key] = nextRun.getTime()
+        }
       }
-
-      if (schedule.task.enabled !== true) {
-        enabled = false
-      }
-
-      if (schedule.task.valid !== true) {
-        enabled = false
-      }
-
-      const runTime = runTimes[schedule._key]
-
-      if (runTime != null && enabled !== true) {
-        console.log(`=== ${schedule.task.name} === Remove runTime`)
-        delete runTimes[schedule._key]
-      } else if (runTime == null && enabled === true) {
-        console.log(`=== ${schedule.task.name} === Create runTime`)
-        runTimes[schedule._key] = nextRun.getTime()
-      } else if (runTime != null && enabled === true && runTime <= Date.now()) {
-        console.log(`=== ${schedule.task.name} === Run Now!`)
-        await createScheduledOp(schedule._key)
-        runTimes[schedule._key] = nextRun.getTime()
-      } else if (runTime != null && enabled === true && runTime !== nextRun.getTime()) {
-        console.log(`=== ${schedule.task.name} === Reset runTime`)
-        runTimes[schedule._key] = nextRun.getTime()
-      }
+    } finally {
+      scheduleLock.release()
     }
   }
 
   const createScheduledOp = async function (scheduleKey) {
+    await scheduleLock.acquireAsync()
     try {
       const schedule = await arango.qNext(aql`RETURN DOCUMENT('schedules', ${scheduleKey})`)
       if (schedule == null) {
@@ -83,6 +93,8 @@ module.exports = async function (config) {
       return createOp(task.name, schedule.data, schedule._id)
     } catch (err) {
       console.log(err)
+    } finally {
+      scheduleLock.release()
     }
   }
 
