@@ -113,5 +113,6 @@ module.exports = {
   vuetify: {
     defaultAssets: false,
     optionsPath: path.join(__dirname, `client`, `vuetify.options.js`)
-  }
+  },
+  telemetry: false
 }
